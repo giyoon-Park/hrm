@@ -1,5 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper>
+<mapper namespace="insaSQL">
+	<insert id="addEmployee" parameterType="insa">
+		<selectKey keyProperty="sabun" resultType="int" order="BEFORE">
+			SELECT
+				NVL(MAX(sabun) + 1, 1)
+			FROM
+				insa
+		</selectKey>
+		INSERT INTO
+			insa(SABUN, JOIN_DAY, RETIRE_DAY, PUT_YN, NAME, REG_NO, ENG_NAME,
+				 PHONE, HP, CARRIER, POS_GBN_CODE, CMP_REG_NO, CMP_REG_IMAGE,
+				 SEX, YEARS, EMAIL, ZIP, ADDR1, ADDR2, DEPT_CODE, JOIN_GBN_CODE,
+				 ID, PWD, SALARY, KOSA_REG_YN, KOSA_CLASS_CODE, MIL_YN, MIL_TYPE,
+				 MIL_LEVEL, MIL_STARTDATE, MIL_ENDDATE, JOB_TYPE, GART_LEVEL, SELF_INTRO, CRM_NAME)
+		VALUES(
+			#{insa}, #{join_day, jdbcType=DATE}, #{retire_day, jdbcType=DATE}, #{put_yn, jdbcType=VARCHAR},
+			#{name}, #{reg_no, jdbcType=VARCHAR}, #{eng_name, jdbcType=VARCHAR}, #{phone, jdbcType=VARCHAR},
+			#{hp}, #{carrier, jdbcType=VARCHAR}, #{pos_gbn_code, jdbcType=VARCHAR}, #{cmp_reg_no, jdbcType=VARCHAR},
+			#{cmp_reg_image, jdbcType=VARCHAR}, #{sex, jdbcType=VARCHAR}, #{years, jdbcType=INTEGER},
+			#{email, jdbcType=VARCHAR}, #{zip, jdbcType=VARCHAR}, #{addr1, jdbcType=VARCHAR},
+			#{addr2, jdbcType=VARCHAR}, #{dept_code, jdbcType=VARCHAR}, #{join_gbn_code, jdbcType=VARCHAR},
+			#{id}, #{pwd}, #{salary, jdbcType=INTEGER}, #{kosa_class_code, jdbcType=VARCHAR},
+			#{mil_yn, jdbcType=VARCHAR}, #{mil_type, jdbcType=VARCHAR}, #{mil_level, jdbcType=VARCHAR},
+			#{mil_startdate, jdbcType=DATE}, #{mil_enddate, jdbcType=DATE}, #{job_type, jdbcType=VARCHAR},
+			#{gart_level, jdbcType=VARCHAR}, #{self_intro, jdbcType=VARCHAR}, #{crm_name, jdbcType=VARCHAR}
+		)
+	</insert>
 </mapper>
