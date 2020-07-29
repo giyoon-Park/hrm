@@ -16,7 +16,7 @@ import java.sql.*;
 public class InsaVO {
 	private int sabun, years, salary;
 	private String put_yn, name, reg_no, phone, hp, carrier, pos_gbn_code, sex, email, zip, addr1, addr2, dept_code, join_gbn_code,
-					id, pwd, kosa_reg_yn, kosa_gbn_code, mil_yn, mil_type, mil_level, job_type, gart_level, self_intro, crm_name, profile;
+					id, pwd, kosa_reg_yn, kosa_gbn_code, mil_yn, mil_type, mil_level, job_type, gart_level, self_intro, crm_name, profile, join_yn;
 	private Date join_day, retire_day, mil_startdate, mil_enddate;
 	private MultipartFile file;
 	
@@ -224,6 +224,12 @@ public class InsaVO {
 	public void setFile(MultipartFile file) {
 		this.file = file;
 	}
+	public String getJoin_yn() {
+		return join_yn;
+	}
+	public void setJoin_yn(String join_yn) {
+		this.join_yn = join_yn;
+	}
 	@Override
 	public String toString() {
 		return "InsaVO [sabun=" + sabun + ", years=" + years + ", salary=" + salary + ", put_yn=" + put_yn + ", name="
@@ -233,7 +239,8 @@ public class InsaVO {
 				+ id + ", pwd=" + pwd + ", kosa_reg_yn=" + kosa_reg_yn + ", kosa_gbn_code=" + kosa_gbn_code
 				+ ", mil_yn=" + mil_yn + ", mil_type=" + mil_type + ", mil_level=" + mil_level + ", job_type="
 				+ job_type + ", gart_level=" + gart_level + ", self_intro=" + self_intro + ", crm_name=" + crm_name
-				+ ", profile=" + profile + ", join_day=" + join_day + ", retire_day=" + retire_day + ", mil_startdate="
-				+ mil_startdate + ", mil_enddate=" + mil_enddate + ", file=" + file + "]";
+				+ ", profile=" + profile + ", join_yn=" + join_yn + ", join_day=" + join_day + ", retire_day="
+				+ retire_day + ", mil_startdate=" + mil_startdate + ", mil_enddate=" + mil_enddate + ", file=" + file
+				+ "]";
 	}
 }

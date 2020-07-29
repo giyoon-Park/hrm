@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="insaSQL">
-	<insert id="addEmployee" parameterType="insa">
+	<insert id="addEmp" parameterType="insa">
 		<selectKey keyProperty="sabun" resultType="int" order="BEFORE">
 			SELECT
 				NVL(MAX(sabun) + 1, 1)
@@ -14,9 +14,9 @@
 				 PHONE, HP, CARRIER, POS_GBN_CODE, CMP_REG_NO, CMP_REG_IMAGE,
 				 SEX, YEARS, EMAIL, ZIP, ADDR1, ADDR2, DEPT_CODE, JOIN_GBN_CODE,
 				 ID, PWD, SALARY, KOSA_REG_YN, KOSA_CLASS_CODE, MIL_YN, MIL_TYPE,
-				 MIL_LEVEL, MIL_STARTDATE, MIL_ENDDATE, JOB_TYPE, GART_LEVEL, SELF_INTRO, CRM_NAME)
+				 MIL_LEVEL, MIL_STARTDATE, MIL_ENDDATE, JOB_TYPE, GART_LEVEL, SELF_INTRO, CRM_NAME, JOIN_YN)
 		VALUES(
-			#{insa}, #{join_day, jdbcType=DATE}, #{retire_day, jdbcType=DATE}, #{put_yn, jdbcType=VARCHAR},
+			#{sabun}, #{join_day, jdbcType=DATE}, #{retire_day, jdbcType=DATE}, #{put_yn, jdbcType=VARCHAR},
 			#{name}, #{reg_no, jdbcType=VARCHAR}, #{eng_name, jdbcType=VARCHAR}, #{phone, jdbcType=VARCHAR},
 			#{hp}, #{carrier, jdbcType=VARCHAR}, #{pos_gbn_code, jdbcType=VARCHAR}, #{cmp_reg_no, jdbcType=VARCHAR},
 			#{cmp_reg_image, jdbcType=VARCHAR}, #{sex, jdbcType=VARCHAR}, #{years, jdbcType=INTEGER},
@@ -25,7 +25,45 @@
 			#{id}, #{pwd}, #{salary, jdbcType=INTEGER}, #{kosa_class_code, jdbcType=VARCHAR},
 			#{mil_yn, jdbcType=VARCHAR}, #{mil_type, jdbcType=VARCHAR}, #{mil_level, jdbcType=VARCHAR},
 			#{mil_startdate, jdbcType=DATE}, #{mil_enddate, jdbcType=DATE}, #{job_type, jdbcType=VARCHAR},
-			#{gart_level, jdbcType=VARCHAR}, #{self_intro, jdbcType=VARCHAR}, #{crm_name, jdbcType=VARCHAR}
+			#{gart_level, jdbcType=VARCHAR}, #{self_intro, jdbcType=VARCHAR}, #{crm_name, jdbcType=VARCHAR}, #{join_yn, jdbcType=VARCHAR}
 		)
 	</insert>
+	
+	<select id="getEmp" parameterType="insa" resultType="insa">
+		SELECT
+			sabun, insa.name, reg_no, hp, pos, join_day, retire_day, put_yn, salary
+		FROM
+			insa,
+			(SELECT
+				code, com.name pos
+			FROM
+				insa, insa_com com
+			WHERE
+				gubun = '직위'
+			)
+		<trim prefix="WHERE" prefixOverrides="AND \ OR">
+			<if test="sabun != 0">
+				AND sabun = #{sabun}
+			</if>
+			<if test="name != null">
+				AND name = #{name}
+			</if>
+			<if test="join_yn != '-'">
+				AND join_yn = #{join_yn}
+			</if>
+			<if test="put_yn != '-'">
+				AND put_yn = #{put_yn}
+			</if>
+			<if test="pos_gbn_code != '-'">
+				AND code = #{pos_gbn_code}
+			</if>
+			<if test="join_day != null">
+			</if>
+			<if test="retire_day != null">
+			</if>
+			<if test="join_gbn_code != '-'">
+			</if>
+		</trim>
+			
+	</select>
 </mapper>
