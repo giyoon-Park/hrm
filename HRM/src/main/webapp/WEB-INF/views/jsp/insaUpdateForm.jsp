@@ -9,6 +9,6 @@
 <link rel="stylesheet" href="/hrm/css/bootstrap.min.css">
 </head>
 <body>
-
+	<jsp:include page="header.jsp" />
 </body>
 </html>
