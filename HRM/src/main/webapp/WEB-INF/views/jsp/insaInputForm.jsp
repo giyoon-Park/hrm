@@ -25,7 +25,11 @@
 								<img id="profile" src="/hrm/img/no-image-icon-md.png" class="img-frm" />
 							</div>
 							<div>
-								
+								<input name="profileimg" id="profileimg" type="image" hidden="hidden" />
+								<label for="profileimg">
+									<img src="/hrm/img/camera_icon.jpg" />
+								</label>
+								<input name="profile" id="profile" type="hidden">
 							</div>
 						</div>
 					</div>
