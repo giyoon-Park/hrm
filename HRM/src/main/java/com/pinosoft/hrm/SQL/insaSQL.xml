@@ -40,13 +40,20 @@
 				insa, insa_com com
 			WHERE
 				gubun = '직위'
-			)
+			) position,
+			(SELECT
+				code, com.name join_gbn
+			FROM
+				insa, insa_com com
+			WHERE
+				gubun = '직종'
+			) job
 		<trim prefix="WHERE" prefixOverrides="AND \ OR">
 			<if test="sabun != 0">
 				AND sabun = #{sabun}
 			</if>
 			<if test="name != null">
-				AND name = #{name}
+				AND name = LIKE '%' || #{name} ||'%'
 			</if>
 			<if test="join_yn != '-'">
 				AND join_yn = #{join_yn}
@@ -55,15 +62,19 @@
 				AND put_yn = #{put_yn}
 			</if>
 			<if test="pos_gbn_code != '-'">
-				AND code = #{pos_gbn_code}
+				AND pos_gbn_code = #{pos_gbn_code}
+				AND position.code = pos_gbn_code
 			</if>
 			<if test="join_day != null">
+				AND join_day = #{join_day}
 			</if>
 			<if test="retire_day != null">
+				AND retire_day = #{retire_day}
 			</if>
 			<if test="join_gbn_code != '-'">
+				AND join_gbn_code = #{join_gbn_code}
+				AND job.code = join_gbn_code
 			</if>
 		</trim>
-			
 	</select>
 </mapper>

@@ -20,7 +20,7 @@ public class InsaController {
 	// 메인페이지
 	@RequestMapping("/index.do")
 	public ModelAndView showMain(ModelAndView mv) {
-		String view = "jsp/index.jsp";
+		String view = "jsp/index";
 		mv.setViewName(view);
 		return mv;
 	}
@@ -28,7 +28,7 @@ public class InsaController {
 	// 직원 리스트페이지
 	@RequestMapping("/insaListForm.do")
 	public ModelAndView showSearchList(ModelAndView mv) {
-		String view = "jsp/insaListForm.jsp";
+		String view = "jsp/insaListForm";
 		mv.setViewName(view);
 		return mv;
 	}
@@ -36,7 +36,7 @@ public class InsaController {
 	// 직원 등록페이지
 	@RequestMapping("/insaInputForm.do")
 	public ModelAndView showInputForm(ModelAndView mv) {
-		String view = "jsp/insaInputForm.jsp";
+		String view = "jsp/insaInputForm";
 		mv.setViewName(view);
 		return mv;
 	}
@@ -44,7 +44,7 @@ public class InsaController {
 	// 직원 수정페이지
 	@RequestMapping("/insaUpdateForm.do")
 	public ModelAndView showUpdateForm(ModelAndView mv, InsaVO insa, InsaAcadVO acad, InsaCarrierVO carrier, InsaInputVO input) {
-		String view = "jsp/insaUpdateForm.jsp";
+		String view = "jsp/insaUpdateForm";
 		
 		mv.setViewName(view);
 		return mv;
