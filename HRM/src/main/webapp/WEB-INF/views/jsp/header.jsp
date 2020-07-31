@@ -14,7 +14,7 @@
 </style>
 </head>
 <body>
-	<div class="container mb-3 bg-gray">
+	<div class="mb-3 bg-gray mx-5">
 		<div class="float-left">
 			<h3><a href="/hrm/index.do">PINO SOFT</a></h3>
 		</div>

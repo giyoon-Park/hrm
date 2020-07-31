@@ -8,14 +8,18 @@ package com.pinosoft.hrm.controller;
  *
  */
 
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.*;
 import com.pinosoft.hrm.VO.*;
+import com.pinosoft.hrm.service.ComService;
 import java.util.*;
 
 @Controller
 public class InsaController {
+	@Autowired
+	ComService comSrvc;
 	
 	// 메인페이지
 	@RequestMapping("/index.do")
@@ -37,6 +41,9 @@ public class InsaController {
 	@RequestMapping("/insaInputForm.do")
 	public ModelAndView showInputForm(ModelAndView mv) {
 		String view = "jsp/insaInputForm";
+		List<InsaVO> list = comSrvc.getComList();
+		
+		mv.addObject("COMLIST", list);
 		mv.setViewName(view);
 		return mv;
 	}
