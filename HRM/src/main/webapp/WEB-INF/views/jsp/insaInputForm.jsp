@@ -209,6 +209,7 @@
 								<h6>*한글성명</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
+								<input type="text" name="name" id="name" class="w-100 small" required>
 							</div>
 						</div>
 						<div class="col p-0">
@@ -216,6 +217,7 @@
 								<h6>*패스워드</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
+								<input type="text" name="pwd" id="pwd" class="w-100 small" required>
 							</div>
 						</div>
 						<div class="col p-0">
@@ -223,6 +225,7 @@
 								<h6>*핸드폰번호</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
+								<input type="text" name="hp" id="hp" class="w-100 small" required>
 							</div>
 						</div>
 						<div class="col p-0">
@@ -230,12 +233,21 @@
 								<h6>*이메일</h6>
 							</div>
 							<div class="col-3 in-blk">
+								<input type="text" name="mail" id="mail" class="w-100 small">
 							</div>
 							<div class="col-3 in-blk">
+								<input type="text" name="domain" id="domain" list="domainList" class="w-100 small" placeholder="선택">
+									<datalist id="domainList">
+										<c:forEach var="com" items="${COMLIST}">
+											<c:if test="${com.gubun eq '메일'}">
+												<option value="${com.name}">${com.name}</option>
+											</c:if>
+										</c:forEach>
+									</datalist>
 							</div>
 						</div>
 						<div>
-
+							<input type="text" name="addr1" id="addr1">
 						</div>
 						<div class="col p-0">
 							<div class="center col-5 in-blk">
