@@ -45,11 +45,17 @@ $(document).ready(function() {
 	});
 	
 	$('#cmp_reg_img').change(function(e) {
+		var rname = $(this).val();
+		rname = rname.substring(rname.lastIndexOf('\\') + 1);
+		$('#ori_cmp_reg_img').val(rname);
 		var rfile = URL.createObjectURL(e.target.files[0]);
 		$('#preview_cmp_reg').attr('src', rfile);
 	});
 	
 	$('#resume_img').change(function(e) {
+		var cname = $(this).val();
+		cname = cname.substring(cname.lastIndexOf('\\') + 1);
+		$('#resume').val(cname);
 		var cfile = URL.createObjectURL(e.target.files[0]);
 		$('#preview_carrier').attr('src', cfile);
 	});
