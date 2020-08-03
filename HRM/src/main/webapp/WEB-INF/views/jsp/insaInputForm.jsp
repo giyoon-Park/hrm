@@ -63,14 +63,13 @@
 					<div class="col-3 p-0">
 						<div class="col p-0">
 							<div class="uploadResult">
-								<img id="profile" src="/hrm/img/no-image-icon-md.png" class="img-frm" />
+								<img id="profilef" src="/hrm/img/no-image-icon-md.png" class="img-frm" />
 							</div>
 							<div class="center">
 								<input name="profileimg" id="profileimg" type="file" hidden="hidden" accept="image/*" />
 								<label for="profileimg" class="btn btn-light center small">
 									<img src="/hrm/img/camera_icon.jpg" class="icon-frm" /><span class="small in-blk">사진올리기</span>
 								</label>
-								<input name="profile" id="profile" type="hidden">
 							</div>
 						</div>
 						<div class="col p-0">
@@ -341,7 +340,7 @@
 								<h6 class="small">사업자등록증</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="cmp_reg" id="cmp_reg" class="w-100 small" disabled>
+								<input type="text" name="ori_cmp_reg_img" id="ori_cmp_reg_img" class="w-100 small" disabled>
 							</div>
 						</div>
 					</div>
@@ -445,14 +444,13 @@
 						</div>
 						<div class="col center p-0">
 							<div class="col-5 p-0 in-blk">
-								<button id="show_cmp_reg_img" type="button" class="btn btn-outline-info btn-block btn-sm">미리보기</button>
+								<button id="show_cmp_reg_img" type="button" class="btn btn-outline-info btn-block btn-sm" data-toggle="model" data-target="preview_modal">미리보기</button>
 							</div>
 							<div class="col-5 p-0 in-blk">
 								<label for="cmp_reg_img" class="w-100">
 									<span id="reg_cmp_reg_img" class="btn btn-outline-info btn-block btn-sm">등록</span>
 								</label>
 								<input type="file" name="cmp_reg_img" id="cmp_reg_img" hidden="hidden" accept="image/*">
-								<input type="hidden" name="cmp_reg_image" id="cmp_reg_image">
 							</div>
 						</div>
 					</div>
@@ -474,19 +472,41 @@
 					<div class="col-3 p-0">
 						<div class="col center p-0">
 							<div class="col-5 p-0 in-blk">
-								<button id="show_resume_img" type="button" class="btn btn-outline-info btn-block btn-sm">미리보기</button>
+								<button id="show_resume_img" type="button" class="btn btn-outline-info btn-block btn-sm" data-toggle="model" data-target="preview_modal">미리보기</button>
 							</div>
 							<div class="col-5 p-0 in-blk">
 								<label for="resume_img" class="w-100">
 									<span id="reg_resume_img" class="btn btn-outline-info btn-block btn-sm">파일 업로드</span>
 								</label>
 								<input type="file" name="resume_img" id="resume_img" hidden="hidden" accept="image/*">
-								<input type="hidden" name="carrier" id="carrier">
 							</div>
 						</div>
 					</div>
 				</div>
 			</form>
+		</div>
+	</div>
+	
+	<!-- 미리보기 모달 -->
+	<div class="modal" id="preview_modal modal-dialog-centered">
+		<div class="midal-dialog">
+			<div class="modal-content">
+				<!-- Header -->
+				<div class="modal-header">
+					<h4 id="cmp_modal_header" class="modal-title dnone">사업자등록증 미리보기</h4>
+					<h4 id="carrier_modal_header" class="modal-title dnone">이력서 미리보기</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<!-- Body -->
+				<div class="modal-body div-in-modal">
+					<img class="img-frm dnone" id="preview_cmp_reg" src="" />
+					<img class="img-frm dnone" id="preview_carrier" src="" />
+				</div>
+				<!-- Footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="midal">Close</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>
