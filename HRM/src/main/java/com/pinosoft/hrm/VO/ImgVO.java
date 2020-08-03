@@ -9,8 +9,11 @@ package com.pinosoft.hrm.VO;
  */
 
 import lombok.*;
+
+import org.apache.ibatis.type.*;
 import org.springframework.web.multipart.*;
 
+@Alias("imgVO")
 @Data
 public class ImgVO {
 	private MultipartFile profileimg, cmp_reg_img, resume_img;
