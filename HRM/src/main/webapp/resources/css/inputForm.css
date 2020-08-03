@@ -18,3 +18,12 @@
 .in-blk {
 	display: inline-block;
 }
+.addr-h {
+	height: 37.5px;
+	margin-bottom: auto;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

@@ -12,8 +12,9 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.*;
+import org.springframework.web.servlet.view.*;
 import com.pinosoft.hrm.VO.*;
-import com.pinosoft.hrm.service.ComService;
+import com.pinosoft.hrm.service.*;
 import java.util.*;
 
 @Controller
@@ -48,11 +49,21 @@ public class InsaController {
 		return mv;
 	}
 	
+	// 직원 등록 처리
+	@RequestMapping("/regProc.do")
+	public ModelAndView regProc(ModelAndView mv, InsaVO insa) {
+		
+		mv.setView(new RedirectView("/hrm/insaInputForm.do"));
+		return mv;
+	}
+	
 	// 직원 수정페이지
 	@RequestMapping("/insaUpdateForm.do")
 	public ModelAndView showUpdateForm(ModelAndView mv, InsaVO insa, InsaAcadVO acad, InsaCarrierVO carrier, InsaInputVO input) {
 		String view = "jsp/insaUpdateForm";
+		List<InsaVO> list = comSrvc.getComList();
 		
+		mv.addObject("COMLIST", list);
 		mv.setViewName(view);
 		return mv;
 	}

@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title></title>
-<script src="/hrm/js/jquery-3.5.1.min.js"></script>
 <link rel="stylesheet" href="/hrm/css/bootstrap.min.css">
 <style>
 	.bg-gray {

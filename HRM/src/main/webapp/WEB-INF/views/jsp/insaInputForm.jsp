@@ -5,20 +5,59 @@
 <head>
 <meta charset="UTF-8">
 <title></title>
-<script src="/hrm/js/jquery-3.5.1.min.js"></script>
+<link rel="stylesheet" href="/hrm/css/jquery-ui.min.css">
+<script type="text/javascript" src="/hrm/js/jquery-3.5.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="/hrm/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/hrm/js/datepicker-ko.js"></script>
+<script type="text/javascript" src="/hrm/js/inputForm.js"></script>
 <link rel="stylesheet" href="/hrm/css/bootstrap.min.css">
 <link rel="stylesheet" href="/hrm/css/inputForm.css">
+<style>
+	/*datepicker에서 사용한 이미지 버튼 style적용*/
+	img.ui-datepicker-trigger {
+		margin-left:5px; vertical-align:middle; cursor:pointer;
+	}
+</style>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#mil_startdate').datepicker({
+			onClose: function(selectedDate){
+				$('#mil_enddate').datepicker("option", "minDate", selectedDate);
+			}
+		});
+
+		$('#mil_enddate').datepicker({
+			onClose: function(selectedDate){
+				$('#mil_startdate').datepicker("option", "maxDate", selectedDate);
+			}
+		});
+
+		$('#join_day').datepicker({
+			onClose: function(selectedDate){
+				$('#retire_day').datepicker("option", "minDate", selectedDate);
+			}
+		});
+
+		$('#retire_day').datepicker({
+			onClose: function(selectedDate){
+				$('#join_day').datepicker("option", "maxDate", selectedDate);
+			}
+		});
+	});
+</script>
 </head>
 <body>
 	<jsp:include page="header.jsp" />
 	<div class="pd-4">
 		<div class="container pt-5">
 			<h3>직원 등록</h3>
-			<form name="frm" id="frm" enctype="multipart/form-data">
+			<form name="frm" id="frm" enctype="multipart/form-data" method="POST" action="/hrm/regProc.do">
 				<div class="float-right">
-					<button id="submit_btn" class="btn btn-sm btn-primary m-0 pl-4 pr-4">등록</button>
+					<input type="submit" class="btn btn-sm btn-primary m-0 pl-4 pr-4" value="등록">
 					<a href="javascript:window.history.back()" class="btn btn-sm btn-warning m-0 pl-2 pr-2">이전화면</a>
 				</div>
+				<br/>
 				<br/>
 				<div class="row mt-2">
 					<div class="col-3 p-0">
@@ -29,7 +68,7 @@
 							<div class="center">
 								<input name="profileimg" id="profileimg" type="file" hidden="hidden" accept="image/*" />
 								<label for="profileimg" class="btn btn-light center small">
-									<img src="/hrm/img/camera_icon.jpg" class="icon-frm" /><h6 class="small in-blk">사진올리기</h6>
+									<img src="/hrm/img/camera_icon.jpg" class="icon-frm" /><span class="small in-blk">사진올리기</span>
 								</label>
 								<input name="profile" id="profile" type="hidden">
 							</div>
@@ -84,7 +123,7 @@
 								<h6>사업자번호</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="cmp_reg_no" id="cmp_reg_no" class="w-100 small">
+								<input type="text" name="cmp_reg_no" id="cmp_reg_no" class="w-100 small" maxlength="12">
 							</div>
 						</div>
 					</div>
@@ -131,7 +170,7 @@
 								</label>
 							</div>
 							<div class="col-5 center in-blk">
-								<button class="btn btn-light small" type="button" id="addSearch"><h6 class="small">주소검색</h6></button>
+								<button class="btn btn-light small" type="button" id="addSearch" onclick="goPopup()"><h6 class="small">주소검색</h6></button>
 							</div>
 						</div>
 						<div class="col p-0">
@@ -209,7 +248,7 @@
 								<h6>*한글성명</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="name" id="name" class="w-100 small" required>
+								<input type="text" name="name" id="name" class="w-100 small" required maxlength="7" minlength="2">
 							</div>
 						</div>
 						<div class="col p-0">
@@ -217,7 +256,7 @@
 								<h6>*패스워드</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="pwd" id="pwd" class="w-100 small" required>
+								<input type="text" name="pwd" id="pwd" class="w-100 small" required maxlength="20" minlength="6">
 							</div>
 						</div>
 						<div class="col p-0">
@@ -225,35 +264,45 @@
 								<h6>*핸드폰번호</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="hp" id="hp" class="w-100 small" required>
+								<input type="text" name="hp" id="hp" class="w-100 small" required maxlength="13">
 							</div>
 						</div>
 						<div class="col p-0">
-							<div class="center col-4 in-blk">
+							<div class="col-3 in-blk p-0 center">
 								<h6>*이메일</h6>
 							</div>
-							<div class="col-3 in-blk">
+							<div class="col-4 in-blk p-0">
 								<input type="text" name="mail" id="mail" class="w-100 small">
 							</div>
-							<div class="col-3 in-blk">
-								<input type="text" name="domain" id="domain" list="domainList" class="w-100 small" placeholder="선택">
+							<div class="col-4 in-blk p-0">
+								<h6 class="in-blk">@</h6>
+								<input type="text" name="domain" id="domain" list="domainList" class="w-75 small" placeholder="선택">
 									<datalist id="domainList">
 										<c:forEach var="com" items="${COMLIST}">
-											<c:if test="${com.gubun eq '메일'}">
+											<c:if test="${com.gubun eq '이메일'}">
 												<option value="${com.name}">${com.name}</option>
 											</c:if>
 										</c:forEach>
 									</datalist>
+								<input type="hidden" name="email" id="email" value="" required>
 							</div>
 						</div>
-						<div>
-							<input type="text" name="addr1" id="addr1">
+						<div class="col center addr-h">
+							<input type="text" name="addr1" id="addr1" class="w-100" readonly placeholder="주소">
 						</div>
 						<div class="col p-0">
 							<div class="center col-5 in-blk">
 								<h6>부서</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
+								<input type="text" name="dept_code" id="dept_code" list="dept_codeList" class="w-100 small" placeholder="선택">
+									<datalist id="dept_codeList">
+										<c:forEach var="com" items="${COMLIST}">
+											<c:if test="${com.gubun eq '부서'}">
+												<option value="${com.code}">${com.name}</option>
+											</c:if>
+										</c:forEach>
+									</datalist>
 							</div>
 						</div>
 						<div class="col p-0">
@@ -261,13 +310,14 @@
 								<h6>투입여부</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-							</div>
-						</div>
-						<div class="col p-0">
-							<div class="center col-5 in-blk">
-								<h6>입영일자</h6>
-							</div>
-							<div class="col-6 in-blk p-0">
+								<input type="text" name="put_yn" id="put_yn" list="put_ynList" class="w-100 small" placeholder="선택">
+									<datalist id="put_ynList">
+										<c:forEach var="com" items="${COMLIST}">
+											<c:if test="${com.gubun eq '투입여부'}">
+												<option value="${com.name}">${com.name}</option>
+											</c:if>
+										</c:forEach>
+									</datalist>
 							</div>
 						</div>
 						<div class="col p-0">
@@ -275,6 +325,15 @@
 								<h6>*입사일자</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
+								<input type="text" name="join_day" id="join_day" class="w-75 small" required>
+							</div>
+						</div>
+						<div class="col p-0">
+							<div class="center col-5 in-blk">
+								<h6>퇴사일자</h6>
+							</div>
+							<div class="col-6 in-blk p-0">
+								<input type="text" name="retire_day" id="retire_day" class="w-75 small">
 							</div>
 						</div>
 						<div class="col p-0">
@@ -282,6 +341,7 @@
 								<h6 class="small">사업자등록증</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
+								<input type="text" name="cmp_reg" id="cmp_reg" class="w-100 small" disabled>
 							</div>
 						</div>
 					</div>
@@ -291,13 +351,15 @@
 								<h6>영문성명</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
+								<input type="text" name="eng_name" id="eng_name" class="w-100 small">
 							</div>
 						</div>
 						<div class="col p-0">
 							<div class="center col-5 in-blk">
-								<h6 class="small">*패스워드  확인</h6>
+								<h6 class="small">*패스워드 확인</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
+								<input type="text" name="pwd_ck" id="pwd_ck" class="w-100 small" required maxlength="20" minlength="6">
 							</div>
 						</div>
 						<div class="col p-0">
@@ -305,30 +367,49 @@
 								<h6>주민번호</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
+								<input type="text" name="reg_no" id="reg_no" class="w-100 small" maxlength="14">
 							</div>
 						</div>
 						<div class="col p-0">
-							<div class="center col-5 in-blk">
+							<div class="col-3 in-blk p-0">
 								<h6>직종체크</h6>
 							</div>
-							<div class="col-6 in-blk p-0">
+							<div class="col-3 in-blk p-0">
+								<input type="text" name="join_gbn_code" id="join_gbn_code" list="join_gbn_codeList" class="w-100 small" placeholder="선택">
+									<datalist id="join_gbn_codeList">
+										<c:forEach var="com" items="${COMLIST}">
+											<c:if test="${com.gubun eq '직종'}">
+												<option value="${com.code}">${com.name}</option>
+											</c:if>
+										</c:forEach>
+									</datalist>
 							</div>
-						</div>
-						<div class="col p-0">
-							<div class="center col-5 in-blk">
+							<div class="col-2 in-blk p-0">
 								<h6>성별</h6>
 							</div>
-							<div class="col-6 in-blk p-0">
+							<div class="col-3 in-blk p-0">
+								<input type="text" name="sex" id="sex" list="sexList" class="w-100 small" placeholder="선택">
+									<datalist id="sexList">
+										<c:forEach var="com" items="${COMLIST}">
+											<c:if test="${com.gubun eq '성별'}">
+												<option value="${com.name}">${com.name}</option>
+											</c:if>
+										</c:forEach>
+									</datalist>
 							</div>
 						</div>
-						<div>
-							
+						<div class="col center addr-h">
+							<input type="text" name="addr2" id="addr2" class="w-100" placeholder="세부주소">
 						</div>
 						<div class="col p-0">
 							<div class="center col-5 in-blk">
 								<h6>연봉(만원)</h6>
 							</div>
-							<div class="col-6 in-blk p-0">
+							<div class="col-4 in-blk p-0">
+								<input type="number" name="salary" id="salary" class="w-100 small text-right">
+							</div>
+							<div class="co-3 in-blk text-left">
+								<h6>(만원)</h6>
 							</div>
 						</div>
 						<div class="col p-0">
@@ -336,6 +417,22 @@
 								<h6>군필여부</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
+								<input type="text" name="mil_yn" id="mil_yn" list="mil_ynList" class="w-100 small" placeholder="선택">
+									<datalist id="mil_ynList">
+										<c:forEach var="com" items="${COMLIST}">
+											<c:if test="${com.gubun eq '군필여부'}">
+												<option value="${com.code}">${com.name}</option>
+											</c:if>
+										</c:forEach>
+									</datalist>
+							</div>
+						</div>
+						<div class="col p-0">
+							<div class="center col-5 in-blk">
+								<h6>입영일자</h6>
+							</div>
+							<div class="col-6 in-blk p-0">
+								<input type="text" name="mil_startdate" id="mil_startdate" class="w-75 small">
 							</div>
 						</div>
 						<div class="col p-0">
@@ -343,23 +440,26 @@
 								<h6>전역일자</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
+								<input type="text" name="mil_enddate" id="mil_enddate" class="w-75 small">
 							</div>
 						</div>
-						<div class="col p-0">
-							<div class="center col-5 in-blk">
-								<h6>퇴사일자</h6>
+						<div class="col center p-0">
+							<div class="col-5 p-0 in-blk">
+								<button id="show_cmp_reg_img" type="button" class="btn btn-outline-info btn-block btn-sm">미리보기</button>
 							</div>
-							<div class="col-6 in-blk p-0">
+							<div class="col-5 p-0 in-blk">
+								<label for="cmp_reg_img" class="w-100">
+									<span id="reg_cmp_reg_img" class="btn btn-outline-info btn-block btn-sm">등록</span>
+								</label>
+								<input type="file" name="cmp_reg_img" id="cmp_reg_img" hidden="hidden" accept="image/*">
+								<input type="hidden" name="cmp_reg_image" id="cmp_reg_image">
 							</div>
-						</div>
-						<div class="col p-0">
-							<div class="col-6"></div>
-							<div class="col-6"></div>
 						</div>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-6 p-0">
+					<div class="col-6">
+						<textarea name="self_intro" id="self_intro" maxlength="100" rows="2" class="w-100" placeholder="100자 내외로 적으시오"></textarea>
 					</div>
 					<div class="col-3 p-0">
 						<div class="col p-0">
@@ -367,13 +467,22 @@
 								<h6>이력서</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
+								<input type="text" name="resume" id="resume" class="w-100 small" disabled>
 							</div>
 						</div>
 					</div>
 					<div class="col-3 p-0">
-						<div class="col p-0">
-							<div class="col-6"></div>
-							<div class="col-6"></div>
+						<div class="col center p-0">
+							<div class="col-5 p-0 in-blk">
+								<button id="show_resume_img" type="button" class="btn btn-outline-info btn-block btn-sm">미리보기</button>
+							</div>
+							<div class="col-5 p-0 in-blk">
+								<label for="resume_img" class="w-100">
+									<span id="reg_resume_img" class="btn btn-outline-info btn-block btn-sm">파일 업로드</span>
+								</label>
+								<input type="file" name="resume_img" id="resume_img" hidden="hidden" accept="image/*">
+								<input type="hidden" name="carrier" id="carrier">
+							</div>
 						</div>
 					</div>
 				</div>
