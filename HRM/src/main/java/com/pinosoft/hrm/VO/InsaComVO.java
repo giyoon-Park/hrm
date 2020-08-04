@@ -11,7 +11,7 @@ package com.pinosoft.hrm.VO;
 import org.apache.ibatis.type.*;
 import lombok.*;
 
-@Alias("com")
+@Alias("comVO")
 @Data
 public class InsaComVO {
 	private String gubun, code, name, note;

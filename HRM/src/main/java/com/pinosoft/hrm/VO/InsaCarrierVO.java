@@ -12,7 +12,7 @@ import org.apache.ibatis.type.*;
 import lombok.*;
 import java.sql.*;
 
-@Alias("carrier")
+@Alias("carrierVO")
 @Data
 public class InsaCarrierVO {
 	private int seq, sabun;

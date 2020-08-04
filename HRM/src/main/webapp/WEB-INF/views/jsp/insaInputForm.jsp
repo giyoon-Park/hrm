@@ -6,13 +6,14 @@
 <meta charset="UTF-8">
 <title></title>
 <link rel="stylesheet" href="/hrm/css/jquery-ui.min.css">
-<script type="text/javascript" src="/hrm/js/jquery-3.5.1.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script type="text/javascript" src="/hrm/js/jquery-ui.min.js"></script>
-<script type="text/javascript" src="/hrm/js/datepicker-ko.js"></script>
-<script type="text/javascript" src="/hrm/js/inputForm.js"></script>
 <link rel="stylesheet" href="/hrm/css/bootstrap.min.css">
 <link rel="stylesheet" href="/hrm/css/inputForm.css">
+<script type="text/javascript" src="/hrm/js/jquery-3.5.1.min.js"></script>
+<script type="text/javascript" src="/hrm/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/hrm/js/datepicker-ko.js"></script>
+<script type="text/javascript" src="/hrm/js/popper.min.js"></script>
+<script type="text/javascript" src="/hrm/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/hrm/js/inputForm.js"></script>
 <style>
 	/*datepicker에서 사용한 이미지 버튼 style적용*/
 	img.ui-datepicker-trigger {
@@ -141,6 +142,7 @@
 							</div>
 							<div class="col-6 in-blk p-0">
 								<input type="text" name="id" id="id" class="w-100 small" required>
+								<input type="hidden" name="idck" id="idck" value="N">
 							</div>
 						</div>
 						<div class="col p-0">
@@ -148,7 +150,7 @@
 								<h6>전화번호</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="tel" name="phone" id="phone" class="w-100 small">
+								<input type="tel" name="phone" id="phone" class="w-100 small" maxlength="13">
 							</div>
 						</div>
 						<div class="col p-0">
@@ -255,7 +257,7 @@
 								<h6>*패스워드</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="pwd" id="pwd" class="w-100 small" required maxlength="20" minlength="6">
+								<input type="password" name="pwd" id="pwd" class="w-100 small" required maxlength="20" minlength="6">
 							</div>
 						</div>
 						<div class="col p-0">
@@ -358,7 +360,7 @@
 								<h6 class="small">*패스워드 확인</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="pwd_ck" id="pwd_ck" class="w-100 small" required maxlength="20" minlength="6">
+								<input type="password" name="pwd_ck" id="pwd_ck" class="w-100 small" required maxlength="20" minlength="6">
 							</div>
 						</div>
 						<div class="col p-0">
@@ -366,7 +368,8 @@
 								<h6>주민번호</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="reg_no" id="reg_no" class="w-100 small" maxlength="14">
+								<input type="text" name="reg_no_input" id="reg_no_input" class="w-100 small" maxlength="14">
+								<input type="hidden" name="reg_no" id="reg_no">
 							</div>
 						</div>
 						<div class="col p-0">
@@ -405,7 +408,7 @@
 								<h6>연봉(만원)</h6>
 							</div>
 							<div class="col-4 in-blk p-0">
-								<input type="number" name="salary" id="salary" class="w-100 small text-right">
+								<input type="text" name="salary" id="salary" class="w-100 small text-right">
 							</div>
 							<div class="co-3 in-blk text-left">
 								<h6>(만원)</h6>
@@ -444,7 +447,7 @@
 						</div>
 						<div class="col center p-0">
 							<div class="col-5 p-0 in-blk">
-								<button id="show_cmp_reg_img" type="button" class="btn btn-outline-info btn-block btn-sm" data-toggle="model" data-target="preview_modal">미리보기</button>
+								<button id="show_cmp_reg_img" type="button" class="btn btn-outline-info btn-block btn-sm">미리보기</button>
 							</div>
 							<div class="col-5 p-0 in-blk">
 								<label for="cmp_reg_img" class="w-100">
@@ -472,7 +475,7 @@
 					<div class="col-3 p-0">
 						<div class="col center p-0">
 							<div class="col-5 p-0 in-blk">
-								<button id="show_resume_img" type="button" class="btn btn-outline-info btn-block btn-sm" data-toggle="model" data-target="preview_modal">미리보기</button>
+								<button id="show_resume_img" type="button" class="btn btn-outline-info btn-block btn-sm">미리보기</button>
 							</div>
 							<div class="col-5 p-0 in-blk">
 								<label for="resume_img" class="w-100">
@@ -488,8 +491,8 @@
 	</div>
 	
 	<!-- 미리보기 모달 -->
-	<div class="modal" id="preview_modal modal-dialog-centered">
-		<div class="midal-dialog">
+	<div class="modal" id="preview_modal">
+		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<!-- Header -->
 				<div class="modal-header">
@@ -498,13 +501,13 @@
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 				<!-- Body -->
-				<div class="modal-body div-in-modal">
+				<div class="modal-body div-in-modal center">
 					<img class="img-frm dnone" id="preview_cmp_reg" src="" />
 					<img class="img-frm dnone" id="preview_carrier" src="" />
 				</div>
 				<!-- Footer -->
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="midal">Close</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>

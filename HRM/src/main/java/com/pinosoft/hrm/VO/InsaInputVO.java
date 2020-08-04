@@ -12,7 +12,7 @@ import org.apache.ibatis.type.*;
 import lombok.*;
 import java.sql.*;
 
-@Alias("input")
+@Alias("inputVO")
 @Data
 public class InsaInputVO {
 	private int seq, sabun, sugst_money, current_salary;

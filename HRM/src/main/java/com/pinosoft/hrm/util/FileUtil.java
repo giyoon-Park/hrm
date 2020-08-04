@@ -9,6 +9,7 @@ package com.pinosoft.hrm.util;
  */
 
 import java.io.*;
+import java.util.*;
 import javax.servlet.http.*;
 import org.springframework.web.multipart.*;
 
@@ -29,7 +30,8 @@ public class FileUtil {
 		return oldName;
 	}
 	
-	public String getSaveName(HttpSession session, MultipartFile file, String folder) {
+	public HashMap<String, String> getNames(HttpSession session, MultipartFile file, String folder) {
+		HashMap<String, String> map = new HashMap<String, String>();
 		String savename = new String();
 		String path = session.getServletContext().getRealPath("resources") + "/" + folder;
 		
@@ -44,6 +46,10 @@ public class FileUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return savename;
+		
+		map.put("savename", savename);
+		map.put("oriname", oriname);
+		
+		return map;
 	}
 }

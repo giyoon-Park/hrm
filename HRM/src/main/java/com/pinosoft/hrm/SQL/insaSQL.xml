@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="insaSQL">
-	<insert id="addEmp" parameterType="insa">
+	<insert id="addEmp" parameterType="insaVO">
 		<selectKey keyProperty="sabun" resultType="int" order="BEFORE">
 			SELECT
 				NVL(MAX(sabun) + 1, 1)
@@ -14,7 +14,8 @@
 				 PHONE, HP, CARRIER, POS_GBN_CODE, CMP_REG_NO, CMP_REG_IMAGE,
 				 SEX, YEARS, EMAIL, ZIP, ADDR1, ADDR2, DEPT_CODE, JOIN_GBN_CODE,
 				 ID, PWD, SALARY, KOSA_REG_YN, KOSA_CLASS_CODE, MIL_YN, MIL_TYPE,
-				 MIL_LEVEL, MIL_STARTDATE, MIL_ENDDATE, JOB_TYPE, GART_LEVEL, SELF_INTRO, CRM_NAME, JOIN_YN)
+				 MIL_LEVEL, MIL_STARTDATE, MIL_ENDDATE, JOB_TYPE, GART_LEVEL, SELF_INTRO,
+				 CRM_NAME, JOIN_YN, ORI_PROFILE, ORI_CMP_REG_IMG, ORI_CARRIER)
 		VALUES(
 			#{sabun}, #{join_day, jdbcType=DATE}, #{retire_day, jdbcType=DATE}, #{put_yn, jdbcType=VARCHAR},
 			#{name}, #{reg_no, jdbcType=VARCHAR}, #{eng_name, jdbcType=VARCHAR}, #{phone, jdbcType=VARCHAR},
@@ -25,11 +26,164 @@
 			#{id}, #{pwd}, #{salary, jdbcType=INTEGER}, #{kosa_class_code, jdbcType=VARCHAR},
 			#{mil_yn, jdbcType=VARCHAR}, #{mil_type, jdbcType=VARCHAR}, #{mil_level, jdbcType=VARCHAR},
 			#{mil_startdate, jdbcType=DATE}, #{mil_enddate, jdbcType=DATE}, #{job_type, jdbcType=VARCHAR},
-			#{gart_level, jdbcType=VARCHAR}, #{self_intro, jdbcType=VARCHAR}, #{crm_name, jdbcType=VARCHAR}, #{join_yn, jdbcType=VARCHAR}
+			#{gart_level, jdbcType=VARCHAR}, #{self_intro, jdbcType=VARCHAR}, #{crm_name, jdbcType=VARCHAR},
+			#{join_yn, jdbcType=VARCHAR}, #{ori_profile, jdbcType=VARCHAR}, #{ori_cmp_reg_img, jdbcType=VARCHAR},
+			#{ori_carrier, jdbcType=VARCHAR}
 		)
 	</insert>
 	
-	<select id="getEmp" parameterType="insa" resultType="insa">
+	<insert id="addEmpToDel" parameterType="insaVO">
+		INSERT INTO
+			insa_del(SABUN, JOIN_DAY, RETIRE_DAY, PUT_YN, NAME, REG_NO, ENG_NAME,
+				 PHONE, HP, CARRIER, POS_GBN_CODE, CMP_REG_NO, CMP_REG_IMAGE,
+				 SEX, YEARS, EMAIL, ZIP, ADDR1, ADDR2, DEPT_CODE, JOIN_GBN_CODE,
+				 ID, PWD, SALARY, KOSA_REG_YN, KOSA_CLASS_CODE, MIL_YN, MIL_TYPE,
+				 MIL_LEVEL, MIL_STARTDATE, MIL_ENDDATE, JOB_TYPE, GART_LEVEL, SELF_INTRO,
+				 CRM_NAME, JOIN_YN, ORI_PROFILE, ORI_CMP_REG_IMG, ORI_CARRIER)
+		VALUES(
+			#{sabun}, #{join_day, jdbcType=DATE}, #{retire_day, jdbcType=DATE}, #{put_yn, jdbcType=VARCHAR},
+			#{name}, #{reg_no, jdbcType=VARCHAR}, #{eng_name, jdbcType=VARCHAR}, #{phone, jdbcType=VARCHAR},
+			#{hp}, #{carrier, jdbcType=VARCHAR}, #{pos_gbn_code, jdbcType=VARCHAR}, #{cmp_reg_no, jdbcType=VARCHAR},
+			#{cmp_reg_image, jdbcType=VARCHAR}, #{sex, jdbcType=VARCHAR}, #{years, jdbcType=INTEGER},
+			#{email, jdbcType=VARCHAR}, #{zip, jdbcType=VARCHAR}, #{addr1, jdbcType=VARCHAR},
+			#{addr2, jdbcType=VARCHAR}, #{dept_code, jdbcType=VARCHAR}, #{join_gbn_code, jdbcType=VARCHAR},
+			#{id}, #{pwd}, #{salary, jdbcType=INTEGER}, #{kosa_class_code, jdbcType=VARCHAR},
+			#{mil_yn, jdbcType=VARCHAR}, #{mil_type, jdbcType=VARCHAR}, #{mil_level, jdbcType=VARCHAR},
+			#{mil_startdate, jdbcType=DATE}, #{mil_enddate, jdbcType=DATE}, #{job_type, jdbcType=VARCHAR},
+			#{gart_level, jdbcType=VARCHAR}, #{self_intro, jdbcType=VARCHAR}, #{crm_name, jdbcType=VARCHAR},
+			#{join_yn, jdbcType=VARCHAR}, #{ori_profile, jdbcType=VARCHAR}, #{ori_cmp_reg_img, jdbcType=VARCHAR},
+			#{ori_carrier, jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<update id="editEmpInfo" parameterType="insaVO">
+		UPDATE
+			insa
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="join_day != null">
+				join_day = #{join_day},
+			</if>
+			<if test="retire_day != null">
+				retire_day = #{retire_day},
+			</if>
+			<if test="put_yn != null">
+				put_yn = #{put_yn},
+			</if>
+			<if test="reg_no != null">
+				reg_no = #{reg_no},
+			</if>
+			<if test="eng_name != null">
+				eng_name = #{eng_name},
+			</if>
+			<if test="phone != null">
+				phone = #{phone},
+			</if>
+			<if test="hp != null">
+				hp = #{hp},
+			</if>
+			<if test="carrier != null">
+				carrier = #{carrier},
+			</if>
+			<if test="pos_gbn_code != null">
+				pos_gbn_code = #{pos_gbn_code},
+			</if>
+			<if test="cmp_reg_no != null">
+				cmp_reg_no = #{cmp_reg_no},
+			</if>
+			<if test="cmp_reg_image != null">
+				cmp_reg_image = #{cmp_reg_image},
+			</if>
+			<if test="sex != null">
+				sex = #{sex},
+			</if>
+			<if test="years != 0">
+				years = #{years},
+			</if>
+			<if test="email != null">
+				email = #{email},
+			</if>
+			<if test="zip != null">
+				zip = #{zip},
+			</if>
+			<if test="addr1 != null">
+				addr1 = #{addr1},
+			</if>
+			<if test="addr2 != null">
+				addr2 = #{addr2},
+			</if>
+			<if test="dept_code != null">
+				dept_code = #{dept_code},
+			</if>
+			<if test="join_gbn_code != null">
+				join_gbn_code = #{join_gbn_code},
+			</if>
+			<if test="pwd != null">
+				pwd = #{pwd},
+			</if>
+			<if test="salary != 0">
+				salary = #{salary},
+			</if>
+			<if test="kosa_reg_yn != null">
+				kosa_reg_yn = #{kosa_reg_yn},
+			</if>
+			<if test="kosa_class_code != null">
+				kosa_class_code = #{kosa_class_code},
+			</if>
+			<if test="mil_yn != null">
+				mil_yn = #{mil_yn},
+			</if>
+			<if test="mil_type != null">
+				mil_type = #{mil_type},
+			</if>
+			<if test="mil_level != null">
+				mil_level = #{mil_level},
+			</if>
+			<if test="mil_startdate != null">
+				mil_startdate = #{mil_startdate},
+			</if>
+			<if test="mil_enddate != null">
+				mil_enddate = #{mil_enddate},
+			</if>
+			<if test="job_type != null">
+				job_type = #{job_type},
+			</if>
+			<if test="gart_level != null">
+				gart_level = #{gart_level},
+			</if>
+			<if test="self_intro != null">
+				self_intro = #{self_intro},
+			</if>
+			<if test="crm_name != null">
+				crm_name = #{crm_name},
+			</if>
+			<if test="profile != null">
+				profile = #{profile},
+			</if>
+			<if test="join_yn != null">
+				join_yn = #{join_yn},
+			</if>
+			<if test="ori_profile != null">
+				ori_profile = #{ori_profile},
+			</if>
+			<if test="ori_cmp_reg_img != null">
+				ori_cmp_reg_img = #{ori_cmp_reg_img},
+			</if>
+			<if test="ori_carrier != null">
+				ori_carrier = #{ori_carrier},
+			</if>
+		</trim>
+		WHERE
+			sabun = ${sabun}
+	</update>
+	
+	<delete id="delEmp" parameterType="insaVO">
+		DELETE FROM
+			insa
+		WHERE
+			sabun = ${sabun}
+	</delete>
+	
+	<select id="getEmpList" parameterType="insaVO" resultType="insaVO">
 		SELECT
 			sabun, insa.name, reg_no, hp, pos, join_day, retire_day, put_yn, salary
 		FROM
@@ -78,10 +232,55 @@
 		</trim>
 	</select>
 	
-	<select id="getComList" resultType="com">
+	<select id="getComList" resultType="comVO">
 		SELECT
 			*
 		FROM
 			insa_com
+	</select>
+	
+	<select id="getInsaInfo" parameterType="insaVO" resultType="insaVO">
+		SELECT
+			*
+		FROM
+			insa
+		WHERE
+			sabun = ${sabun}
+	</select>
+	
+	<select id="checkID" parameterType="string" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			insa
+		WHERE
+			id = #{id}
+	</select>
+	
+	<select id="input_YN" parameterType="insaVO" resultType="inputVO">
+		SELECT
+			seq, sugst_money, current_salary, pjt_gbn_code, eqm_yn, work_area, wrk_posb_day
+		FROM
+			insa_input_info
+		WHERE
+			sabun = ${sabun}
+	</select>
+	
+	<select id="carrierList" parameterType="insaVO" resultType="carrierVO">
+		SELECT
+			seq, cmp_name_carrier, pos_gbn_code, respon_dept, work_cotents, work_start_day, work_end_day
+		FROM
+			insa_carrier
+		WHERE
+			sabun = ${sabun}
+	</select>
+	
+	<select id="acadList" parameterType="insaVO" resultType="acadVO">
+		SELECT
+			seq, gart_year, gart_month, major_stud_gbn, gart_level, school_name
+		FROM
+			insa_acad_ability
+		WHERE
+			sabun = ${sabun}
 	</select>
 </mapper>

@@ -16,6 +16,7 @@ import org.springframework.web.servlet.view.*;
 import com.pinosoft.hrm.VO.*;
 import com.pinosoft.hrm.service.*;
 import java.util.*;
+import javax.servlet.http.*;
 
 @Controller
 public class InsaController {
@@ -42,7 +43,7 @@ public class InsaController {
 	@RequestMapping("/insaInputForm.do")
 	public ModelAndView showInputForm(ModelAndView mv) {
 		String view = "jsp/insaInputForm";
-		List<InsaVO> list = comSrvc.getComList();
+		List<InsaComVO> list = comSrvc.getComList();
 		
 		mv.addObject("COMLIST", list);
 		mv.setViewName(view);
@@ -51,17 +52,29 @@ public class InsaController {
 	
 	// 직원 등록 처리
 	@RequestMapping("/regProc.do")
-	public ModelAndView regProc(ModelAndView mv, InsaVO insa) {
+	public ModelAndView regProc(ModelAndView mv, InsaVO insaVO, ImgVO imgVO, HttpSession session) {
+		insaVO = comSrvc.uploadImg(insaVO, imgVO, session);
+		comSrvc.regEmp(insaVO);
 		
+		mv.clear();
 		mv.setView(new RedirectView("/hrm/insaInputForm.do"));
 		return mv;
 	}
 	
+	// 아이디 체크
+	@RequestMapping("/id.ck")
+	@ResponseBody
+	public int checkID(String id) {
+		int cnt = comSrvc.checkID(id);
+		
+		return cnt;
+	}
+	
 	// 직원 수정페이지
 	@RequestMapping("/insaUpdateForm.do")
-	public ModelAndView showUpdateForm(ModelAndView mv, InsaVO insa, InsaAcadVO acad, InsaCarrierVO carrier, InsaInputVO input) {
+	public ModelAndView showUpdateForm(ModelAndView mv, InsaVO insaVO, InsaAcadVO acadVO, InsaCarrierVO carrierVO, InsaInputVO inputVO) {
 		String view = "jsp/insaUpdateForm";
-		List<InsaVO> list = comSrvc.getComList();
+		List<InsaComVO> list = comSrvc.getComList();
 		
 		mv.addObject("COMLIST", list);
 		mv.setViewName(view);

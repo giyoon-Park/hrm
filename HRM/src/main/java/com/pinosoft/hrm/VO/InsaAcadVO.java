@@ -11,7 +11,7 @@ package com.pinosoft.hrm.VO;
 import org.apache.ibatis.type.*;
 import lombok.*;
 
-@Alias("acad")
+@Alias("acadVO")
 @Data
 public class InsaAcadVO {
 	private int seq, sabun, gart_year, gart_month;
