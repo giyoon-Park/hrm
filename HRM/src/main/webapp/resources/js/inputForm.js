@@ -40,10 +40,14 @@ $(document).ready(function() {
 	});
 
 	$('#salary').keyup(function(){
-		var sal = $(this).val();
-		// sal = sal.replace(',', '');
+		let sal = $(this).val();
+		sal = sal.replace(',', '');
+		sal = parseFloat(sal);
 		sal = sal.toLocaleString();
 		$(this).val(sal);
+		if(isNaN(sal) && sal.length <= 3){
+			$(this).val('0');
+		}
 	});
 
 	$('#reg_no_input').keyup(function() {
@@ -143,6 +147,13 @@ $(document).ready(function() {
 		$('#preview_cmp_reg').addClass('dnone');
 		$('#preview_modal').modal();
 	});
+	
+	$('#id').keyup(function(){
+		$(this).val(
+			$(this).val()
+			.replace(/^[^a-zA-z0-9]+$/gi, '')
+		);
+	});
 
 	$('#id').focusout(function() {
 		var id = $(this).val();
@@ -173,5 +184,44 @@ $(document).ready(function() {
 		} else {
 			return;
 		}
+	});
+	
+	$('#regEmp').click(function(){
+		var idck = $('#idck').val();
+		var pwd = $('#pwd').val();
+		var pwdck = $('#pwd_ck').val();
+		var mail = $('#mail').val();
+		var domain = $('#domain').val();
+		var email = $('#email').val();
+		var hp = $('#hp').val();
+		
+		if(idck == 'N') {
+			alert('아이디를 확인해주세요.');
+			$('#id').focus();
+			return;
+		}
+		
+		if(pwd != pwdck || pwd == null || pwd.length == 0 || pwdck == null || pwdck.length == 0) {
+			alert('비밀번호를 확인해주세요.');
+			$('#pwd').focus();
+			return;
+		}
+		
+		if(mail == null || mail.length == 0 || domain == null || domain.length == 0) {
+			alert('이메일을 확인해주세요.');
+			$('#mail').focus();
+			return;
+		}
+		
+		if(hp == null || hp.length == 0) {
+			alert('핸드폰번호를 확인해주세요.');
+			$('#hp').focus();
+			return;
+		}
+		
+		email = mail + '@' + domain;
+		$('#email').val(email);
+		alert(email);
+		$('#frm').submit();
 	});
 });
