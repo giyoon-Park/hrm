@@ -353,7 +353,7 @@
 				cmp_name_carrier = #{cmp_name_carrier},
 			</if>
 			<if test="work_start_day != null">
-				work_start_day = #{work_start_day},
+				work_start_day = #{work_start_sql_day},
 			</if>
 			<if test="work_end_day != null">
 				work_end_day = #{work_end_day},
