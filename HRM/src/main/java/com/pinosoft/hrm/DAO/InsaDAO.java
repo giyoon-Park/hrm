@@ -27,4 +27,36 @@ public class InsaDAO {
 	public void regEmp(InsaVO insaVO) {
 		sqlSession.insert("insaSQL.addEmp", insaVO);
 	}
+	
+	public InsaVO getEmpInfo(InsaVO insaVO) {
+		return sqlSession.selectOne("insaSQL.getInsaInfo", insaVO);
+	}
+	
+	public void editEmp(InsaVO insaVO) {
+		sqlSession.update("insaSQL.editEmpInfo", insaVO);
+	}
+	
+	public void copyEmpToDel(InsaVO insaVO) {
+		sqlSession.insert("insaSQL.copyEmpToDel", insaVO);
+	}
+	
+	public void delEmp(InsaVO insaVO) {
+		sqlSession.delete("insaSQL.delEmp", insaVO);
+	}
+	
+	public List<InsaVO> getEmpList(InsaVO insaVO) {
+		return sqlSession.selectList("insaSQL.getEmpList", insaVO);
+	}
+	
+	public List<InsaInputVO> getInputYNList(InsaVO insaVO) {
+		return sqlSession.selectList("insaSQL.input_YN_List", insaVO);
+	}
+	
+	public List<InsaCarrierVO> getCarrierList(InsaVO insaVO) {
+		return sqlSession.selectList("insaSQL.carrierList", insaVO);
+	}
+	
+	public List<InsaAcadVO> getAcadList(InsaVO insaVO) {
+		return sqlSession.selectList("insaSQL.acadList", insaVO);
+	}
 }

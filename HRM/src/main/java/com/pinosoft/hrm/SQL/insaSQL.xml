@@ -17,7 +17,7 @@
 				 MIL_LEVEL, MIL_STARTDATE, MIL_ENDDATE, JOB_TYPE, GART_LEVEL, SELF_INTRO,
 				 CRM_NAME, JOIN_YN, ORI_PROFILE, ORI_CMP_REG_IMG, ORI_CARRIER)
 		VALUES(
-			#{sabun}, #{join_day, jdbcType=DATE}, #{retire_day, jdbcType=DATE}, #{put_yn, jdbcType=VARCHAR},
+			#{sabun}, #{join_sql_day, jdbcType=DATE}, #{retire_sql_day, jdbcType=DATE}, #{put_yn, jdbcType=VARCHAR},
 			#{name}, #{reg_no, jdbcType=VARCHAR}, #{eng_name, jdbcType=VARCHAR}, #{phone, jdbcType=VARCHAR},
 			#{hp}, #{carrier, jdbcType=VARCHAR}, #{pos_gbn_code, jdbcType=VARCHAR}, #{cmp_reg_no, jdbcType=VARCHAR},
 			#{cmp_reg_image, jdbcType=VARCHAR}, #{sex, jdbcType=VARCHAR}, #{years, jdbcType=INTEGER},
@@ -25,46 +25,27 @@
 			#{addr2, jdbcType=VARCHAR}, #{dept_code, jdbcType=VARCHAR}, #{join_gbn_code, jdbcType=VARCHAR},
 			#{id}, #{pwd}, #{salary, jdbcType=INTEGER}, #{kosa_class_code, jdbcType=VARCHAR},
 			#{mil_yn, jdbcType=VARCHAR}, #{mil_type, jdbcType=VARCHAR}, #{mil_level, jdbcType=VARCHAR},
-			#{mil_startdate, jdbcType=DATE}, #{mil_enddate, jdbcType=DATE}, #{job_type, jdbcType=VARCHAR},
+			#{mil_sql_startdate, jdbcType=DATE}, #{mil_sql_enddate, jdbcType=DATE}, #{job_type, jdbcType=VARCHAR},
 			#{gart_level, jdbcType=VARCHAR}, #{self_intro, jdbcType=VARCHAR}, #{crm_name, jdbcType=VARCHAR},
 			#{join_yn, jdbcType=VARCHAR}, #{ori_profile, jdbcType=VARCHAR}, #{ori_cmp_reg_img, jdbcType=VARCHAR},
 			#{ori_carrier, jdbcType=VARCHAR}
 		)
 	</insert>
 	
-	<insert id="addEmpToDel" parameterType="insaVO">
-		INSERT INTO
-			insa_del(SABUN, JOIN_DAY, RETIRE_DAY, PUT_YN, NAME, REG_NO, ENG_NAME,
-				 PHONE, HP, CARRIER, POS_GBN_CODE, CMP_REG_NO, CMP_REG_IMAGE,
-				 SEX, YEARS, EMAIL, ZIP, ADDR1, ADDR2, DEPT_CODE, JOIN_GBN_CODE,
-				 ID, PWD, SALARY, KOSA_REG_YN, KOSA_CLASS_CODE, MIL_YN, MIL_TYPE,
-				 MIL_LEVEL, MIL_STARTDATE, MIL_ENDDATE, JOB_TYPE, GART_LEVEL, SELF_INTRO,
-				 CRM_NAME, JOIN_YN, ORI_PROFILE, ORI_CMP_REG_IMG, ORI_CARRIER)
-		VALUES(
-			#{sabun}, #{join_day, jdbcType=DATE}, #{retire_day, jdbcType=DATE}, #{put_yn, jdbcType=VARCHAR},
-			#{name}, #{reg_no, jdbcType=VARCHAR}, #{eng_name, jdbcType=VARCHAR}, #{phone, jdbcType=VARCHAR},
-			#{hp}, #{carrier, jdbcType=VARCHAR}, #{pos_gbn_code, jdbcType=VARCHAR}, #{cmp_reg_no, jdbcType=VARCHAR},
-			#{cmp_reg_image, jdbcType=VARCHAR}, #{sex, jdbcType=VARCHAR}, #{years, jdbcType=INTEGER},
-			#{email, jdbcType=VARCHAR}, #{zip, jdbcType=VARCHAR}, #{addr1, jdbcType=VARCHAR},
-			#{addr2, jdbcType=VARCHAR}, #{dept_code, jdbcType=VARCHAR}, #{join_gbn_code, jdbcType=VARCHAR},
-			#{id}, #{pwd}, #{salary, jdbcType=INTEGER}, #{kosa_class_code, jdbcType=VARCHAR},
-			#{mil_yn, jdbcType=VARCHAR}, #{mil_type, jdbcType=VARCHAR}, #{mil_level, jdbcType=VARCHAR},
-			#{mil_startdate, jdbcType=DATE}, #{mil_enddate, jdbcType=DATE}, #{job_type, jdbcType=VARCHAR},
-			#{gart_level, jdbcType=VARCHAR}, #{self_intro, jdbcType=VARCHAR}, #{crm_name, jdbcType=VARCHAR},
-			#{join_yn, jdbcType=VARCHAR}, #{ori_profile, jdbcType=VARCHAR}, #{ori_cmp_reg_img, jdbcType=VARCHAR},
-			#{ori_carrier, jdbcType=VARCHAR}
-		)
+	<insert id="copyEmpToDel" parameterType="insaVO">
+		INSERT INTO insa_del
+		SELECT * FROM insa WHERE sabun = #{sabun}
 	</insert>
 	
 	<update id="editEmpInfo" parameterType="insaVO">
 		UPDATE
 			insa
 		<trim prefix="SET" suffixOverrides=",">
-			<if test="join_day != null">
-				join_day = #{join_day},
+			<if test="join_sql_day != null">
+				join_day = #{join_sql_day},
 			</if>
-			<if test="retire_day != null">
-				retire_day = #{retire_day},
+			<if test="retire_sql_day != null">
+				retire_day = #{retire_sql_day},
 			</if>
 			<if test="put_yn != null">
 				put_yn = #{put_yn},
@@ -138,11 +119,11 @@
 			<if test="mil_level != null">
 				mil_level = #{mil_level},
 			</if>
-			<if test="mil_startdate != null">
-				mil_startdate = #{mil_startdate},
+			<if test="mil_sql_startdate != null">
+				mil_startdate = #{mil_sql_startdate},
 			</if>
-			<if test="mil_enddate != null">
-				mil_enddate = #{mil_enddate},
+			<if test="mil_sql_enddate != null">
+				mil_enddate = #{mil_sql_enddate},
 			</if>
 			<if test="job_type != null">
 				job_type = #{job_type},
@@ -196,7 +177,7 @@
 				gubun = '직위'
 			) position,
 			(SELECT
-				code, com.name join_gbn
+				code
 			FROM
 				insa, insa_com com
 			WHERE
@@ -219,11 +200,11 @@
 				AND pos_gbn_code = #{pos_gbn_code}
 				AND position.code = pos_gbn_code
 			</if>
-			<if test="join_day != null">
-				AND join_day = #{join_day}
+			<if test="join_sql_day != null">
+				AND join_day = #{join_sql_day}
 			</if>
-			<if test="retire_day != null">
-				AND retire_day = #{retire_day}
+			<if test="retire_sql_day != null">
+				AND retire_day = #{retire_sql_day}
 			</if>
 			<if test="join_gbn_code != null">
 				AND join_gbn_code = #{join_gbn_code}
@@ -241,7 +222,13 @@
 	
 	<select id="getInsaInfo" parameterType="insaVO" resultType="insaVO">
 		SELECT
-			*
+			SABUN, JOIN_DAY join_sql_day, RETIRE_DAY retire_sql_day, PUT_YN,
+			PHONE, HP, CARRIER, POS_GBN_CODE, CMP_REG_NO, CMP_REG_IMAGE, NAME,
+			SEX, YEARS, EMAIL, ZIP, ADDR1, ADDR2, DEPT_CODE, JOIN_GBN_CODE, ENG_NAME,
+			ID, SALARY, KOSA_REG_YN, KOSA_CLASS_CODE, MIL_YN, MIL_TYPE, REG_NO,
+			MIL_LEVEL, MIL_STARTDATE mil_sql_startdate, MIL_ENDDATE mil_sql_enddate,
+			JOB_TYPE, GART_LEVEL, SELF_INTRO, CRM_NAME, JOIN_YN, ORI_PROFILE,
+			ORI_CMP_REG_IMG, ORI_CARRIER
 		FROM
 			insa
 		WHERE
@@ -257,9 +244,9 @@
 			id = #{id}
 	</select>
 	
-	<select id="input_YN" parameterType="insaVO" resultType="inputVO">
+	<select id="input_YN_List" parameterType="insaVO" resultType="inputVO">
 		SELECT
-			seq, sugst_money, current_salary, pjt_gbn_code, eqm_yn, work_area, wrk_posb_day
+			seq, sugst_money, current_salary, pjt_gbn_code, eqm_yn, work_area, wrk_posb_day wrk_posb_sql_day
 		FROM
 			insa_input_info
 		WHERE
@@ -268,7 +255,7 @@
 	
 	<select id="carrierList" parameterType="insaVO" resultType="carrierVO">
 		SELECT
-			seq, cmp_name_carrier, pos_gbn_code, respon_dept, work_cotents, work_start_day, work_end_day
+			seq, cmp_name_carrier, pos_gbn_code, respon_dept, work_cotents, work_start_day work_start_sql_day, work_end_day work_end_sql_day
 		FROM
 			insa_carrier
 		WHERE
@@ -283,4 +270,121 @@
 		WHERE
 			sabun = ${sabun}
 	</select>
+	
+	<insert id="addInput" parameterType="inputVO">
+		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
+			SELECT
+				NVL(MAX(seq) + 1, 1)
+			FROM
+				insa_input_info
+		</selectKey>
+		INSERT INTO
+			insa_input_info(seq, sabun, wrk_posb_day, sugst_money, pjt_gbn_code, eqm_yn, current_salary, work_area)
+		VALUES(
+			#{seq}, #{sabun}, #{wrk_posb_sql_day, jdbcType=DATE}, #{sugst_money, jdbcType=INTEGER},
+			#{pjt_gbn_code, jdbcType=VARCHAR}, #{eqm_yn, jdbcType=VARCHAR}, #{current_salary, jdbcType=INTEGER}, #{work_area, jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<insert id="addCarrier" parameterType="carrierVO">
+		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
+			SELECT
+				NVL(MAX(seq) + 1, 1)
+			FROM
+				insa_carrier
+		</selectKey>
+		INSERT INTO
+			insa_carrier(seq, sabun, cmp_name_carrier, work_start_day, work_end_day, pos_gbn_code, respon_dept, work_contents)
+		VALUES(
+			#{seq}, #{sabun}, #{cmp_name_carrier, jdbcType=VARCHAR}, #{work_start_sql_day, jdbcType=DATE},
+			#{work_end_sql_day, jdbcType=DATE}, #{pos_gbn_code, jdbcType=VARCHAR}, #{respon_dept, jdbcType=VARCHAR},
+			#{work_contents, jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<insert id="addAcad" parameterType="acadVO">
+		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
+			SELECT
+				NVL(MAX(seq) + 1, 1)
+			FROM
+				insa_acad_ability
+		</selectKey>
+		INSERT INTO
+			insa_acad_ability(seq, sabun, gart_year, gart_month, major_stud_gbn, gart_level, school_name)
+		VALUES(
+			#{seq}, #{sabun}, #{gart_year, jdbcType=INTEGER}, #{gart_month, jdbcType=INTEGER}, #{major_stud_gbn, jdbcType=VARCHAR},
+			#{gart_level, jdbcType=VARCHAR}, #{school_name, jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<update id="editInputInfo" keyProperty="inputVO">
+		UPDATE
+			insa_input_info
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="wrk_posb_day != null">
+				wrk_posb_day = #{wrk_posb_sql_day},
+			</if>
+			<if test="sugst_money != 0">
+				sugst_money = #{sugst_money},
+			</if>
+			<if test="pjt_gbn_code != null">
+				pjt_gbn_code = #{pjt_gbn_code},
+			</if>
+			<if test="eqm_yn != null">
+				eqm_yn = #{eqm_yn},
+			</if>
+			<if test="current_salary != 0">
+				current_salary = #{current_salary},
+			</if>
+			<if test="work_area != null">
+				work_area = #{work_area},
+			</if>
+		</trim>
+		WHERE
+			seq = #{seq}
+			AND sabun = #{sabun}
+	</update>
+	
+	<update id="editCarrier" keyProperty="carrierVO">
+		UPDATE
+			insa_carrier
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="cmp_name_carrier != null">
+				cmp_name_carrier = #{cmp_name_carrier},
+			</if>
+			<if test="work_start_day != null">
+				work_start_day = #{work_start_day},
+			</if>
+			<if test="work_end_day != null">
+				work_end_day = #{work_end_day},
+			</if>
+			<if test="pos_gbn_code != null">
+				pos_gbn_code = #{pos_gbn_code},
+			</if>
+			<if test="respon_dept != null">
+				respon_dept = #{respon_dept},
+			</if>
+			<if test="work_contents != null">
+				work_contents = #{work_contents},
+			</if>
+		</trim>
+		WHERE
+			seq = #{seq}
+			AND sabun = #{sabun}
+	</update>
+	
+	<insert id="copyInputToDel" keyProperty="inputVO">
+		INSERT INTO input_info_del
+		SELECT * FROM insa_input_info WHERE sabun = #{sabun} AND seq = #{seq}
+	</insert>
+	
+	<insert id="copyAcadToDel" keyProperty="acadVO">
+		INSERT INTO acad_del
+		SELECT * FROM insa_acad_ability WHERE sabun = #{sabun} AND seq = #{seq}
+	</insert>
+	
+	<insert id="copyCarrierToDel" keyProperty="carrierVO">
+		INSERT INTO carrier_del
+		SELECT * FROM insa_carrier WHERE sabun= #{sabun} AND seq = #{seq}
+	</insert>
 </mapper>

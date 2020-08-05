@@ -12,6 +12,11 @@ function jusoCallBack(roadAddrPart1, addrDetail, zipNo) {
 	$("input#addr2").val(addrDetail);
 }
 
+function addComma(num) {
+	var regexp = /\B(?=(\d{3})+(?!\d))/g;
+	return num.toString().replace(regexp, ',');
+}
+
 $(document).ready(function() {
 	$("#hp").keyup(function() {
 		$(this).val(
@@ -39,14 +44,19 @@ $(document).ready(function() {
 		);
 	});
 
-	$('#salary').keyup(function(){
+	$('#salary_input').focusout(function(){
 		let sal = $(this).val();
-		sal = sal.replace(',', '');
-		sal = parseFloat(sal);
-		sal = sal.toLocaleString();
+		$('#salary').val(sal);
+		sal = addComma(sal);
 		$(this).val(sal);
-		if(isNaN(sal) && sal.length <= 3){
-			$(this).val('0');
+	});
+	
+	$('#kosa_reg_yn').change(function(){
+		var reg_yn = $(this).val();
+		if(reg_yn == 'Y') {
+			$('#kosa_class_code').attr('disabled', false);
+		} else {
+			$('#kosa_class_code').attr('disabled', true);
 		}
 	});
 
@@ -58,15 +68,15 @@ $(document).ready(function() {
 		);
 		var reg_no_in = $(this).val();
 		$('#reg_no').val(reg_no_in);
-
+				
 		var wrg_gen = parseInt(reg_no_in.substring(6,7));
 		if(wrg_gen <= 0 || wrg_gen > 4) {
 			$(this).val(
 				$(this).val()
 				.replace(reg_no_in, reg_no_in.substring(0,6))
-			);
-		}
-
+				);
+			}
+		
 		var gen = parseInt(reg_no_in.substring(7,8));
 		if(gen % 2 == 0) {
 			$('#sex').val('여자');
@@ -75,13 +85,13 @@ $(document).ready(function() {
 		} else {
 			$('#sex').val('');
 		}
-
+		
 		if(reg_no_in.length >= 8) {
 			var birth_year = parseInt(reg_no_in.substring(0,2));
 			if(birth_year >= 50 && gen > 2) {
-				$(this).val(
-					$(this).val()
-					.replace(reg_no_in, reg_no_in.substring(0,6))
+			$(this).val(
+				$(this).val()
+				.replace(reg_no_in, reg_no_in.substring(0,6))
 				);
 			}
 			var today = new Date();
@@ -91,10 +101,14 @@ $(document).ready(function() {
 			} else {
 				birth_year = birth_year + 2000;
 			}
-
+			
 			var gap = today_year - birth_year + 1;
 			$('#years').val(gap);
 		}
+	}).focusout(function(){
+		$(this).val(
+			$(this).val().replace(/(?<=.{8})./g, '*')
+		);
 	});
 
 	$('#name').keyup(function() {
@@ -151,7 +165,7 @@ $(document).ready(function() {
 	$('#id').keyup(function(){
 		$(this).val(
 			$(this).val()
-			.replace(/^[^a-zA-z0-9]+$/gi, '')
+			.replace(/^[^a-zA-z]+\W+$/gi, '')
 		);
 	});
 
@@ -221,7 +235,6 @@ $(document).ready(function() {
 		
 		email = mail + '@' + domain;
 		$('#email').val(email);
-		alert(email);
 		$('#frm').submit();
 	});
 });
