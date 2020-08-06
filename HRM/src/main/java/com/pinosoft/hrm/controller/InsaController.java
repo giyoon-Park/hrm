@@ -86,12 +86,52 @@ public class InsaController {
 	
 	// 직원 수정페이지
 	@RequestMapping("/insaUpdateForm.do")
-	public ModelAndView showUpdateForm(ModelAndView mv, InsaVO insaVO, InsaAcadVO acadVO, InsaCarrierVO carrierVO, InsaInputVO inputVO) {
+	public ModelAndView showUpdateForm(ModelAndView mv, @RequestAttribute int sabun) {
 		String view = "jsp/insaUpdateForm";
 		List<InsaComVO> list = comSrvc.getComList();
+		InsaVO insaVO = comSrvc.empInfo(sabun);
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		List<InsaInputVO> inputList = comSrvc.empInputList(sabun);
+		List<InsaAcadVO> acadList = comSrvc.empAcadList(sabun);
+		List<InsaCarrierVO> carrierList = comSrvc.empCarrierList(sabun);
+		
+		map.put("input", comSrvc.cntInputs(insaVO));
+		map.put("carrier", comSrvc.cntCarriers(insaVO));
+		map.put("acad", comSrvc.cntAcads(insaVO));
 		
 		mv.addObject("COMLIST", list);
+		mv.addObject("EMPINFO", insaVO);
+		mv.addObject("INPUTLIST", inputList);
+		mv.addObject("ACADLIST", acadList);
+		mv.addObject("CARRIERLIST", carrierList);
+		mv.addObject("COUNTS", map);
 		mv.setViewName(view);
 		return mv;
+	}
+	
+	// 직원 기본 정보 수정 처리
+	@RequestMapping("/insaUpdateProc.do")
+	public ModelAndView insaUpdateProc(ModelAndView mv, InsaVO insaVO, ImgVO imgVO, HttpServletRequest req) {
+		int sabun = insaVO.getSabun();
+		HttpSession session = req.getSession();
+		
+		insaVO = comSrvc.uploadImg(insaVO, imgVO, session);
+		comSrvc.editEmpInfo(insaVO);
+		
+		req.setAttribute("sabun", sabun);
+		mv.setView(new RedirectView("/hrm/insaUpdateForm.do"));
+		return mv;
+	}
+	
+	// 직원 투입 정보 추가 및 수정 처리
+	@RequestMapping("/inputAddAndUpdateProc.do")
+	@ResponseBody
+	public HashMap<String, Integer> inputAAU(@RequestParam("inputVOList") List<InsaInputVO> list) {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		for (InsaInputVO inputVO : list) {
+			
+		}
+		
+		return map;
 	}
 }

@@ -46,7 +46,11 @@ $(document).ready(function() {
 
 	$('#salary_input').focusout(function(){
 		let sal = $(this).val();
-		$('#salary').val(sal);
+		if(sal != null) {
+			$('#salary').val(sal);
+		} else {
+			$('#salary').val(0);
+		}
 		sal = addComma(sal);
 		$(this).val(sal);
 	});
@@ -167,9 +171,7 @@ $(document).ready(function() {
 			$(this).val()
 			.replace(/^[^a-zA-z]+\W+$/gi, '')
 		);
-	});
-
-	$('#id').focusout(function() {
+	}).focusout(function() {
 		var id = $(this).val();
 		if(id) {
 			$.ajax({
@@ -232,6 +234,8 @@ $(document).ready(function() {
 			$('#hp').focus();
 			return;
 		}
+		
+		alert($('#profileimg').val());
 		
 		email = mail + '@' + domain;
 		$('#email').val(email);

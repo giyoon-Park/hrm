@@ -266,7 +266,8 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                     type="number"
                     name="years"
                     id="years"
-                    class="w-100 small"
+                    class="w-100 small text-right"
+                    value="0"
                   />
                 </div>
               </div>
@@ -690,7 +691,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                     id="salary_input"
                     class="w-100 small text-right"
 				  />
-				  <input type="hidden" name="salary" id="salary">
+				  <input type="hidden" name="salary" id="salary" value="0">
                 </div>
                 <div class="co-3 in-blk text-left">
                   <h6>(만원)</h6>

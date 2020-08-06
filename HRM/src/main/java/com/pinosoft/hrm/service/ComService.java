@@ -23,7 +23,7 @@ public class ComService {
 	@Autowired
 	FileUtil uploadfile;
 	
-	// 직원 등록 페에지에서 각 선택지에 필요한 항목을 불러오는 함수
+	// 각 선택지에 필요한 항목을 불러오는 함수
 	public List<InsaComVO> getComList() {
 		List<InsaComVO> list = dao.getComList();
 		return list;
@@ -56,17 +56,17 @@ public class ComService {
 	
 	// 이미지를 저장할 함수
 	public InsaVO uploadImg(InsaVO insaVO,ImgVO imgVO, HttpSession session) {
-		if(imgVO.getProfileimg() != null) {
+		if(!imgVO.getProfileimg().isEmpty()) {
 			HashMap<String, String> map = uploadfile.getNames(session, imgVO.getProfileimg(), "profile");
 			insaVO.setOri_profile(map.get("oriname"));
 			insaVO.setProfile(map.get("savename"));
 		}
-		if(imgVO.getCmp_reg_img() != null) {
+		if(!imgVO.getCmp_reg_img().isEmpty()) {
 			HashMap<String, String> map = uploadfile.getNames(session, imgVO.getCmp_reg_img(), "cmp_reg");
 			insaVO.setOri_cmp_reg_img(map.get("oriname"));
 			insaVO.setCmp_reg_image(map.get("savename"));
 		}
-		if(imgVO.getResume_img() != null) {
+		if(!imgVO.getResume_img().isEmpty()) {
 			HashMap<String, String> map = uploadfile.getNames(session, imgVO.getResume_img(), "carrier");
 			insaVO.setOri_carrier(map.get("oriname"));
 			insaVO.setCarrier(map.get("savename"));

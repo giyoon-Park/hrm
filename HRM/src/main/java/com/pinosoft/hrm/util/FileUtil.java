@@ -34,7 +34,6 @@ public class FileUtil {
 		HashMap<String, String> map = new HashMap<String, String>();
 		String savename = new String();
 		String path = session.getServletContext().getRealPath("resources") + "/" + folder;
-		
 		String oriname = file.getOriginalFilename();
 		if (oriname != null || oriname.length() != 0) {
 			savename = FileUtil.rename(path, oriname);

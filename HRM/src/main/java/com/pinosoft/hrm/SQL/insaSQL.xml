@@ -15,7 +15,7 @@
 				 SEX, YEARS, EMAIL, ZIP, ADDR1, ADDR2, DEPT_CODE, JOIN_GBN_CODE,
 				 ID, PWD, SALARY, KOSA_REG_YN, KOSA_CLASS_CODE, MIL_YN, MIL_TYPE,
 				 MIL_LEVEL, MIL_STARTDATE, MIL_ENDDATE, JOB_TYPE, GART_LEVEL, SELF_INTRO,
-				 CRM_NAME, JOIN_YN, ORI_PROFILE, ORI_CMP_REG_IMG, ORI_CARRIER)
+				 CRM_NAME, JOIN_YN, ORI_PROFILE, ORI_CMP_REG_IMG, ORI_CARRIER, PROFILE)
 		VALUES(
 			#{sabun}, #{join_day_sql, jdbcType=DATE}, #{retire_day_sql, jdbcType=DATE}, #{put_yn, jdbcType=VARCHAR},
 			#{name}, #{reg_no, jdbcType=VARCHAR}, #{eng_name, jdbcType=VARCHAR}, #{phone, jdbcType=VARCHAR},
@@ -23,12 +23,12 @@
 			#{cmp_reg_image, jdbcType=VARCHAR}, #{sex, jdbcType=VARCHAR}, #{years, jdbcType=INTEGER},
 			#{email, jdbcType=VARCHAR}, #{zip, jdbcType=VARCHAR}, #{addr1, jdbcType=VARCHAR},
 			#{addr2, jdbcType=VARCHAR}, #{dept_code, jdbcType=VARCHAR}, #{join_gbn_code, jdbcType=VARCHAR},
-			#{id}, #{pwd}, #{salary, jdbcType=INTEGER}, #{kosa_class_code, jdbcType=VARCHAR},
+			#{id}, #{pwd}, #{salary, jdbcType=INTEGER}, #{kosa_reg_yn, jdbcType=VARCHAR}, #{kosa_class_code, jdbcType=VARCHAR},
 			#{mil_yn, jdbcType=VARCHAR}, #{mil_type, jdbcType=VARCHAR}, #{mil_level, jdbcType=VARCHAR},
 			#{mil_startdate_sql, jdbcType=DATE}, #{mil_enddate_sql, jdbcType=DATE}, #{job_type, jdbcType=VARCHAR},
 			#{gart_level, jdbcType=VARCHAR}, #{self_intro, jdbcType=VARCHAR}, #{crm_name, jdbcType=VARCHAR},
 			#{join_yn, jdbcType=VARCHAR}, #{ori_profile, jdbcType=VARCHAR}, #{ori_cmp_reg_img, jdbcType=VARCHAR},
-			#{ori_carrier, jdbcType=VARCHAR}
+			#{ori_carrier, jdbcType=VARCHAR}, #{profile, jdbcType=VARCHAR}
 		)
 	</insert>
 	

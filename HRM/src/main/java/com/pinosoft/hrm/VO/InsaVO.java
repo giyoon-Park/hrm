@@ -20,8 +20,8 @@ public class InsaVO implements DateParser {
 					zip, addr1, addr2, dept_code, join_gbn_code, cmp_reg_image,
 					id, pwd, kosa_reg_yn, kosa_gbn_code, mil_yn, mil_type, mil_level,
 					job_type, gart_level, self_intro, crm_name, profile, join_yn,
-					ori_profile, ori_cmp_reg_img,ori_carrier,
-					join_day, retire_day, mil_startdate, mil_enddate;
+					ori_profile, ori_cmp_reg_img,ori_carrier, eng_name, cmp_reg_no,
+					join_day, retire_day, mil_startdate, mil_enddate, kosa_class_code;
 	private Date join_day_sql, retire_day_sql, mil_startdate_sql, mil_enddate_sql;
 	
 	@Override
