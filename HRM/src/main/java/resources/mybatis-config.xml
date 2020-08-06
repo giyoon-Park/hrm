@@ -12,6 +12,7 @@
 	</settings>
 	
 	<typeAliases>
+		<typeAlias alias="page" type="com.pinosoft.hrm.util.PageUtil"/>
 		<package name="com.pinosoft.hrm.VO" />
 	</typeAliases>
 	

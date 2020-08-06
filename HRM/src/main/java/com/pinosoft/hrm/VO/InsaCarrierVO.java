@@ -11,36 +11,25 @@ package com.pinosoft.hrm.VO;
 import org.apache.ibatis.type.*;
 import lombok.*;
 import java.sql.*;
-import java.text.*;
+import java.text.ParseException;
 
 @Alias("carrierVO")
 @Data
-public class InsaCarrierVO {
-	private int seq, sabun;
+public class InsaCarrierVO implements DateParser {
+	private int seq, sabun, rno;
 	private String cmp_name_carrier, pos_gbn_code, respon_dept, work_contents, work_start_day, work_end_day;
 	private Date work_start_sql_day, work_end_sql_day;
 	
-	SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd");
-	
-	public void setWork_start_day() {
-		this.work_start_day = form.format(work_start_sql_day);
+	@Override
+	public void db_to_view_format() {
+		this.work_start_day = FORM.format(work_end_sql_day);
+		this.work_end_day = FORM.format(work_end_sql_day);
 	}
-	
-	public void setWork_end_day() {
-		this.work_end_day = form.format(work_end_sql_day);
-	}
-	
-	public void setWork_start_sql_day() {
+	@Override
+	public void view_to_db_parse() {
 		try {
-			this.work_start_sql_day = (Date) form.parse(work_start_day);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void setWork_end_sql_day() {
-		try {
-			this.work_end_sql_day = (Date) form.parse(work_end_day);
+			this.work_start_sql_day = (Date) FORM.parse(work_start_day);
+			this.work_end_sql_day = (Date) FORM.parse(work_end_day);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
