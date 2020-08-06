@@ -17,7 +17,7 @@
 				 MIL_LEVEL, MIL_STARTDATE, MIL_ENDDATE, JOB_TYPE, GART_LEVEL, SELF_INTRO,
 				 CRM_NAME, JOIN_YN, ORI_PROFILE, ORI_CMP_REG_IMG, ORI_CARRIER)
 		VALUES(
-			#{sabun}, #{join_sql_day, jdbcType=DATE}, #{retire_sql_day, jdbcType=DATE}, #{put_yn, jdbcType=VARCHAR},
+			#{sabun}, #{join_day_sql, jdbcType=DATE}, #{retire_day_sql, jdbcType=DATE}, #{put_yn, jdbcType=VARCHAR},
 			#{name}, #{reg_no, jdbcType=VARCHAR}, #{eng_name, jdbcType=VARCHAR}, #{phone, jdbcType=VARCHAR},
 			#{hp}, #{carrier, jdbcType=VARCHAR}, #{pos_gbn_code, jdbcType=VARCHAR}, #{cmp_reg_no, jdbcType=VARCHAR},
 			#{cmp_reg_image, jdbcType=VARCHAR}, #{sex, jdbcType=VARCHAR}, #{years, jdbcType=INTEGER},
@@ -25,7 +25,7 @@
 			#{addr2, jdbcType=VARCHAR}, #{dept_code, jdbcType=VARCHAR}, #{join_gbn_code, jdbcType=VARCHAR},
 			#{id}, #{pwd}, #{salary, jdbcType=INTEGER}, #{kosa_class_code, jdbcType=VARCHAR},
 			#{mil_yn, jdbcType=VARCHAR}, #{mil_type, jdbcType=VARCHAR}, #{mil_level, jdbcType=VARCHAR},
-			#{mil_sql_startdate, jdbcType=DATE}, #{mil_sql_enddate, jdbcType=DATE}, #{job_type, jdbcType=VARCHAR},
+			#{mil_startdate_sql, jdbcType=DATE}, #{mil_enddate_sql, jdbcType=DATE}, #{job_type, jdbcType=VARCHAR},
 			#{gart_level, jdbcType=VARCHAR}, #{self_intro, jdbcType=VARCHAR}, #{crm_name, jdbcType=VARCHAR},
 			#{join_yn, jdbcType=VARCHAR}, #{ori_profile, jdbcType=VARCHAR}, #{ori_cmp_reg_img, jdbcType=VARCHAR},
 			#{ori_carrier, jdbcType=VARCHAR}
@@ -41,11 +41,11 @@
 		UPDATE
 			insa
 		<trim prefix="SET" suffixOverrides=",">
-			<if test="join_sql_day != null">
-				join_day = #{join_sql_day},
+			<if test="join_day_sql != null">
+				join_day = #{join_day_sql},
 			</if>
-			<if test="retire_sql_day != null">
-				retire_day = #{retire_sql_day},
+			<if test="retire_day_sql != null">
+				retire_day = #{retire_day_sql},
 			</if>
 			<if test="put_yn != null">
 				put_yn = #{put_yn},
@@ -119,11 +119,11 @@
 			<if test="mil_level != null">
 				mil_level = #{mil_level},
 			</if>
-			<if test="mil_sql_startdate != null">
-				mil_startdate = #{mil_sql_startdate},
+			<if test="mil_startdate_sql != null">
+				mil_startdate = #{mil_startdate_sql},
 			</if>
-			<if test="mil_sql_enddate != null">
-				mil_enddate = #{mil_sql_enddate},
+			<if test="mil_enddate_sql != null">
+				mil_enddate = #{mil_enddate_sql},
 			</if>
 			<if test="job_type != null">
 				job_type = #{job_type},
@@ -164,25 +164,11 @@
 			sabun = ${sabun}
 	</delete>
 	
-	<select id="getEmpList" parameterType="insaVO" resultType="insaVO">
+	<select id="cntEmps" parameterType="insaVO" resultType="int">
 		SELECT
-			sabun, insa.name, reg_no, hp, pos, join_day, retire_day, put_yn, salary
+			COUNT(*)
 		FROM
-			insa,
-			(SELECT
-				code, com.name pos
-			FROM
-				insa, insa_com com
-			WHERE
-				gubun = '직위'
-			) position,
-			(SELECT
-				code
-			FROM
-				insa, insa_com com
-			WHERE
-				gubun = '직종'
-			) job
+			insa
 		<trim prefix="WHERE" prefixOverrides="AND \ OR">
 			<if test="sabun != 0">
 				AND sabun = #{sabun}
@@ -200,17 +186,73 @@
 				AND pos_gbn_code = #{pos_gbn_code}
 				AND position.code = pos_gbn_code
 			</if>
-			<if test="join_sql_day != null">
-				AND join_day = #{join_sql_day}
+			<if test="join_day_sql != null">
+				AND join_day = #{join_day_sql}
 			</if>
-			<if test="retire_sql_day != null">
-				AND retire_day = #{retire_sql_day}
+			<if test="retire_day_sql != null">
+				AND retire_day = #{retire_day_sql}
 			</if>
 			<if test="join_gbn_code != null">
 				AND join_gbn_code = #{join_gbn_code}
 				AND job.code = join_gbn_code
 			</if>
 		</trim>
+	</select>
+	
+	<select id="getEmpList" parameterType="insaVO" resultType="insaVO">
+		SELECT
+			ROWNUM rno, R.*
+		FROM
+			(SELECT
+				sabun, insa.name, reg_no, hp, pos, join_day, retire_day, put_yn, salary
+			FROM
+				insa,
+				(SELECT
+					code, com.name pos
+				FROM
+					insa, insa_com com
+				WHERE
+					gubun = '직위'
+				) position,
+				(SELECT
+					code
+				FROM
+					insa, insa_com com
+				WHERE
+					gubun = '직종'
+				) job
+			<trim prefix="WHERE" prefixOverrides="AND \ OR">
+				<if test="sabun != 0">
+					AND sabun = #{sabun}
+				</if>
+				<if test="name != null">
+					AND name = LIKE '%' || #{name} ||'%'
+				</if>
+				<if test="join_yn != null">
+					AND join_yn = #{join_yn}
+				</if>
+				<if test="put_yn != null">
+					AND put_yn = #{put_yn}
+				</if>
+				<if test="pos_gbn_code != null">
+					AND pos_gbn_code = #{pos_gbn_code}
+					AND position.code = pos_gbn_code
+				</if>
+				<if test="join_day_sql != null">
+					AND join_day = #{join_day_sql}
+				</if>
+				<if test="retire_day_sql != null">
+					AND retire_day = #{retire_day_sql}
+				</if>
+				<if test="join_gbn_code != null">
+					AND join_gbn_code = #{join_gbn_code}
+					AND job.code = join_gbn_code
+				</if>
+			</trim>
+			ORDER BY
+				sabun) R
+		WHERE
+			rno BETWEEN #{startCont} AND #{endCont}
 	</select>
 	
 	<select id="getComList" resultType="comVO">
@@ -220,13 +262,13 @@
 			insa_com
 	</select>
 	
-	<select id="getInsaInfo" parameterType="insaVO" resultType="insaVO">
+	<select id="getInsaInfo" parameterType="int" resultType="insaVO">
 		SELECT
-			SABUN, JOIN_DAY join_sql_day, RETIRE_DAY retire_sql_day, PUT_YN,
+			SABUN, JOIN_DAY join_day_sql, RETIRE_DAY retire_day_sql, PUT_YN,
 			PHONE, HP, CARRIER, POS_GBN_CODE, CMP_REG_NO, CMP_REG_IMAGE, NAME,
 			SEX, YEARS, EMAIL, ZIP, ADDR1, ADDR2, DEPT_CODE, JOIN_GBN_CODE, ENG_NAME,
 			ID, SALARY, KOSA_REG_YN, KOSA_CLASS_CODE, MIL_YN, MIL_TYPE, REG_NO,
-			MIL_LEVEL, MIL_STARTDATE mil_sql_startdate, MIL_ENDDATE mil_sql_enddate,
+			MIL_LEVEL, MIL_STARTDATE mil_startdate_sql, MIL_ENDDATE mil_enddate_sql,
 			JOB_TYPE, GART_LEVEL, SELF_INTRO, CRM_NAME, JOIN_YN, ORI_PROFILE,
 			ORI_CMP_REG_IMG, ORI_CARRIER
 		FROM
@@ -244,35 +286,77 @@
 			id = #{id}
 	</select>
 	
-	<select id="input_YN_List" parameterType="insaVO" resultType="inputVO">
+	<select id="cntInputs" parameterType="insaVO" resultType="int">
 		SELECT
-			seq, sugst_money, current_salary, pjt_gbn_code, eqm_yn, work_area, wrk_posb_day wrk_posb_sql_day
+			COUNT(*)
 		FROM
 			insa_input_info
 		WHERE
-			sabun = ${sabun}
+			sabun = #{sabun}
 	</select>
 	
-	<select id="carrierList" parameterType="insaVO" resultType="carrierVO">
+	<select id="input_YN_List" parameterType="int" resultType="inputVO">
 		SELECT
-			seq, cmp_name_carrier, pos_gbn_code, respon_dept, work_cotents, work_start_day work_start_sql_day, work_end_day work_end_sql_day
+			ROWNUM rno, R.*
+		FROM
+			(SELECT
+				seq iseq, sugst_money, current_salary, pjt_gbn_code, eqm_yn, work_area, wrk_posb_day wrk_posb_day_sql
+			FROM
+				insa_input_info
+			WHERE
+				sabun = ${sabun}
+			ORDER BY
+				iseq) R
+	</select>
+	
+	<select id="cntCarriers" parameterType="insaVO" resultType="int">
+		SELECT
+			COUNT(*)
 		FROM
 			insa_carrier
 		WHERE
-			sabun = ${sabun}
+			sabun = #{sabun}
 	</select>
 	
-	<select id="acadList" parameterType="insaVO" resultType="acadVO">
+	<select id="carrierList" parameterType="int" resultType="carrierVO">
 		SELECT
-			seq, gart_year, gart_month, major_stud_gbn, gart_level, school_name
+			ROWNUM rno, R.*
+		FROM
+			(SELECT
+				seq cseq, cmp_name_carrier, pos_gbn_code, respon_dept, work_cotents, work_start_day work_start_day_sql, work_end_day work_end_day_sql
+			FROM
+				insa_carrier
+			WHERE
+				sabun = ${sabun}
+			ORDER BY
+				cseq) R
+	</select>
+	
+	<select id="cntAcads" parameterType="insaVO" resultType="int">
+		SELECT
+			COUNT(*)
 		FROM
 			insa_acad_ability
 		WHERE
-			sabun = ${sabun}
+			sabun = #{sabun}
+	</select>
+	
+	<select id="acadList" parameterType="int" resultType="acadVO">
+		SELECT
+			ROWNUM rno, R.*
+		FROM
+			(SELECT
+				seq aseq, gart_year, gart_month, major_stud_gbn, gart_level, school_name
+			FROM
+				insa_acad_ability
+			WHERE
+				sabun = ${sabun}
+			ORDER BY
+				aseq) R
 	</select>
 	
 	<insert id="addInput" parameterType="inputVO">
-		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
+		<selectKey keyProperty="iseq" resultType="int" order="BEFORE">
 			SELECT
 				NVL(MAX(seq) + 1, 1)
 			FROM
@@ -281,13 +365,13 @@
 		INSERT INTO
 			insa_input_info(seq, sabun, wrk_posb_day, sugst_money, pjt_gbn_code, eqm_yn, current_salary, work_area)
 		VALUES(
-			#{seq}, #{sabun}, #{wrk_posb_sql_day, jdbcType=DATE}, #{sugst_money, jdbcType=INTEGER},
+			#{iseq}, #{sabun}, #{wrk_posb_day_sql, jdbcType=DATE}, #{sugst_money, jdbcType=INTEGER},
 			#{pjt_gbn_code, jdbcType=VARCHAR}, #{eqm_yn, jdbcType=VARCHAR}, #{current_salary, jdbcType=INTEGER}, #{work_area, jdbcType=VARCHAR}
 		)
 	</insert>
 	
 	<insert id="addCarrier" parameterType="carrierVO">
-		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
+		<selectKey keyProperty="cseq" resultType="int" order="BEFORE">
 			SELECT
 				NVL(MAX(seq) + 1, 1)
 			FROM
@@ -296,14 +380,14 @@
 		INSERT INTO
 			insa_carrier(seq, sabun, cmp_name_carrier, work_start_day, work_end_day, pos_gbn_code, respon_dept, work_contents)
 		VALUES(
-			#{seq}, #{sabun}, #{cmp_name_carrier, jdbcType=VARCHAR}, #{work_start_sql_day, jdbcType=DATE},
-			#{work_end_sql_day, jdbcType=DATE}, #{pos_gbn_code, jdbcType=VARCHAR}, #{respon_dept, jdbcType=VARCHAR},
+			#{cseq}, #{sabun}, #{cmp_name_carrier, jdbcType=VARCHAR}, #{work_start_day_sql, jdbcType=DATE},
+			#{work_end_day_sql, jdbcType=DATE}, #{pos_gbn_code, jdbcType=VARCHAR}, #{respon_dept, jdbcType=VARCHAR},
 			#{work_contents, jdbcType=VARCHAR}
 		)
 	</insert>
 	
 	<insert id="addAcad" parameterType="acadVO">
-		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
+		<selectKey keyProperty="aseq" resultType="int" order="BEFORE">
 			SELECT
 				NVL(MAX(seq) + 1, 1)
 			FROM
@@ -312,17 +396,17 @@
 		INSERT INTO
 			insa_acad_ability(seq, sabun, gart_year, gart_month, major_stud_gbn, gart_level, school_name)
 		VALUES(
-			#{seq}, #{sabun}, #{gart_year, jdbcType=INTEGER}, #{gart_month, jdbcType=INTEGER}, #{major_stud_gbn, jdbcType=VARCHAR},
+			#{aseq}, #{sabun}, #{gart_year, jdbcType=INTEGER}, #{gart_month, jdbcType=INTEGER}, #{major_stud_gbn, jdbcType=VARCHAR},
 			#{gart_level, jdbcType=VARCHAR}, #{school_name, jdbcType=VARCHAR}
 		)
 	</insert>
 	
-	<update id="editInputInfo" keyProperty="inputVO">
+	<update id="editInputInfo" parameterType="inputVO">
 		UPDATE
 			insa_input_info
 		<trim prefix="SET" suffixOverrides=",">
-			<if test="wrk_posb_day != null">
-				wrk_posb_day = #{wrk_posb_sql_day},
+			<if test="wrk_posb_day_sql != null">
+				wrk_posb_day = #{wrk_posb_day_sql},
 			</if>
 			<if test="sugst_money != 0">
 				sugst_money = #{sugst_money},
@@ -341,22 +425,21 @@
 			</if>
 		</trim>
 		WHERE
-			seq = #{seq}
-			AND sabun = #{sabun}
+			seq = #{iseq}
 	</update>
 	
-	<update id="editCarrier" keyProperty="carrierVO">
+	<update id="editCarrier" parameterType="carrierVO">
 		UPDATE
 			insa_carrier
 		<trim prefix="SET" suffixOverrides=",">
 			<if test="cmp_name_carrier != null">
 				cmp_name_carrier = #{cmp_name_carrier},
 			</if>
-			<if test="work_start_day != null">
-				work_start_day = #{work_start_sql_day},
+			<if test="work_start_day_sql != null">
+				work_start_day = #{work_start_day_sql},
 			</if>
-			<if test="work_end_day != null">
-				work_end_day = #{work_end_day},
+			<if test="work_end_day_sql != null">
+				work_end_day = #{work_end_day_sql},
 			</if>
 			<if test="pos_gbn_code != null">
 				pos_gbn_code = #{pos_gbn_code},
@@ -369,22 +452,108 @@
 			</if>
 		</trim>
 		WHERE
-			seq = #{seq}
-			AND sabun = #{sabun}
+			seq = #{cseq}
 	</update>
 	
-	<insert id="copyInputToDel" keyProperty="inputVO">
+	<update id="editAcad" parameterType="acadVO">
+		UPDATE
+			insa_acad_ability
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="major_stud_gbn != null">
+				major_stud_gbn = #{major_stud_gbn},
+			</if>
+			<if test="gart_level != null">
+				gart_level = #{gart_level},
+			</if>
+			<if test="gart_year != 0">
+				gart_year = #{gart_year},
+			</if>
+			<if test="gart_month != 0">
+				gart_month = #{gart_month},
+			</if>
+			<if test="school_name != null">
+				school_name = #{school_name},
+			</if>
+		</trim>
+		WHERE
+			seq = #{aseq}
+	</update>
+	
+	<insert id="copyInputToDel" parameterType="inputVO">
 		INSERT INTO input_info_del
-		SELECT * FROM insa_input_info WHERE sabun = #{sabun} AND seq = #{seq}
+		SELECT * FROM insa_input_info
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="sabun != 0">
+				AND sabun = #{sabun}
+			</if>
+			<if test="iseq != 0">
+				AND seq = #{iseq}
+			</if>
+		</trim>
 	</insert>
 	
-	<insert id="copyAcadToDel" keyProperty="acadVO">
+	<insert id="copyAcadToDel" parameterType="acadVO">
 		INSERT INTO acad_del
-		SELECT * FROM insa_acad_ability WHERE sabun = #{sabun} AND seq = #{seq}
+		SELECT * FROM insa_acad_ability
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="sabun != 0">
+				AND sabun = #{sabun}
+			</if>
+			<if test="aseq != 0">
+				AND seq = #{aseq}
+			</if>
+		</trim>
 	</insert>
 	
-	<insert id="copyCarrierToDel" keyProperty="carrierVO">
+	<insert id="copyCarrierToDel" parameterType="carrierVO">
 		INSERT INTO carrier_del
-		SELECT * FROM insa_carrier WHERE sabun= #{sabun} AND seq = #{seq}
+		SELECT * FROM insa_carrier
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="sabun != 0">
+				AND sabun = #{sabun}
+			</if>
+			<if test="cseq != 0">
+				AND seq = #{cseq}
+			</if>
+		</trim>
 	</insert>
+	
+	<delete id="delInput" parameterType="inputVO">
+		DELETE FROM
+			insa_input_info
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="sabun != 0">
+				AND sabun = #{sabun}
+			</if>
+			<if test="iseq != 0">
+				AND seq = #{iseq}
+			</if>
+		</trim>
+	</delete>
+	
+	<delete id="delCarrier" parameterType="carrierVO">
+		DELETE FROM
+			insa_carrier
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="sabun != 0">
+				AND sabun = #{sabun}
+			</if>
+			<if test="cseq != 0">
+				AND seq = #{cseq}
+			</if>
+		</trim>
+	</delete>
+	
+	<delete id="delAcad" parameterType="acadVO">
+		DELETE FROM
+			insa_acad_ability
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="sabun != 0">
+				AND sabun = #{sabun}
+			</if>
+			<if test="aseq != 0">
+				AND seq = #{aseq}
+			</if>
+		</trim>
+	</delete>
 </mapper>

@@ -15,6 +15,8 @@ import org.springframework.web.servlet.*;
 import org.springframework.web.servlet.view.*;
 import com.pinosoft.hrm.VO.*;
 import com.pinosoft.hrm.service.*;
+import com.pinosoft.hrm.util.*;
+
 import java.util.*;
 import javax.servlet.http.*;
 
@@ -35,8 +37,21 @@ public class InsaController {
 	@RequestMapping("/insaListForm.do")
 	public ModelAndView showSearchList(ModelAndView mv) {
 		String view = "jsp/insaListForm";
+		List<InsaComVO> list = comSrvc.getComList();
+		
+		mv.addObject("COMLIST", list);
 		mv.setViewName(view);
 		return mv;
+	}
+	
+	// 직원 조회리스트
+	@RequestMapping("emp.search")
+	@ResponseBody
+	public List<InsaVO> showSearchList(PageUtil page, InsaVO insaVO) {
+		int totalCont = comSrvc.cntEmp(insaVO);
+		page = comSrvc.pageSetting(insaVO, page, totalCont);
+		List<InsaVO> list = comSrvc.empList(insaVO, page);
+		return list;
 	}
 	
 	// 직원 등록페이지
@@ -56,7 +71,6 @@ public class InsaController {
 		insaVO = comSrvc.uploadImg(insaVO, imgVO, session);
 		comSrvc.regEmp(insaVO);
 		
-		mv.clear();
 		mv.setView(new RedirectView("/hrm/insaInputForm.do"));
 		return mv;
 	}
