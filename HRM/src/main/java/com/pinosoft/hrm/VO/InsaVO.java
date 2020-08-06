@@ -22,22 +22,22 @@ public class InsaVO implements DateParser {
 					job_type, gart_level, self_intro, crm_name, profile, join_yn,
 					ori_profile, ori_cmp_reg_img,ori_carrier,
 					join_day, retire_day, mil_startdate, mil_enddate;
-	private Date join_sql_day, retire_sql_day, mil_sql_startdate, mil_sql_enddate;
+	private Date join_day_sql, retire_day_sql, mil_startdate_sql, mil_enddate_sql;
 	
 	@Override
 	public void db_to_view_format() {
-		this.join_day = FORM.format(join_sql_day);
-		this.retire_day = FORM.format(retire_sql_day);
-		this.mil_startdate = FORM.format(retire_sql_day);
-		this.mil_enddate = FORM.format(retire_sql_day);
+		this.join_day = FORM.format(join_day_sql);
+		this.retire_day = FORM.format(retire_day_sql);
+		this.mil_startdate = FORM.format(retire_day_sql);
+		this.mil_enddate = FORM.format(retire_day_sql);
 	}
 	@Override
 	public void view_to_db_parse() {
 		try {
-			this.join_sql_day = (Date) FORM.parse(join_day);
-			this.retire_sql_day = (Date) FORM.parse(retire_day);
-			this.mil_sql_startdate = (Date) FORM.parse(mil_startdate);
-			this.mil_sql_enddate = (Date) FORM.parse(mil_enddate);
+			this.join_day_sql = (Date) FORM.parse(join_day);
+			this.retire_day_sql = (Date) FORM.parse(retire_day);
+			this.mil_startdate_sql = (Date) FORM.parse(mil_startdate);
+			this.mil_enddate_sql = (Date) FORM.parse(mil_enddate);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
