@@ -44,7 +44,11 @@ $(document).ready(function() {
 		);
 	});
 
-	$('#salary_input').focusout(function(){
+	$('#salary_input').focus(function(){
+		let sal = $(this).val();
+		sal = sal.replace(/\,/g, "");
+		$(this).val(sal);
+	}).focusout(function(){
 		let sal = $(this).val();
 		if(sal != null) {
 			$('#salary').val(sal);
@@ -210,6 +214,7 @@ $(document).ready(function() {
 		var domain = $('#domain').val();
 		var email = $('#email').val();
 		var hp = $('#hp').val();
+		var join_day = $('#join_day').val();
 		
 		if(idck == 'N') {
 			alert('아이디를 확인해주세요.');
@@ -235,7 +240,11 @@ $(document).ready(function() {
 			return;
 		}
 		
-		alert($('#profileimg').val());
+		if(join_day == null || join_day.length == 0) {
+			alert('입사일자를 확인해주세요.');
+			$('#join_day').focus();
+			return;
+		}
 		
 		email = mail + '@' + domain;
 		$('#email').val(email);

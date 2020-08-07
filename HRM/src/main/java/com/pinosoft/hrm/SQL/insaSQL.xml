@@ -17,7 +17,7 @@
 				 MIL_LEVEL, MIL_STARTDATE, MIL_ENDDATE, JOB_TYPE, GART_LEVEL, SELF_INTRO,
 				 CRM_NAME, JOIN_YN, ORI_PROFILE, ORI_CMP_REG_IMG, ORI_CARRIER, PROFILE)
 		VALUES(
-			#{sabun}, #{join_day_sql, jdbcType=DATE}, #{retire_day_sql, jdbcType=DATE}, #{put_yn, jdbcType=VARCHAR},
+			#{sabun}, #{join_day, jdbcType=DATE}, #{retire_day, jdbcType=DATE}, #{put_yn, jdbcType=VARCHAR},
 			#{name}, #{reg_no, jdbcType=VARCHAR}, #{eng_name, jdbcType=VARCHAR}, #{phone, jdbcType=VARCHAR},
 			#{hp}, #{carrier, jdbcType=VARCHAR}, #{pos_gbn_code, jdbcType=VARCHAR}, #{cmp_reg_no, jdbcType=VARCHAR},
 			#{cmp_reg_image, jdbcType=VARCHAR}, #{sex, jdbcType=VARCHAR}, #{years, jdbcType=INTEGER},
@@ -25,7 +25,7 @@
 			#{addr2, jdbcType=VARCHAR}, #{dept_code, jdbcType=VARCHAR}, #{join_gbn_code, jdbcType=VARCHAR},
 			#{id}, #{pwd}, #{salary, jdbcType=INTEGER}, #{kosa_reg_yn, jdbcType=VARCHAR}, #{kosa_class_code, jdbcType=VARCHAR},
 			#{mil_yn, jdbcType=VARCHAR}, #{mil_type, jdbcType=VARCHAR}, #{mil_level, jdbcType=VARCHAR},
-			#{mil_startdate_sql, jdbcType=DATE}, #{mil_enddate_sql, jdbcType=DATE}, #{job_type, jdbcType=VARCHAR},
+			#{mil_startdate, jdbcType=DATE}, #{mil_enddate, jdbcType=DATE}, #{job_type, jdbcType=VARCHAR},
 			#{gart_level, jdbcType=VARCHAR}, #{self_intro, jdbcType=VARCHAR}, #{crm_name, jdbcType=VARCHAR},
 			#{join_yn, jdbcType=VARCHAR}, #{ori_profile, jdbcType=VARCHAR}, #{ori_cmp_reg_img, jdbcType=VARCHAR},
 			#{ori_carrier, jdbcType=VARCHAR}, #{profile, jdbcType=VARCHAR}
@@ -41,14 +41,20 @@
 		UPDATE
 			insa
 		<trim prefix="SET" suffixOverrides=",">
-			<if test="join_day_sql != null">
-				join_day = #{join_day_sql},
+			<if test="sabun != 0">
+				sabun = #{sabun},
 			</if>
-			<if test="retire_day_sql != null">
-				retire_day = #{retire_day_sql},
+			<if test="join_day != null">
+				join_day = #{join_day},
+			</if>
+			<if test="retire_day != null">
+				retire_day = #{retire_day},
 			</if>
 			<if test="put_yn != null">
 				put_yn = #{put_yn},
+			</if>
+			<if test="name != null">
+				name = #{name},
 			</if>
 			<if test="reg_no != null">
 				reg_no = #{reg_no},
@@ -83,7 +89,7 @@
 			<if test="email != null">
 				email = #{email},
 			</if>
-			<if test="zip != null">
+			<if test="zip != 0">
 				zip = #{zip},
 			</if>
 			<if test="addr1 != null">
@@ -97,6 +103,9 @@
 			</if>
 			<if test="join_gbn_code != null">
 				join_gbn_code = #{join_gbn_code},
+			</if>
+			<if test="id != null">
+				id = #{id},
 			</if>
 			<if test="pwd != null">
 				pwd = #{pwd},
@@ -119,11 +128,11 @@
 			<if test="mil_level != null">
 				mil_level = #{mil_level},
 			</if>
-			<if test="mil_startdate_sql != null">
-				mil_startdate = #{mil_startdate_sql},
+			<if test="mil_startdate != null">
+				mil_startdate = #{mil_startdate},
 			</if>
-			<if test="mil_enddate_sql != null">
-				mil_enddate = #{mil_enddate_sql},
+			<if test="mil_enddate != null">
+				mil_enddate = #{mil_enddate},
 			</if>
 			<if test="job_type != null">
 				job_type = #{job_type},
@@ -137,9 +146,6 @@
 			<if test="crm_name != null">
 				crm_name = #{crm_name},
 			</if>
-			<if test="profile != null">
-				profile = #{profile},
-			</if>
 			<if test="join_yn != null">
 				join_yn = #{join_yn},
 			</if>
@@ -151,6 +157,9 @@
 			</if>
 			<if test="ori_carrier != null">
 				ori_carrier = #{ori_carrier},
+			</if>
+			<if test="profile != null">
+				profile = #{profile},
 			</if>
 		</trim>
 		WHERE
@@ -168,7 +177,21 @@
 		SELECT
 			COUNT(*)
 		FROM
-			insa
+			insa,
+			(SELECT
+				code, com.name pos
+			FROM
+				insa, insa_com com
+			WHERE
+				gubun = '직위'
+			) position,
+			(SELECT
+				code
+			FROM
+				insa, insa_com com
+			WHERE
+				gubun = '직종'
+			) job
 		<trim prefix="WHERE" prefixOverrides="AND \ OR">
 			<if test="sabun != 0">
 				AND sabun = #{sabun}
@@ -186,11 +209,11 @@
 				AND pos_gbn_code = #{pos_gbn_code}
 				AND position.code = pos_gbn_code
 			</if>
-			<if test="join_day_sql != null">
-				AND join_day = #{join_day_sql}
+			<if test="join_day != null">
+				AND join_day = #{join_day}
 			</if>
-			<if test="retire_day_sql != null">
-				AND retire_day = #{retire_day_sql}
+			<if test="retire_day != null">
+				AND retire_day = #{retire_day}
 			</if>
 			<if test="join_gbn_code != null">
 				AND join_gbn_code = #{join_gbn_code}
@@ -204,7 +227,7 @@
 			ROWNUM rno, R.*
 		FROM
 			(SELECT
-				sabun, insa.name, reg_no, hp, pos, join_day, retire_day, put_yn, salary
+				sabun, insa.name, reg_no, hp, pos, join_day join_day_sql, retire_day retire_day_sql, put_yn, salary
 			FROM
 				insa,
 				(SELECT
@@ -238,11 +261,11 @@
 					AND pos_gbn_code = #{pos_gbn_code}
 					AND position.code = pos_gbn_code
 				</if>
-				<if test="join_day_sql != null">
-					AND join_day = #{join_day_sql}
+				<if test="join_day != null">
+					AND join_day = #{join_day}
 				</if>
-				<if test="retire_day_sql != null">
-					AND retire_day = #{retire_day_sql}
+				<if test="retire_day != null">
+					AND retire_day = #{retire_day}
 				</if>
 				<if test="join_gbn_code != null">
 					AND join_gbn_code = #{join_gbn_code}
@@ -264,13 +287,12 @@
 	
 	<select id="getInsaInfo" parameterType="int" resultType="insaVO">
 		SELECT
-			SABUN, JOIN_DAY join_day_sql, RETIRE_DAY retire_day_sql, PUT_YN,
-			PHONE, HP, CARRIER, POS_GBN_CODE, CMP_REG_NO, CMP_REG_IMAGE, NAME,
-			SEX, YEARS, EMAIL, ZIP, ADDR1, ADDR2, DEPT_CODE, JOIN_GBN_CODE, ENG_NAME,
-			ID, SALARY, KOSA_REG_YN, KOSA_CLASS_CODE, MIL_YN, MIL_TYPE, REG_NO,
+			SABUN, JOIN_DAY join_day_sql, RETIRE_DAY retire_day_sql, PUT_YN, NAME,
+			REG_NO, ENG_NAME, PHONE, HP, CARRIER, POS_GBN_CODE, CMP_REG_NO, CMP_REG_IMAGE,
+			SEX, YEARS, EMAIL, ZIP, ADDR1, ADDR2, DEPT_CODE, JOIN_GBN_CODE, JOB_TYPE,
+			ID, PWD, SALARY, KOSA_REG_YN, KOSA_CLASS_CODE, MIL_YN, MIL_TYPE, CRM_NAME,
 			MIL_LEVEL, MIL_STARTDATE mil_startdate_sql, MIL_ENDDATE mil_enddate_sql,
-			JOB_TYPE, GART_LEVEL, SELF_INTRO, CRM_NAME, JOIN_YN, ORI_PROFILE,
-			ORI_CMP_REG_IMG, ORI_CARRIER
+			GART_LEVEL, SELF_INTRO, JOIN_YN, ORI_PROFILE, ORI_CMP_REG_IMG, ORI_CARRIER, PROFILE
 		FROM
 			insa
 		WHERE
@@ -365,7 +387,7 @@
 		INSERT INTO
 			insa_input_info(seq, sabun, wrk_posb_day, sugst_money, pjt_gbn_code, eqm_yn, current_salary, work_area)
 		VALUES(
-			#{iseq}, #{sabun}, #{wrk_posb_day_sql, jdbcType=DATE}, #{sugst_money, jdbcType=INTEGER},
+			#{iseq}, #{sabun}, #{wrk_posb_day, jdbcType=DATE}, #{sugst_money, jdbcType=INTEGER},
 			#{pjt_gbn_code, jdbcType=VARCHAR}, #{eqm_yn, jdbcType=VARCHAR}, #{current_salary, jdbcType=INTEGER}, #{work_area, jdbcType=VARCHAR}
 		)
 	</insert>
@@ -380,8 +402,8 @@
 		INSERT INTO
 			insa_carrier(seq, sabun, cmp_name_carrier, work_start_day, work_end_day, pos_gbn_code, respon_dept, work_contents)
 		VALUES(
-			#{cseq}, #{sabun}, #{cmp_name_carrier, jdbcType=VARCHAR}, #{work_start_day_sql, jdbcType=DATE},
-			#{work_end_day_sql, jdbcType=DATE}, #{pos_gbn_code, jdbcType=VARCHAR}, #{respon_dept, jdbcType=VARCHAR},
+			#{cseq}, #{sabun}, #{cmp_name_carrier, jdbcType=VARCHAR}, #{work_start_day, jdbcType=DATE},
+			#{work_end_day, jdbcType=DATE}, #{pos_gbn_code, jdbcType=VARCHAR}, #{respon_dept, jdbcType=VARCHAR},
 			#{work_contents, jdbcType=VARCHAR}
 		)
 	</insert>
@@ -405,8 +427,8 @@
 		UPDATE
 			insa_input_info
 		<trim prefix="SET" suffixOverrides=",">
-			<if test="wrk_posb_day_sql != null">
-				wrk_posb_day = #{wrk_posb_day_sql},
+			<if test="wrk_posb_day != null">
+				wrk_posb_day = #{wrk_posb_day},
 			</if>
 			<if test="sugst_money != 0">
 				sugst_money = #{sugst_money},
@@ -435,11 +457,11 @@
 			<if test="cmp_name_carrier != null">
 				cmp_name_carrier = #{cmp_name_carrier},
 			</if>
-			<if test="work_start_day_sql != null">
-				work_start_day = #{work_start_day_sql},
+			<if test="work_start_day != null">
+				work_start_day = #{work_start_day},
 			</if>
-			<if test="work_end_day_sql != null">
-				work_end_day = #{work_end_day_sql},
+			<if test="work_end_day != null">
+				work_end_day = #{work_end_day},
 			</if>
 			<if test="pos_gbn_code != null">
 				pos_gbn_code = #{pos_gbn_code},

@@ -31,17 +31,4 @@ public class InsaVO implements DateParser {
 		this.mil_startdate = FORM.format(retire_day_sql);
 		this.mil_enddate = FORM.format(retire_day_sql);
 	}
-	@Override
-	public void view_to_db_parse() {
-		try {
-			this.join_day_sql = (Date) FORM.parse(join_day);
-			this.retire_day_sql = (Date) FORM.parse(retire_day);
-			this.mil_startdate_sql = (Date) FORM.parse(mil_startdate);
-			this.mil_enddate_sql = (Date) FORM.parse(mil_enddate);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
 }

@@ -13,5 +13,4 @@ import java.text.*;
 public interface DateParser {
 	SimpleDateFormat FORM = new SimpleDateFormat("yyyy-MM-dd");
 	public void db_to_view_format();
-	public void view_to_db_parse();
 }

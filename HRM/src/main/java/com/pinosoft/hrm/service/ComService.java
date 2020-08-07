@@ -36,12 +36,6 @@ public class ComService {
 		return cnt;
 	}
 	
-	// 날짜 db용(Date 타입)으로 변환 함수
-	public DateParser viewToDbDate(DateParser vo) {
-		vo.view_to_db_parse();
-		return vo;
-	}
-	
 	// 날짜 view용(String 타입)으로 변환 함수
 	public DateParser dbToViewString(DateParser vo) {
 		vo.db_to_view_format();
@@ -50,7 +44,6 @@ public class ComService {
 	
 	// 직원 등록 처리 함수
 	public void regEmp(InsaVO insaVO) {
-		insaVO = (InsaVO) viewToDbDate(insaVO);
 		dao.regEmp(insaVO);
 	}
 	
@@ -109,7 +102,6 @@ public class ComService {
 	
 	// 특정 직원의 정보를 수정하는 함수
 	public void editEmpInfo(InsaVO insaVO) {
-		insaVO = (InsaVO)viewToDbDate(insaVO);
 		dao.editEmp(insaVO);
 	}
 	
@@ -158,7 +150,6 @@ public class ComService {
 	
 	// 직원의 투입 가능 정보를 추가하는 함수
 	public void addInputCol(InsaInputVO inputVO) {
-		inputVO = (InsaInputVO) viewToDbDate(inputVO);
 		dao.addInput(inputVO);
 	}
 	
@@ -169,13 +160,11 @@ public class ComService {
 	
 	// 직원의 경력사항 정보를 추가하는 함수
 	public void addCarrierCol(InsaCarrierVO carrierVO) {
-		carrierVO = (InsaCarrierVO)viewToDbDate(carrierVO);
 		dao.addCarrier(carrierVO);
 	}
 	
 	// 직원의 투입 가능 정보를 수정하는 함수
 	public void editInputInfo(InsaInputVO inputVO) {
-		inputVO = (InsaInputVO)viewToDbDate(inputVO);
 		dao.editInputInfo(inputVO);
 	}
 	
@@ -186,7 +175,6 @@ public class ComService {
 	
 	// 직원의 경력사항 정보를 수정하는 함수
 	public void editCarrier(InsaCarrierVO carrierVO) {
-		carrierVO = (InsaCarrierVO)viewToDbDate(carrierVO);
 		dao.editCarrier(carrierVO);
 	}
 	

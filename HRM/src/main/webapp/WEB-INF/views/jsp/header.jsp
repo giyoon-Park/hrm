@@ -3,17 +3,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title></title>
-<link rel="stylesheet" href="/hrm/css/bootstrap.min.css">
-<style>
-	.bg-gray {
-		background-color: gray;
-	}
-</style>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" href="/hrm/css/bootstrap.min.css">
 </head>
 <body>
-	<div class="mb-3 bg-gray mx-5">
+	<div class="mb-3 bg-secondary mx-5">
 		<div class="float-left">
 			<h3><a href="/hrm/index.do">PINO SOFT</a></h3>
 		</div>

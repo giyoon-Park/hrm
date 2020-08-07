@@ -23,12 +23,4 @@ public class InsaInputVO implements DateParser {
 	public void db_to_view_format() {
 		this.wrk_posb_day = FORM.format(wrk_posb_day_sql);
 	}
-	@Override
-	public void view_to_db_parse() {
-		try {
-			this.wrk_posb_day_sql = (Date) FORM.parse(wrk_posb_day);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 }

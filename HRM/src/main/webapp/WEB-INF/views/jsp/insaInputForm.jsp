@@ -5,7 +5,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title></title>
+    <title>직원 등록</title>
     <link rel="stylesheet" href="/hrm/css/jquery-ui.min.css" />
     <link rel="stylesheet" href="/hrm/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/hrm/css/inputForm.css" />
@@ -167,7 +167,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                   <datalist id="mil_type_list">
                     <c:forEach var="com" items="${COMLIST}">
                       <c:if test="${com.gubun eq '군별'}">
-                        <option value="${com.code}">${com.name}</option>
+                        <option value="${com.name}">${com.name}</option>
                       </c:if>
                     </c:forEach>
                   </datalist>
@@ -314,7 +314,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                   <datalist id="pos_gbn_code_list">
                     <c:forEach var="com" items="${COMLIST}">
                       <c:if test="${com.gubun eq '직위'}">
-                        <option value="${com.code}">${com.name}</option>
+                        <option value="${com.name}">${com.name}</option>
                       </c:if>
                     </c:forEach>
                   </datalist>
@@ -336,7 +336,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                   <datalist id="gart_level_list">
                     <c:forEach var="com" items="${COMLIST}">
                       <c:if test="${com.gubun eq '등급'}">
-                        <option value="${com.code}">${com.name}</option>
+                        <option value="${com.name}">${com.name}</option>
                       </c:if>
                     </c:forEach>
                   </datalist>
@@ -359,7 +359,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                   <datalist id="mil_level_list">
                     <c:forEach var="com" items="${COMLIST}">
                       <c:if test="${com.gubun eq '계급'}">
-                        <option value="${com.code}">${com.name}</option>
+                        <option value="${com.name}">${com.name}</option>
                       </c:if>
                     </c:forEach>
                   </datalist>
@@ -382,7 +382,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                   <datalist id="kosa_class_code_list">
                     <c:forEach var="com" items="${COMLIST}">
                       <c:if test="${com.gubun eq 'KOSA등급'}">
-                        <option value="${com.code}">${com.name}</option>
+                        <option value="${com.name}">${com.name}</option>
                       </c:if>
                     </c:forEach>
                   </datalist>
@@ -514,7 +514,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                   <datalist id="dept_codeList">
                     <c:forEach var="com" items="${COMLIST}">
                       <c:if test="${com.gubun eq '부서'}">
-                        <option value="${com.code}">${com.name}</option>
+                        <option value="${com.name}">${com.name}</option>
                       </c:if>
                     </c:forEach>
                   </datalist>
@@ -645,7 +645,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                   <datalist id="join_gbn_codeList">
                     <c:forEach var="com" items="${COMLIST}">
                       <c:if test="${com.gubun eq '직종'}">
-                        <option value="${com.code}">${com.name}</option>
+                        <option value="${com.name}">${com.name}</option>
                       </c:if>
                     </c:forEach>
                   </datalist>
@@ -713,7 +713,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                   <datalist id="mil_ynList">
                     <c:forEach var="com" items="${COMLIST}">
                       <c:if test="${com.gubun eq '군필여부'}">
-                        <option value="${com.code}">${com.name}</option>
+                        <option value="${com.name}">${com.name}</option>
                       </c:if>
                     </c:forEach>
                   </datalist>

@@ -24,13 +24,4 @@ public class InsaCarrierVO implements DateParser {
 		this.work_start_day = FORM.format(work_end_day_sql);
 		this.work_end_day = FORM.format(work_end_day_sql);
 	}
-	@Override
-	public void view_to_db_parse() {
-		try {
-			this.work_start_day_sql = (Date) FORM.parse(work_start_day);
-			this.work_end_day_sql = (Date) FORM.parse(work_end_day);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 }

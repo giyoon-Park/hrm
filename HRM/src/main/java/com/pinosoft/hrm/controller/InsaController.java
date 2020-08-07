@@ -45,13 +45,16 @@ public class InsaController {
 	}
 	
 	// 직원 조회리스트
-	@RequestMapping("emp.search")
+	@RequestMapping("/emp.search")
 	@ResponseBody
-	public List<InsaVO> showSearchList(PageUtil page, InsaVO insaVO) {
+	public HashMap<String, Object> showSearchList(InsaVO insaVO, PageUtil page) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		int totalCont = comSrvc.cntEmp(insaVO);
 		page = comSrvc.pageSetting(insaVO, page, totalCont);
 		List<InsaVO> list = comSrvc.empList(insaVO, page);
-		return list;
+		map.put("LIST", list);
+		map.put("PAGE", page);
+		return map;
 	}
 	
 	// 직원 등록페이지
@@ -85,8 +88,8 @@ public class InsaController {
 	}
 	
 	// 직원 수정페이지
-	@RequestMapping("/insaUpdateForm.do")
-	public ModelAndView showUpdateForm(ModelAndView mv, @RequestAttribute int sabun) {
+	@RequestMapping("/insaUpdateForm.do/{sabun}")
+	public ModelAndView showUpdateForm(ModelAndView mv, @RequestParam("ssabun") @PathVariable int sabun) {
 		String view = "jsp/insaUpdateForm";
 		List<InsaComVO> list = comSrvc.getComList();
 		InsaVO insaVO = comSrvc.empInfo(sabun);
@@ -121,17 +124,5 @@ public class InsaController {
 		req.setAttribute("sabun", sabun);
 		mv.setView(new RedirectView("/hrm/insaUpdateForm.do"));
 		return mv;
-	}
-	
-	// 직원 투입 정보 추가 및 수정 처리
-	@RequestMapping("/inputAddAndUpdateProc.do")
-	@ResponseBody
-	public HashMap<String, Integer> inputAAU(@RequestParam("inputVOList") List<InsaInputVO> list) {
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		for (InsaInputVO inputVO : list) {
-			
-		}
-		
-		return map;
 	}
 }
