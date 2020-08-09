@@ -90,6 +90,11 @@ public class ComService {
 		insaVO.setEndCont(page.getEndCont());
 		
 		List<InsaVO> list = dao.getEmpList(insaVO);
+		
+		for (InsaVO vo : list) {
+			vo = (InsaVO) dbToViewString(vo);
+		}
+		
 		return list;
 	}
 	

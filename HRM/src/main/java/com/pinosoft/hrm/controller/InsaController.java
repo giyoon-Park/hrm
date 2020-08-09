@@ -10,6 +10,7 @@ package com.pinosoft.hrm.controller;
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.*;
 import org.springframework.web.servlet.view.*;
@@ -46,15 +47,13 @@ public class InsaController {
 	
 	// 직원 조회리스트
 	@RequestMapping("/emp.search")
-	@ResponseBody
-	public HashMap<String, Object> showSearchList(InsaVO insaVO, PageUtil page) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
+	public String showSearchList(InsaVO insaVO, PageUtil page, Model model) {
 		int totalCont = comSrvc.cntEmp(insaVO);
 		page = comSrvc.pageSetting(insaVO, page, totalCont);
 		List<InsaVO> list = comSrvc.empList(insaVO, page);
-		map.put("LIST", list);
-		map.put("PAGE", page);
-		return map;
+		model.addAttribute("LIST", list);
+		model.addAttribute("PAGE", page);
+		return "jsp/empListAjax";
 	}
 	
 	// 직원 등록페이지

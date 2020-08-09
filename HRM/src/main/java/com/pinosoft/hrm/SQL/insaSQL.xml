@@ -177,27 +177,13 @@
 		SELECT
 			COUNT(*)
 		FROM
-			insa,
-			(SELECT
-				code, com.name pos
-			FROM
-				insa, insa_com com
-			WHERE
-				gubun = '직위'
-			) position,
-			(SELECT
-				code
-			FROM
-				insa, insa_com com
-			WHERE
-				gubun = '직종'
-			) job
-		<trim prefix="WHERE" prefixOverrides="AND \ OR">
+			insa
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
 			<if test="sabun != 0">
 				AND sabun = #{sabun}
 			</if>
 			<if test="name != null">
-				AND name = LIKE '%' || #{name} ||'%'
+				AND name LIKE '%'||#{name}||'%'
 			</if>
 			<if test="join_yn != null">
 				AND join_yn = #{join_yn}
@@ -207,7 +193,6 @@
 			</if>
 			<if test="pos_gbn_code != null">
 				AND pos_gbn_code = #{pos_gbn_code}
-				AND position.code = pos_gbn_code
 			</if>
 			<if test="join_day != null">
 				AND join_day = #{join_day}
@@ -217,63 +202,50 @@
 			</if>
 			<if test="join_gbn_code != null">
 				AND join_gbn_code = #{join_gbn_code}
-				AND job.code = join_gbn_code
 			</if>
 		</trim>
 	</select>
 	
 	<select id="getEmpList" parameterType="insaVO" resultType="insaVO">
 		SELECT
-			ROWNUM rno, R.*
+			*
 		FROM
 			(SELECT
-				sabun, insa.name, reg_no, hp, pos, join_day join_day_sql, retire_day retire_day_sql, put_yn, salary
+				ROWNUM rno, R.*
 			FROM
-				insa,
 				(SELECT
-					code, com.name pos
+					sabun, name, RPAD(SUBSTR(reg_no, 1, 8), 14, '*') reg_no, hp, pos_gbn_code, join_day join_day_sql, retire_day retire_day_sql, put_yn, salary
 				FROM
-					insa, insa_com com
-				WHERE
-					gubun = '직위'
-				) position,
-				(SELECT
-					code
-				FROM
-					insa, insa_com com
-				WHERE
-					gubun = '직종'
-				) job
-			<trim prefix="WHERE" prefixOverrides="AND \ OR">
-				<if test="sabun != 0">
-					AND sabun = #{sabun}
-				</if>
-				<if test="name != null">
-					AND name = LIKE '%' || #{name} ||'%'
-				</if>
-				<if test="join_yn != null">
-					AND join_yn = #{join_yn}
-				</if>
-				<if test="put_yn != null">
-					AND put_yn = #{put_yn}
-				</if>
-				<if test="pos_gbn_code != null">
-					AND pos_gbn_code = #{pos_gbn_code}
-					AND position.code = pos_gbn_code
-				</if>
-				<if test="join_day != null">
-					AND join_day = #{join_day}
-				</if>
-				<if test="retire_day != null">
-					AND retire_day = #{retire_day}
-				</if>
-				<if test="join_gbn_code != null">
-					AND join_gbn_code = #{join_gbn_code}
-					AND job.code = join_gbn_code
-				</if>
-			</trim>
-			ORDER BY
-				sabun) R
+					insa
+				<trim prefix="WHERE" prefixOverrides="AND | OR">
+					<if test="sabun != 0">
+						AND sabun = #{sabun}
+					</if>
+					<if test="name != null">
+						AND name LIKE '%'||#{name}||'%'
+					</if>
+					<if test="join_yn != null">
+						AND join_yn = #{join_yn}
+					</if>
+					<if test="put_yn != null">
+						AND put_yn = #{put_yn}
+					</if>
+					<if test="pos_gbn_code != null">
+						AND pos_gbn_code = #{pos_gbn_code}
+					</if>
+					<if test="join_day != null">
+						AND join_day = #{join_day}
+					</if>
+					<if test="retire_day != null">
+						AND retire_day = #{retire_day}
+					</if>
+					<if test="join_gbn_code != null">
+						AND join_gbn_code = #{join_gbn_code}
+					</if>
+				</trim>
+				ORDER BY
+					sabun) R
+			)
 		WHERE
 			rno BETWEEN #{startCont} AND #{endCont}
 	</select>

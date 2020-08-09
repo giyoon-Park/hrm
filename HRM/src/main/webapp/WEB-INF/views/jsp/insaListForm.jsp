@@ -76,7 +76,7 @@
 								<datalist id="pos_gbn_code_list">
 									<c:forEach var="com" items="${COMLIST}">
 										<c:if test="${com.gubun eq '직위'}">
-											<option value="${com.code}">${com.name}</option>
+											<option value="${com.name}">${com.name}</option>
 										</c:if>
 									</c:forEach>
 								</datalist>
@@ -187,7 +187,7 @@
 								<datalist id="join_gbn_codeList">
 									<c:forEach var="com" items="${COMLIST}">
 										<c:if test="${com.gubun eq '직종'}">
-											<option value="${com.code}">${com.name}</option>
+											<option value="${com.name}">${com.name}</option>
 										</c:if>
 									</c:forEach>
 								</datalist>
@@ -217,11 +217,9 @@
 				<input type="hidden" name="nowPage" id="nowPage">
 			</form>
 			<br />
+			<div id="dnonelist" class="dnone"></div>
 			<hr />
 			<table class="table table-hover table-bordered" id="emptable">
-				<form name="frminfo" id="frminfo" method="POST">
-					
-				</form>
 				<thead>
 					<tr>
 						<th>사번</th>
@@ -235,9 +233,13 @@
 						<th>연봉</th>
 					</tr>
 				</thead>
-				<td class="noresult center" id="noresult" colspan="9">검색된 데이터가 없습니다.</td>
+				<tbody id="emplist">
+					<tr>
+						<td class="noresult center" id="noresult" colspan="9">검색된 데이터가 없습니다.</td>
+					<tr>
+				</tbody>
 			</table>
-			<div class="float-center mt-2" id="paging">
+			<div class="center mt-2" id="paging">
 			</div>
 		</div>
 	</div>
