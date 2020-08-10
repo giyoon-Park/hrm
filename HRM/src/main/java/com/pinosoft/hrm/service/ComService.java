@@ -79,6 +79,7 @@ public class ComService {
 		}
 	}
 	
+	// 페이징 처리 함수
 	public PageUtil pageSetting(InsaVO insaVO, PageUtil page, int totalCont) {
 		if(page.getNowPage() == 0) {
 			page.setNowPage(1);

@@ -38,8 +38,9 @@ $(document).ready(function() {
 	
 	$('.content').click(function(){
 		var sabun = $(this).attr('id');
+		$('#eno').val(sabun);
 
-		$('#frmsch').attr('action', '/hrm/insaUpdateForm.do?sabun=' + sabun);
-		$('#frmsch').submit();
+		$('#frminfo').attr('action', '/hrm/insaUpdateForm.do');
+		$('#frminfo').submit();
 	})
 });

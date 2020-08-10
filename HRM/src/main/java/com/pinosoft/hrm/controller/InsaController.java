@@ -84,25 +84,28 @@ public class InsaController {
 	
 	// 직원 수정페이지
 	@RequestMapping("/insaUpdateForm.do")
-	public ModelAndView showUpdateForm(ModelAndView mv, @RequestParam int sabun) {
+	public ModelAndView showUpdateForm(ModelAndView mv, int eno) {
 		String view = "jsp/insaUpdateForm";
-		List<InsaComVO> list = comSrvc.getComList();
-		InsaVO insaVO = comSrvc.empInfo(sabun);
+		List<InsaComVO> comlist = comSrvc.getComList();
+		InsaVO insaVO = comSrvc.empInfo(eno);
+		
+		int inputs = comSrvc.cntInputs(insaVO);
+		int acads = comSrvc.cntAcads(insaVO);
+		int carriers = comSrvc.cntCarriers(insaVO);
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("inputs", inputs);
+		map.put("acads", acads);
+		map.put("carriers", carriers);
 		
-		List<InsaInputVO> inputList = comSrvc.empInputList(sabun);
-		List<InsaAcadVO> acadList = comSrvc.empAcadList(sabun);
-		List<InsaCarrierVO> carrierList = comSrvc.empCarrierList(sabun);
+		List<InsaInputVO> inputlist = comSrvc.empInputList(eno);
+		List<InsaAcadVO> acadlist = comSrvc.empAcadList(eno);
+		List<InsaCarrierVO> carrierlist = comSrvc.empCarrierList(eno);
 		
-		map.put("input", comSrvc.cntInputs(insaVO));
-		map.put("carrier", comSrvc.cntCarriers(insaVO));
-		map.put("acad", comSrvc.cntAcads(insaVO));
-		
-		mv.addObject("COMLIST", list);
-		mv.addObject("EMPINFO", insaVO);
-		mv.addObject("INPUTLIST", inputList);
-		mv.addObject("ACADLIST", acadList);
-		mv.addObject("CARRIERLIST", carrierList);
+		mv.addObject("COMLIST", comlist);
+		mv.addObject("PARAM", insaVO);
+		mv.addObject("INPUT", inputlist);
+		mv.addObject("ACAD", acadlist);
+		mv.addObject("CARRIER", carrierlist);
 		mv.addObject("COUNTS", map);
 		mv.setViewName(view);
 		return mv;

@@ -165,6 +165,9 @@ img.ui-datepicker-trigger {
 				</div>
 				<input type="hidden" name="nowPage" id="nowPage" value="${PAGE.nowPage}">
 			</form>
+			<form name="frminfo" id="frminfo" method="post">
+				<input type="hidden" name="eno" id="eno">
+			</form>
 			<br />
 			<div id="ajaxlist">
 				<hr />
