@@ -70,7 +70,13 @@ public class ComService {
 	
 	// 직원 조회 페이지에서 검색 결과와 일치하는 직원 수를 불러오는 함수
 	public int cntEmp(InsaVO insaVO) {
-		return dao.cntEmps(insaVO);
+		if (insaVO.getSabun() == 0 && insaVO.getName() == null && insaVO.getPos_gbn_code() == null
+			&& insaVO.getJoin_day() == null && insaVO.getRetire_day() == null && insaVO.getJoin_yn() == null
+			&& insaVO.getPut_yn() == null && insaVO.getJoin_gbn_code() == null) {
+				return 0;
+		} else {
+			return dao.cntEmps(insaVO);
+		}
 	}
 	
 	public PageUtil pageSetting(InsaVO insaVO, PageUtil page, int totalCont) {
@@ -78,8 +84,7 @@ public class ComService {
 			page.setNowPage(1);
 		}
 		
-		int totalCount = totalCont;
-		page.setPage(page.getNowPage(), totalCount);
+		page.setPage(page.getNowPage(), totalCont, 3, 3);
 		
 		return page;
 	}
@@ -89,11 +94,18 @@ public class ComService {
 		insaVO.setStartCont(page.getStartCont());
 		insaVO.setEndCont(page.getEndCont());
 		
-		List<InsaVO> list = dao.getEmpList(insaVO);
+		List<InsaVO> list = null;
 		
-		for (InsaVO vo : list) {
-			vo = (InsaVO) dbToViewString(vo);
-		}
+		if (insaVO.getSabun() == 0 && insaVO.getName() == null && insaVO.getPos_gbn_code() == null
+				&& insaVO.getJoin_day() == null && insaVO.getRetire_day() == null && insaVO.getJoin_yn() == null
+				&& insaVO.getPut_yn() == null && insaVO.getJoin_gbn_code() == null) {
+			} else {
+				list = dao.getEmpList(insaVO);
+
+				for (InsaVO vo : list) {
+					vo = (InsaVO) dbToViewString(vo);
+				}
+			}
 		
 		return list;
 	}

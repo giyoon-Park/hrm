@@ -44,121 +44,121 @@
 			<if test="sabun != 0">
 				sabun = #{sabun},
 			</if>
-			<if test="join_day != null">
+			<if test="join_day != null and join_day != ''">
 				join_day = #{join_day},
 			</if>
-			<if test="retire_day != null">
+			<if test="retire_day != null and retire_day != ''">
 				retire_day = #{retire_day},
 			</if>
-			<if test="put_yn != null">
+			<if test="put_yn != null and put_yn != ''">
 				put_yn = #{put_yn},
 			</if>
-			<if test="name != null">
+			<if test="name != null and name != ''">
 				name = #{name},
 			</if>
-			<if test="reg_no != null">
+			<if test="reg_no != null and reg_no != ''">
 				reg_no = #{reg_no},
 			</if>
-			<if test="eng_name != null">
+			<if test="eng_name != null and eng_name != ''">
 				eng_name = #{eng_name},
 			</if>
-			<if test="phone != null">
+			<if test="phone != null and phone != ''">
 				phone = #{phone},
 			</if>
-			<if test="hp != null">
+			<if test="hp != null and hp != ''">
 				hp = #{hp},
 			</if>
-			<if test="carrier != null">
+			<if test="carrier != null and carrier != ''">
 				carrier = #{carrier},
 			</if>
-			<if test="pos_gbn_code != null">
+			<if test="pos_gbn_code != null and pos_gbn_code != ''">
 				pos_gbn_code = #{pos_gbn_code},
 			</if>
-			<if test="cmp_reg_no != null">
+			<if test="cmp_reg_no != null and cmp_reg_no != ''">
 				cmp_reg_no = #{cmp_reg_no},
 			</if>
-			<if test="cmp_reg_image != null">
+			<if test="cmp_reg_image != null and cmp_reg_image != ''">
 				cmp_reg_image = #{cmp_reg_image},
 			</if>
-			<if test="sex != null">
+			<if test="sex != null and sex != ''">
 				sex = #{sex},
 			</if>
 			<if test="years != 0">
 				years = #{years},
 			</if>
-			<if test="email != null">
+			<if test="email != null and email != ''">
 				email = #{email},
 			</if>
 			<if test="zip != 0">
 				zip = #{zip},
 			</if>
-			<if test="addr1 != null">
+			<if test="addr1 != null and addr1 != ''">
 				addr1 = #{addr1},
 			</if>
-			<if test="addr2 != null">
+			<if test="addr2 != null and addr2 != ''">
 				addr2 = #{addr2},
 			</if>
-			<if test="dept_code != null">
+			<if test="dept_code != null and dept_code != ''">
 				dept_code = #{dept_code},
 			</if>
-			<if test="join_gbn_code != null">
+			<if test="join_gbn_code != null and join_gbn_code != ''">
 				join_gbn_code = #{join_gbn_code},
 			</if>
-			<if test="id != null">
+			<if test="id != null and id != ''">
 				id = #{id},
 			</if>
-			<if test="pwd != null">
+			<if test="pwd != null and pwd != ''">
 				pwd = #{pwd},
 			</if>
 			<if test="salary != 0">
 				salary = #{salary},
 			</if>
-			<if test="kosa_reg_yn != null">
+			<if test="kosa_reg_yn != null and kosa_reg_yn != ''">
 				kosa_reg_yn = #{kosa_reg_yn},
 			</if>
-			<if test="kosa_class_code != null">
+			<if test="kosa_class_code != null and kosa_class_code != ''">
 				kosa_class_code = #{kosa_class_code},
 			</if>
-			<if test="mil_yn != null">
+			<if test="mil_yn != null and mil_yn != ''">
 				mil_yn = #{mil_yn},
 			</if>
-			<if test="mil_type != null">
+			<if test="mil_type != null and mil_type != ''">
 				mil_type = #{mil_type},
 			</if>
-			<if test="mil_level != null">
+			<if test="mil_level != null and mil_level != ''">
 				mil_level = #{mil_level},
 			</if>
-			<if test="mil_startdate != null">
+			<if test="mil_startdate != null and mil_startdate != ''">
 				mil_startdate = #{mil_startdate},
 			</if>
-			<if test="mil_enddate != null">
+			<if test="mil_enddate != null and mil_enddate != ''">
 				mil_enddate = #{mil_enddate},
 			</if>
-			<if test="job_type != null">
+			<if test="job_type != null and job_type != ''">
 				job_type = #{job_type},
 			</if>
-			<if test="gart_level != null">
+			<if test="gart_level != null and gart_level != ''">
 				gart_level = #{gart_level},
 			</if>
-			<if test="self_intro != null">
+			<if test="self_intro != null and self_intro != ''">
 				self_intro = #{self_intro},
 			</if>
-			<if test="crm_name != null">
+			<if test="crm_name != null and crm_name != ''">
 				crm_name = #{crm_name},
 			</if>
-			<if test="join_yn != null">
+			<if test="join_yn != null and join_yn != ''">
 				join_yn = #{join_yn},
 			</if>
-			<if test="ori_profile != null">
+			<if test="ori_profile != null and ori_profile != ''">
 				ori_profile = #{ori_profile},
 			</if>
-			<if test="ori_cmp_reg_img != null">
+			<if test="ori_cmp_reg_img != null and ori_cmp_reg_img != ''">
 				ori_cmp_reg_img = #{ori_cmp_reg_img},
 			</if>
-			<if test="ori_carrier != null">
+			<if test="ori_carrier != null and ori_carrier != ''">
 				ori_carrier = #{ori_carrier},
 			</if>
-			<if test="profile != null">
+			<if test="profile != null and profile != ''">
 				profile = #{profile},
 			</if>
 		</trim>
@@ -179,28 +179,28 @@
 		FROM
 			insa
 		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="name != null and name != ''">
+				AND name LIKE '%' || #{name} || '%'
+			</if>
 			<if test="sabun != 0">
 				AND sabun = #{sabun}
 			</if>
-			<if test="name != null">
-				AND name LIKE '%'||#{name}||'%'
-			</if>
-			<if test="join_yn != null">
-				AND join_yn = #{join_yn}
-			</if>
-			<if test="put_yn != null">
-				AND put_yn = #{put_yn}
-			</if>
-			<if test="pos_gbn_code != null">
+			<if test="pos_gbn_code != null and pos_gbn_code != ''">
 				AND pos_gbn_code = #{pos_gbn_code}
 			</if>
-			<if test="join_day != null">
+			<if test="join_day != null and join_day != ''">
 				AND join_day = #{join_day}
 			</if>
-			<if test="retire_day != null">
+			<if test="join_yn != null and join_yn != ''">
+				AND join_yn = #{join_yn}
+			</if>
+			<if test="retire_day != null and retire_day != ''">
 				AND retire_day = #{retire_day}
 			</if>
-			<if test="join_gbn_code != null">
+			<if test="put_yn != null and put_yn != ''">
+				AND put_yn = #{put_yn}
+			</if>
+			<if test="join_gbn_code != null and join_gbn_code != ''">
 				AND join_gbn_code = #{join_gbn_code}
 			</if>
 		</trim>
@@ -218,28 +218,28 @@
 				FROM
 					insa
 				<trim prefix="WHERE" prefixOverrides="AND | OR">
+					<if test="name != null and name != ''">
+						AND name LIKE '%' || #{name} || '%'
+					</if>
 					<if test="sabun != 0">
 						AND sabun = #{sabun}
 					</if>
-					<if test="name != null">
-						AND name LIKE '%'||#{name}||'%'
-					</if>
-					<if test="join_yn != null">
-						AND join_yn = #{join_yn}
-					</if>
-					<if test="put_yn != null">
-						AND put_yn = #{put_yn}
-					</if>
-					<if test="pos_gbn_code != null">
+					<if test="pos_gbn_code != null and pos_gbn_code != ''">
 						AND pos_gbn_code = #{pos_gbn_code}
 					</if>
-					<if test="join_day != null">
+					<if test="join_day != null and join_day != ''">
 						AND join_day = #{join_day}
 					</if>
-					<if test="retire_day != null">
+					<if test="join_yn != null and join_yn != ''">
+						AND join_yn = #{join_yn}
+					</if>
+					<if test="retire_day != null and retire_day != ''">
 						AND retire_day = #{retire_day}
 					</if>
-					<if test="join_gbn_code != null">
+					<if test="put_yn != null and put_yn != ''">
+						AND put_yn = #{put_yn}
+					</if>
+					<if test="join_gbn_code != null and join_gbn_code != ''">
 						AND join_gbn_code = #{join_gbn_code}
 					</if>
 				</trim>
@@ -399,22 +399,22 @@
 		UPDATE
 			insa_input_info
 		<trim prefix="SET" suffixOverrides=",">
-			<if test="wrk_posb_day != null">
+			<if test="wrk_posb_day != null and wrk_posb_day != ''">
 				wrk_posb_day = #{wrk_posb_day},
 			</if>
 			<if test="sugst_money != 0">
 				sugst_money = #{sugst_money},
 			</if>
-			<if test="pjt_gbn_code != null">
+			<if test="pjt_gbn_code != null and pjt_gbn_code != ''">
 				pjt_gbn_code = #{pjt_gbn_code},
 			</if>
-			<if test="eqm_yn != null">
+			<if test="eqm_yn != null and eqm_yn != ''">
 				eqm_yn = #{eqm_yn},
 			</if>
 			<if test="current_salary != 0">
 				current_salary = #{current_salary},
 			</if>
-			<if test="work_area != null">
+			<if test="work_area != null and work_area != ''">
 				work_area = #{work_area},
 			</if>
 		</trim>
@@ -426,22 +426,22 @@
 		UPDATE
 			insa_carrier
 		<trim prefix="SET" suffixOverrides=",">
-			<if test="cmp_name_carrier != null">
+			<if test="cmp_name_carrier != null and cmp_name_carrier != ''">
 				cmp_name_carrier = #{cmp_name_carrier},
 			</if>
-			<if test="work_start_day != null">
+			<if test="work_start_day != null and work_start_day != ''">
 				work_start_day = #{work_start_day},
 			</if>
-			<if test="work_end_day != null">
+			<if test="work_end_day != null and work_end_day != ''">
 				work_end_day = #{work_end_day},
 			</if>
-			<if test="pos_gbn_code != null">
+			<if test="pos_gbn_code != null and pos_gbn_code != ''">
 				pos_gbn_code = #{pos_gbn_code},
 			</if>
-			<if test="respon_dept != null">
+			<if test="respon_dept != null and respon_dept != ''">
 				respon_dept = #{respon_dept},
 			</if>
-			<if test="work_contents != null">
+			<if test="work_contents != null and work_contents != ''">
 				work_contents = #{work_contents},
 			</if>
 		</trim>
@@ -453,10 +453,10 @@
 		UPDATE
 			insa_acad_ability
 		<trim prefix="SET" suffixOverrides=",">
-			<if test="major_stud_gbn != null">
+			<if test="major_stud_gbn != null and major_stud_gbn != ''">
 				major_stud_gbn = #{major_stud_gbn},
 			</if>
-			<if test="gart_level != null">
+			<if test="gart_level != null and gart_level != ''">
 				gart_level = #{gart_level},
 			</if>
 			<if test="gart_year != 0">
@@ -465,7 +465,7 @@
 			<if test="gart_month != 0">
 				gart_month = #{gart_month},
 			</if>
-			<if test="school_name != null">
+			<if test="school_name != null and school_name != ''">
 				school_name = #{school_name},
 			</if>
 		</trim>

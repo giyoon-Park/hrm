@@ -1,5 +1,7 @@
 package com.pinosoft.hrm.controller;
 
+import org.slf4j.LoggerFactory;
+
 /**
  * 
  * @author	박기윤
@@ -17,7 +19,6 @@ import org.springframework.web.servlet.view.*;
 import com.pinosoft.hrm.VO.*;
 import com.pinosoft.hrm.service.*;
 import com.pinosoft.hrm.util.*;
-
 import java.util.*;
 import javax.servlet.http.*;
 
@@ -36,24 +37,19 @@ public class InsaController {
 	
 	// 직원 리스트페이지
 	@RequestMapping("/insaListForm.do")
-	public ModelAndView showSearchList(ModelAndView mv) {
+	public ModelAndView showSearchList(ModelAndView mv, InsaVO insaVO, PageUtil page) {
 		String view = "jsp/insaListForm";
 		List<InsaComVO> list = comSrvc.getComList();
-		
-		mv.addObject("COMLIST", list);
-		mv.setViewName(view);
-		return mv;
-	}
-	
-	// 직원 조회리스트
-	@RequestMapping("/emp.search")
-	public String showSearchList(InsaVO insaVO, PageUtil page, Model model) {
 		int totalCont = comSrvc.cntEmp(insaVO);
 		page = comSrvc.pageSetting(insaVO, page, totalCont);
-		List<InsaVO> list = comSrvc.empList(insaVO, page);
-		model.addAttribute("LIST", list);
-		model.addAttribute("PAGE", page);
-		return "jsp/empListAjax";
+		List<InsaVO> result = comSrvc.empList(insaVO, page);
+		
+		mv.addObject("COMLIST", list);
+		mv.addObject("PARAM", insaVO);
+		mv.addObject("PAGE", page);
+		mv.addObject("LIST", result);
+		mv.setViewName(view);
+		return mv;
 	}
 	
 	// 직원 등록페이지
@@ -87,12 +83,13 @@ public class InsaController {
 	}
 	
 	// 직원 수정페이지
-	@RequestMapping("/insaUpdateForm.do/{sabun}")
-	public ModelAndView showUpdateForm(ModelAndView mv, @RequestParam("ssabun") @PathVariable int sabun) {
+	@RequestMapping("/insaUpdateForm.do")
+	public ModelAndView showUpdateForm(ModelAndView mv, @RequestParam int sabun) {
 		String view = "jsp/insaUpdateForm";
 		List<InsaComVO> list = comSrvc.getComList();
 		InsaVO insaVO = comSrvc.empInfo(sabun);
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		
 		List<InsaInputVO> inputList = comSrvc.empInputList(sabun);
 		List<InsaAcadVO> acadList = comSrvc.empAcadList(sabun);
 		List<InsaCarrierVO> carrierList = comSrvc.empCarrierList(sabun);

@@ -1,45 +1,45 @@
 $(document).ready(function() {
+	if($('#ssabun').val() == 0) {
+		$('#ssabun').val('');
+	}
+
 	$('#searchEmp').click(function(){
-		var sabun = $('#sabun').val();
-		if(!sabun) {
-			$('#sabun').val('0');
-		}
-		
+		var sabun = $('#ssabun').val();
 		var nowPage = $('#nowPage').val();
-		if(!nowPage) {
-			$('#nowPage').val('0');
+
+		if(sabun == '') {
+			$('#sabun').val(0);
+		} else {
+			$('#sabun').val(sabun);
 		}
-		
-		$.ajax({
-			url: '/hrm/emp.search',
-			type: 'POST',
-			dataType: 'text',
-			data: $('#frmsch').serialize(),
-			contentType: false,
-			processData: false,
-			cache : false,
-			success: function(result) {
-				var html = $('#dnonelist').html(result);
-				var totalCont = html.find('div#totalCount').text();
-				var nowPage = html.find('div#nowPage').text();
-				var list = html.find('table#ajaxtable').html();
-				var paging = html.find('div#pagingbtns').html();
-				
-				if(totalCont == '0') {
-					alert('검색 결과가 없습니다.');
-				} else {
-					$('#nowPage').val(nowPage);
-					$('#emptable').html(list);
-					$('#paging').html(paging);
-				}
-			},
-			error: function(request, status, error){
-				alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
-			}
-		});
+
+		if(nowPage == '') {
+			$('#nowPage').val(0);
+		}
+
+		$('#frmsch').attr('action', '/hrm/insaListForm.do');
+		$('#frmsch').submit();
 	});
 	
 	$('.pbtn').click(function(){
 		var pagebtn = $(this).text();
+		
+		if(pagebtn == 'PRE') {
+			$('#nowPage').val('${PAGE.startPage - 1}');
+		} else if(pagebtn == 'NEXT') {
+			$('#nowPage').val('${PAGE.endPage + 1}');
+		} else {
+			$('#nowPage').val(pagebtn);
+		}
+		
+		$('#frmsch').attr('action', '/hrm/insaListForm.do');
+		$('#frmsch').submit();
 	});
+	
+	$('.content').click(function(){
+		var sabun = $(this).attr('id');
+
+		$('#frmsch').attr('action', '/hrm/insaUpdateForm.do?sabun=' + sabun);
+		$('#frmsch').submit();
+	})
 });

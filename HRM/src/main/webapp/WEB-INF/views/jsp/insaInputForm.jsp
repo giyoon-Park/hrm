@@ -27,7 +27,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
       $(document).ready(function () {
     	  $('#mil_yn').change(function() {
 			var mil = $(this).val();
-			if(mil == '001') {
+			if(mil == '군필') {
 		        $('#mil_type').attr('disabled', false);
 		        $('#mil_level').attr('disabled', false);
 		        $('#mil_startdate').attr('disabled', false);
@@ -284,6 +284,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                       class="w-100 small"
                       readonly
                       placeholder="우편번호"
+                   	  onclick="goPopup()"
                     />
                   </label>
                 </div>
