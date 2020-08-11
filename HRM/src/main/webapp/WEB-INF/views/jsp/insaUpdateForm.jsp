@@ -222,10 +222,10 @@ img.ui-datepicker-trigger {
 								<h6>주소</h6>
 							</div>
 							<div class="col-3 in-blk p-0">
-								<label for="addrSearch" class="w-100"> <input
-									type="number" name="zip" id="zip" class="w-100 small" readonly
-									placeholder="우편번호" onclick="goPopup()" value="${PARAM.zip}" />
-								</label>
+								<input type="number" name="zip" id="zip" class="w-100 small"
+									readonly placeholder="우편번호" onclick="goPopup()"
+									value="${PARAM.zip}" />
+
 							</div>
 							<div class="col-5 center in-blk">
 								<button class="btn btn-light small" type="button" id="addSearch"
@@ -351,7 +351,11 @@ img.ui-datepicker-trigger {
 										<c:if test="${com.gubun eq '12'}">
 											<option value="${com.name}"
 												<c:if test="${com.name eq PARAM.domain}">selected="selected"</c:if>>
-												${com.name}</option>
+												<c:choose>
+													<c:when test="${com.name eq PARAM.domain}">${com.name}</c:when>
+													<c:otherwise>${PARAM.domain}</c:otherwise>
+												</c:choose>
+											</option>
 										</c:if>
 									</c:forEach>
 								</select> <input type="hidden" name="email" id="email"
@@ -397,8 +401,8 @@ img.ui-datepicker-trigger {
 								<h6>*입사일자</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="join_day" id="join_day" autocomplete="off"
-									class="w-75 small" value="${PARAM.join_day}" />
+								<input type="text" name="join_day" id="join_day"
+									autocomplete="off" class="w-75 small" value="${PARAM.join_day}" />
 							</div>
 						</div>
 						<div class="col p-0">
@@ -406,8 +410,9 @@ img.ui-datepicker-trigger {
 								<h6>퇴사일자</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="retire_day" id="retire_day" autocomplete="off"
-									class="w-75 small" value="${PARAM.retire_day}" />
+								<input type="text" name="retire_day" id="retire_day"
+									autocomplete="off" class="w-75 small"
+									value="${PARAM.retire_day}" />
 							</div>
 						</div>
 						<div class="col p-0">
@@ -436,7 +441,8 @@ img.ui-datepicker-trigger {
 							</div>
 							<div class="col-6 in-blk p-0">
 								<input type="password" name="pwd_ck" id="pwd_ck"
-									class="w-100 small" maxlength="20" minlength="6" value="${PARAM.pwd}" />
+									class="w-100 small" maxlength="20" minlength="6"
+									value="${PARAM.pwd}" />
 							</div>
 						</div>
 						<div class="col p-0">
@@ -517,8 +523,8 @@ img.ui-datepicker-trigger {
 								<h6>입영일자</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="mil_startdate" id="mil_startdate" autocomplete="off"
-									class="w-75 small" disabled="disabled"
+								<input type="text" name="mil_startdate" id="mil_startdate"
+									autocomplete="off" class="w-75 small" disabled="disabled"
 									value="${PARAM.mil_startdate}" />
 							</div>
 						</div>
@@ -527,8 +533,8 @@ img.ui-datepicker-trigger {
 								<h6>전역일자</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="mil_enddate" id="mil_enddate" autocomplete="off"
-									class="w-75 small" disabled="disabled"
+								<input type="text" name="mil_enddate" id="mil_enddate"
+									autocomplete="off" class="w-75 small" disabled="disabled"
 									value="${PARAM.mil_enddate}" />
 							</div>
 						</div>

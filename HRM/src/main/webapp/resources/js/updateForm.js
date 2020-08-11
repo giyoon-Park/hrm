@@ -181,4 +181,15 @@ $(document).ready(function() {
 		$('#frm').attr('action', '/hrm/insaUpdateProc.do');
 		$('#frm').submit();
 	});
+	
+	$('#delEmp').click(function(){
+		var sabun = $('#sabun').val();
+		var name = $('#name').val();
+		var txt = "사번:" + sabun + " | 이름:" + name + " 사원의 정보를 삭제하시겠습니까?"
+		var bool = confirm(txt);
+		if(bool == true) {
+			$('#frm').attr('action', '/hrm/insaDeleteProc.do');
+			$('#frm').submit();
+		}
+	});
 });
