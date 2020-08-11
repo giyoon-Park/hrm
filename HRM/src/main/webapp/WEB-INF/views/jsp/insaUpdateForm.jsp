@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8" />
-<title>직원 등록</title>
+<title>직원 수정</title>
 <link rel="stylesheet" href="/hrm/css/jquery-ui.min.css" />
 <link rel="stylesheet" href="/hrm/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/hrm/css/inputForm.css" />
@@ -18,7 +18,7 @@
 <script type="text/javascript" src="/hrm/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/hrm/js/grid.locale-kr.js"></script>
 <script type="text/javascript" src="/hrm/js/jquery.jqGrid.min.js"></script>
-<script type="text/javascript" src="/hrm/js/inputForm.js"></script>
+<script type="text/javascript" src="/hrm/js/updateForm.js"></script>
 <style>
 /*datepicker에서 사용한 이미지 버튼 style적용*/
 img.ui-datepicker-trigger {
@@ -33,7 +33,7 @@ img.ui-datepicker-trigger {
 				$('#mil_yn').change(
 						function() {
 							var mil = $(this).val();
-							if (mil == '군필') {
+							if (mil == '2') {
 								$('#mil_type').attr('disabled', false);
 								$('#mil_level').attr('disabled', false);
 								$('#mil_startdate').attr('disabled', false);
@@ -99,7 +99,7 @@ img.ui-datepicker-trigger {
 			<form name="frm" id="frm" enctype="multipart/form-data" method="POST"
 				action="/hrm/regProc.do">
 				<div class="float-right">
-					<button type="button" name="deitEmp" id="deitEmp"
+					<button type="button" name="editEmp" id="editEmp"
 						class="btn btn-sm btn-primary m-0 pl-4 pr-4">수정</button>
 					<button type="button" name="delEmp" id="delEmp"
 						class="btn btn-sm btn-danger m-0 pl-4 pr-4">삭제</button>
@@ -116,8 +116,8 @@ img.ui-datepicker-trigger {
 							</div>
 							<div class="center">
 								<input name="profileimg" id="profileimg" type="file"
-									hidden="hidden" accept="image/*" /> <label
-									for="profileimg" class="btn btn-light center small"> <img
+									hidden="hidden" accept="image/*" /> <label for="profileimg"
+									class="btn btn-light center small"> <img
 									src="/hrm/img/camera_icon.jpg" class="icon-frm" /><span
 									class="small in-blk">사진올리기</span>
 								</label>
@@ -128,16 +128,14 @@ img.ui-datepicker-trigger {
 								<h6>입사구분</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="join_yn" id="join_yn" list="yn"
-									class="w-100 small" placeholder="선택" />
-								<datalist id="yn">
+								<select name="join_yn" id="join_yn" class="w-100 small">
 									<c:forEach var="com" items="${COMLIST}">
-										<c:if test="${com.gubun eq '입사구분'}">
-											<option value="${com.name}"
-												<c:if test="${com.name eq PARAM.join_yn}">selected</c:if>>${com.name}</option>
+										<c:if test="${com.gubun eq '1'}">
+											<option value="${com.code}"
+												<c:if test="${com.code eq PARAM.join_yn}">selected="selected"</c:if>>${com.name}</option>
 										</c:if>
 									</c:forEach>
-								</datalist>
+								</select>
 							</div>
 						</div>
 						<div class="col p-0">
@@ -145,17 +143,15 @@ img.ui-datepicker-trigger {
 								<h6>군별</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="mil_type" id="mil_type"
-									list="mil_type_list" class="w-100 small" placeholder="선택"
-									disabled="disabled" />
-								<datalist id="mil_type_list">
+								<select name="mil_type" id="mil_type" class="w-100 small"
+									disabled="disabled">
 									<c:forEach var="com" items="${COMLIST}">
-										<c:if test="${com.gubun eq '군별'}">
-											<option value="${com.name}"
-												<c:if test="${com.name eq PARAM.mil_type}">selected</c:if>>${com.name}</option>
+										<c:if test="${com.gubun eq '5'}">
+											<option value="${com.code}"
+												<c:if test="${com.code eq PARAM.mil_type}">selected="selected"</c:if>>${com.name}</option>
 										</c:if>
 									</c:forEach>
-								</datalist>
+								</select>
 							</div>
 						</div>
 						<div class="col p-0">
@@ -163,16 +159,14 @@ img.ui-datepicker-trigger {
 								<h6>KOSA등록</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="kosa_reg_yn" id="kosa_reg_yn"
-									list="kosa_reg_yn_list" class="w-100 small" placeholder="선택" />
-								<datalist id="kosa_reg_yn_list">
+								<select name="kosa_reg_yn" id="kosa_reg_yn" class="w-100 small">
 									<c:forEach var="com" items="${COMLIST}">
-										<c:if test="${com.gubun eq 'KOSA등록'}">
-											<option value="${com.name}"
-												<c:if test="${com.name eq PARAM.kosa_reg_yn}">selected</c:if>>${com.name}</option>
+										<c:if test="${com.gubun eq '9'}">
+											<option value="${com.code}"
+												<c:if test="${com.code eq PARAM.kosa_reg_yn}">selected="selected"</c:if>>${com.name}</option>
 										</c:if>
 									</c:forEach>
-								</datalist>
+								</select>
 							</div>
 						</div>
 						<div class="col p-0">
@@ -192,7 +186,7 @@ img.ui-datepicker-trigger {
 							</div>
 							<div class="col-6 in-blk p-0">
 								<input type="number" name="sabun" id="sabun" class="w-100 small"
-									disabled value="${PARAM.sabun}" />
+									readonly value="${PARAM.sabun}" />
 							</div>
 						</div>
 						<div class="col p-0">
@@ -245,16 +239,15 @@ img.ui-datepicker-trigger {
 								<h6>직위</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="pos_gbn_code" id="pos_gbn_code"
-									list="pos_gbn_code_list" class="w-100 small" placeholder="선택" />
-								<datalist id="pos_gbn_code_list">
+								<select name="pos_gbn_code" id="pos_gbn_code"
+									class="w-100 small">
 									<c:forEach var="com" items="${COMLIST}">
-										<c:if test="${com.gubun eq '직위'}">
-											<option value="${com.name}"
-												<c:if test="${com.name eq PARAM.pos_gbn_code}">selected</c:if>>${com.name}</option>
+										<c:if test="${com.gubun eq '3'}">
+											<option value="${com.code}"
+												<c:if test="${com.code eq PARAM.pos_gbn_code}">selected="selected"</c:if>>${com.name}</option>
 										</c:if>
 									</c:forEach>
-								</datalist>
+								</select>
 							</div>
 						</div>
 						<div class="col p-0">
@@ -262,16 +255,14 @@ img.ui-datepicker-trigger {
 								<h6>등급</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="gart_level" id="gart_level"
-									list="gart_level_list" class="w-100 small" placeholder="선택" />
-								<datalist id="gart_level_list">
+								<select name="gart_level" id="gart_level" class="w-100 small">
 									<c:forEach var="com" items="${COMLIST}">
-										<c:if test="${com.gubun eq '등급'}">
-											<option value="${com.name}"
-												<c:if test="${com.name eq PARAM.gart_level}">selected</c:if>>${com.name}</option>
+										<c:if test="${com.gubun eq '2'}">
+											<option value="${com.code}"
+												<c:if test="${com.code eq PARAM.gart_level}">selected="selected"</c:if>>${com.name}</option>
 										</c:if>
 									</c:forEach>
-								</datalist>
+								</select>
 							</div>
 						</div>
 						<div class="col p-0">
@@ -279,17 +270,15 @@ img.ui-datepicker-trigger {
 								<h6>계급</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="mil_level" id="mil_level"
-									list="mil_level_list" class="w-100 small" placeholder="선택"
-									disabled="disabled" />
-								<datalist id="mil_level_list">
+								<select name="mil_level" id="mil_level" class="w-100 small"
+									disabled="disabled">
 									<c:forEach var="com" items="${COMLIST}">
-										<c:if test="${com.gubun eq '계급'}">
-											<option value="${com.name}"
-												<c:if test="${com.name eq PARAM.mil_level}">selected</c:if>>${com.name}</option>
+										<c:if test="${com.gubun eq '7'}">
+											<option value="${com.code}"
+												<c:if test="${com.code eq PARAM.mil_level}">selected="selected"</c:if>>${com.name}</option>
 										</c:if>
 									</c:forEach>
-								</datalist>
+								</select>
 							</div>
 						</div>
 						<div class="col p-0">
@@ -297,17 +286,15 @@ img.ui-datepicker-trigger {
 								<h6>KOSA등급</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="kosa_class_code" id="kosa_class_code"
-									list="kosa_class_code_list" class="w-100 small"
-									placeholder="선택" disabled="disabled" />
-								<datalist id="kosa_class_code_list">
+								<select name="kosa_class_code" id="kosa_class_code"
+									class="w-100 small" disabled="disabled">
 									<c:forEach var="com" items="${COMLIST}">
-										<c:if test="${com.gubun eq 'KOSA등급'}">
-											<option value="${com.name}"
-												<c:if test="${com.name eq PARAM.kosa_class_code}">selected</c:if>>${com.name}</option>
+										<c:if test="${com.gubun eq '10'}">
+											<option value="${com.code}"
+												<c:if test="${com.code eq PARAM.kosa_class_code}">selected="selected"</c:if>>${com.name}</option>
 										</c:if>
 									</c:forEach>
-								</datalist>
+								</select>
 							</div>
 						</div>
 						<div class="col p-0">
@@ -337,7 +324,7 @@ img.ui-datepicker-trigger {
 							</div>
 							<div class="col-6 in-blk p-0">
 								<input type="password" name="pwd" id="pwd" class="w-100 small"
-									maxlength="20" minlength="6" />
+									maxlength="20" minlength="6" value="${PARAM.pwd}" />
 							</div>
 						</div>
 						<div class="col p-0">
@@ -359,20 +346,15 @@ img.ui-datepicker-trigger {
 							</div>
 							<div class="col-4 in-blk p-0">
 								<h6 class="in-blk">@</h6>
-								<input type="text" name="domain" id="domain" list="domainList"
-									class="w-75 small" placeholder="선택" />
-								<datalist id="domainList">
+								<select name="domain" id="domain" class="w-75 small">
 									<c:forEach var="com" items="${COMLIST}">
-										<c:if test="${com.gubun eq '이메일'}">
+										<c:if test="${com.gubun eq '12'}">
 											<option value="${com.name}"
-												<c:if test="${com.name eq PARAM.domain}">selected</c:if>>
-												<c:if test="${com.name eq PARAM.domain}">${com.name}</c:if>
-												<c:if test="${com.name ne PARAM.domain}">${PARAM.domain}</c:if>
-											</option>
+												<c:if test="${com.name eq PARAM.domain}">selected="selected"</c:if>>
+												${com.name}</option>
 										</c:if>
 									</c:forEach>
-								</datalist>
-								<input type="hidden" name="email" id="email"
+								</select> <input type="hidden" name="email" id="email"
 									value="${PARAM.email}" required />
 							</div>
 						</div>
@@ -385,16 +367,14 @@ img.ui-datepicker-trigger {
 								<h6>부서</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="dept_code" id="dept_code"
-									list="dept_codeList" class="w-100 small" placeholder="선택" />
-								<datalist id="dept_codeList">
+								<select name="dept_code" id="dept_code" class="w-100 small">
 									<c:forEach var="com" items="${COMLIST}">
-										<c:if test="${com.gubun eq '부서'}">
-											<option value="${com.name}"
-												<c:if test="${com.name eq PARAM.dept_code}">selected</c:if>>${com.name}</option>
+										<c:if test="${com.gubun eq '4'}">
+											<option value="${com.code}"
+												<c:if test="${com.code eq PARAM.dept_code}">selected="selected"</c:if>>${com.name}</option>
 										</c:if>
 									</c:forEach>
-								</datalist>
+								</select>
 							</div>
 						</div>
 						<div class="col p-0">
@@ -402,16 +382,14 @@ img.ui-datepicker-trigger {
 								<h6>투입여부</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="put_yn" id="put_yn" list="put_ynList"
-									class="w-100 small" placeholder="선택" />
-								<datalist id="put_ynList">
+								<select name="put_yn" id="put_yn" class="w-100 small">
 									<c:forEach var="com" items="${COMLIST}">
-										<c:if test="${com.gubun eq '투입여부'}">
-											<option value="${com.name}"
-												<c:if test="${com.name eq PARAM.put_yn}">selected</c:if>>${com.name}</option>
+										<c:if test="${com.gubun eq '13'}">
+											<option value="${com.code}"
+												<c:if test="${com.code eq PARAM.put_yn}">selected="selected"</c:if>>${com.name}</option>
 										</c:if>
 									</c:forEach>
-								</datalist>
+								</select>
 							</div>
 						</div>
 						<div class="col p-0">
@@ -419,7 +397,7 @@ img.ui-datepicker-trigger {
 								<h6>*입사일자</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="join_day" id="join_day"
+								<input type="text" name="join_day" id="join_day" autocomplete="off"
 									class="w-75 small" value="${PARAM.join_day}" />
 							</div>
 						</div>
@@ -428,7 +406,7 @@ img.ui-datepicker-trigger {
 								<h6>퇴사일자</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="retire_day" id="retire_day"
+								<input type="text" name="retire_day" id="retire_day" autocomplete="off"
 									class="w-75 small" value="${PARAM.retire_day}" />
 							</div>
 						</div>
@@ -458,7 +436,7 @@ img.ui-datepicker-trigger {
 							</div>
 							<div class="col-6 in-blk p-0">
 								<input type="password" name="pwd_ck" id="pwd_ck"
-									class="w-100 small" maxlength="20" minlength="6" />
+									class="w-100 small" maxlength="20" minlength="6" value="${PARAM.pwd}" />
 							</div>
 						</div>
 						<div class="col p-0">
@@ -468,8 +446,8 @@ img.ui-datepicker-trigger {
 							<div class="col-6 in-blk p-0">
 								<input type="text" name="reg_no_input" id="reg_no_input"
 									class="w-100 small" maxlength="14"
-									value="${PARAM.reg_no_input}" /> <input
-									type="hidden" name="reg_no" id="reg_no" value="${PARAM.reg_no}" />
+									value="${PARAM.reg_no_input}" /> <input type="hidden"
+									name="reg_no" id="reg_no" value="${PARAM.reg_no}" />
 							</div>
 						</div>
 						<div class="col p-0">
@@ -477,31 +455,28 @@ img.ui-datepicker-trigger {
 								<h6>직종체크</h6>
 							</div>
 							<div class="col-3 in-blk p-0">
-								<input type="text" name="join_gbn_code" id="join_gbn_code"
-									list="join_gbn_codeList" class="w-100 small" placeholder="선택" />
-								<datalist id="join_gbn_codeList">
+								<select name="join_gbn_code" id="join_gbn_code"
+									class="w-100 small">
 									<c:forEach var="com" items="${COMLIST}">
-										<c:if test="${com.gubun eq '직종'}">
-											<option value="${com.name}"
-												<c:if test="${com.name eq PARAM.join_gbn_code}">selected</c:if>>${com.name}</option>
+										<c:if test="${com.gubun eq '8'}">
+											<option value="${com.code}"
+												<c:if test="${com.code eq PARAM.join_gbn_code}">selected="selected"</c:if>>${com.name}</option>
 										</c:if>
 									</c:forEach>
-								</datalist>
+								</select>
 							</div>
 							<div class="col-2 in-blk p-0">
 								<h6>성별</h6>
 							</div>
 							<div class="col-3 in-blk p-0">
-								<input type="text" name="sex" id="sex" list="sexList"
-									class="w-100 small" placeholder="선택" />
-								<datalist id="sexList">
+								<select name="sex" id="sex" class="w-100 small">
 									<c:forEach var="com" items="${COMLIST}">
-										<c:if test="${com.gubun eq '성별'}">
-											<option value="${com.name}"
-												<c:if test="${com.name eq PARAM.sex}">selected</c:if>>${com.name}</option>
+										<c:if test="${com.gubun eq '11'}">
+											<option value="${com.code}"
+												<c:if test="${com.code eq PARAM.sex}">selected="selected"</c:if>>${com.name}</option>
 										</c:if>
 									</c:forEach>
-								</datalist>
+								</select>
 							</div>
 						</div>
 						<div class="col center addr-h">
@@ -527,16 +502,14 @@ img.ui-datepicker-trigger {
 								<h6>군필여부</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="mil_yn" id="mil_yn" list="mil_ynList"
-									class="w-100 small" placeholder="선택" />
-								<datalist id="mil_ynList">
+								<select name="mil_yn" id="mil_yn" class="w-100 small">
 									<c:forEach var="com" items="${COMLIST}">
-										<c:if test="${com.gubun eq '군필여부'}">
-											<option value="${com.name}"
-												<c:if test="${com.name eq PARAM.mil_yn}">selected</c:if>>${com.name}</option>
+										<c:if test="${com.gubun eq '5'}">
+											<option value="${com.code}"
+												<c:if test="${com.code eq PARAM.mil_yn}">selected="selected"</c:if>>${com.name}</option>
 										</c:if>
 									</c:forEach>
-								</datalist>
+								</select>
 							</div>
 						</div>
 						<div class="col p-0">
@@ -544,7 +517,7 @@ img.ui-datepicker-trigger {
 								<h6>입영일자</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="mil_startdate" id="mil_startdate"
+								<input type="text" name="mil_startdate" id="mil_startdate" autocomplete="off"
 									class="w-75 small" disabled="disabled"
 									value="${PARAM.mil_startdate}" />
 							</div>
@@ -554,7 +527,7 @@ img.ui-datepicker-trigger {
 								<h6>전역일자</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="mil_enddate" id="mil_enddate"
+								<input type="text" name="mil_enddate" id="mil_enddate" autocomplete="off"
 									class="w-75 small" disabled="disabled"
 									value="${PARAM.mil_enddate}" />
 							</div>
@@ -562,8 +535,7 @@ img.ui-datepicker-trigger {
 						<div class="col center p-0">
 							<div class="col-5 p-0 in-blk">
 								<button id="show_cmp_reg_img" type="button"
-									class="btn btn-outline-info btn-block btn-sm">
-									미리보기</button>
+									class="btn btn-outline-info btn-block btn-sm">미리보기</button>
 							</div>
 							<div class="col-5 p-0 in-blk">
 								<label for="cmp_reg_img" class="w-100"> <span
@@ -595,14 +567,12 @@ img.ui-datepicker-trigger {
 						<div class="col center p-0">
 							<div class="col-5 p-0 in-blk">
 								<button id="show_resume_img" type="button"
-									class="btn btn-outline-info btn-block btn-sm">
-									미리보기</button>
+									class="btn btn-outline-info btn-block btn-sm">미리보기</button>
 							</div>
 							<div class="col-5 p-0 in-blk">
 								<label for="resume_img" class="w-100"> <span
 									id="reg_resume_img"
-									class="btn btn-outline-info btn-block btn-sm">파일
-										업로드</span>
+									class="btn btn-outline-info btn-block btn-sm">파일 업로드</span>
 								</label> <input type="file" name="resume_img" id="resume_img"
 									hidden="hidden" accept="image/*" />
 							</div>

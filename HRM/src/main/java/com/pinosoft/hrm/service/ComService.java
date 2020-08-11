@@ -111,6 +111,24 @@ public class ComService {
 		return list;
 	}
 	
+	// 이메일 @ 기준으로 나누기 함수
+	public InsaVO splitAt(InsaVO insaVO) {
+		String email = insaVO.getEmail();
+		insaVO.setMail(email.substring(0, email.indexOf("@")));
+		insaVO.setDomain(email.substring(email.indexOf("@") + 1));
+		
+		return insaVO;
+	}
+	
+	// 연봉 1000 단위 콤마 찍기 함수
+	public InsaVO placeComma(InsaVO insaVO) {
+		int i = insaVO.getSalary();
+		String str = String.format("%,d", i);
+		insaVO.setSalary_input(str);
+		
+		return insaVO;
+	}
+	
 	// 특정 직원의 정보를 불러오는 함수
 	public InsaVO empInfo(int sabun) {
 		InsaVO insaVO = dao.getEmpInfo(sabun);

@@ -175,79 +175,10 @@ $(document).ready(function() {
 			$(this).val()
 			.replace(/^[^a-zA-z]+\W+$/gi, '')
 		);
-	}).focusout(function() {
-		var id = $(this).val();
-		if(id) {
-			$.ajax({
-				url: '/hrm/id.ck',
-				type: 'POST',
-				dataType: 'json',
-				data: {
-					id: id
-				},
-				success: function(data) {
-					var cnt = data;
-					if(cnt == 0) {
-						$('#idck').val('Y');
-						alert('사용 가능한 ID 입니다.');
-					} else {
-						$('#idck').val('N');
-						alert('이미 등록된 ID입니다.')
-						$('#id').val('');
-						$('#id').focus();
-					}
-				},
-				error: function(request, status, error){
-					alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
-				}
-			});
-		} else {
-			return;
-		}
 	});
 	
-	$('#regEmp').click(function(){
-		var idck = $('#idck').val();
-		var pwd = $('#pwd').val();
-		var pwdck = $('#pwd_ck').val();
-		var mail = $('#mail').val();
-		var domain = $('#domain').val();
-		var email = $('#email').val();
-		var hp = $('#hp').val();
-		var join_day = $('#join_day').val();
-		
-		if(idck == 'N') {
-			alert('아이디를 확인해주세요.');
-			$('#id').focus();
-			return;
-		}
-		
-		if(pwd != pwdck || pwd == null || pwd.length == 0 || pwdck == null || pwdck.length == 0) {
-			alert('비밀번호를 확인해주세요.');
-			$('#pwd').focus();
-			return;
-		}
-		
-		if(mail == null || mail.length == 0 || domain == null || domain.length == 0) {
-			alert('이메일을 확인해주세요.');
-			$('#mail').focus();
-			return;
-		}
-		
-		if(hp == null || hp.length == 0) {
-			alert('핸드폰번호를 확인해주세요.');
-			$('#hp').focus();
-			return;
-		}
-		
-		if(join_day == null || join_day.length == 0) {
-			alert('입사일자를 확인해주세요.');
-			$('#join_day').focus();
-			return;
-		}
-		
-		email = mail + '@' + domain;
-		$('#email').val(email);
+	$('#editEmp').click(function(){
+		$('#frm').attr('action', '/hrm/insaUpdateProc.do');
 		$('#frm').submit();
 	});
 });

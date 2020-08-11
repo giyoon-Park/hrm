@@ -44,7 +44,8 @@ img.ui-datepicker-trigger {
 	<div class="pd-4">
 		<div class="container pt-5">
 			<h3>직원 리스트</h3>
-			<form name="frmsch" id="frmsch" method="POST" action="/hrm/insaListForm.do">
+			<form name="frmsch" id="frmsch" method="POST"
+				action="/hrm/insaListForm.do">
 				<br />
 				<div class="row mt-2">
 					<div class="col p-0">
@@ -53,8 +54,9 @@ img.ui-datepicker-trigger {
 								<h6>사번</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="number" name="ssabun" id="ssabun" class="w-100 text-right" value="${PARAM.sabun}">
-								<input type="hidden" name="sabun" id="sabun" value="${PARAM.sabun}" >
+								<input type="number" name="ssabun" id="ssabun"
+									class="w-100 text-right" value="${PARAM.sabun}"> <input
+									type="hidden" name="sabun" id="sabun" value="${PARAM.sabun}">
 							</div>
 						</div>
 						<div class="col p-0">
@@ -62,15 +64,14 @@ img.ui-datepicker-trigger {
 								<h6>직위</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="pos_gbn_code" id="pos_gbn_code"
-									list="pos_gbn_code_list" class="w-100 " placeholder="선택" />
-								<datalist id="pos_gbn_code_list">
+								<select name="pos_gbn_code" id="pos_gbn_code" class="w-100 ">
 									<c:forEach var="com" items="${COMLIST}">
-										<c:if test="${com.gubun eq '직위'}">
-											<option value="${com.name}" <c:if test="${com.name eq PARAM.pos_gbn_code}">selected</c:if>>${com.name}</option>
+										<c:if test="${com.gubun eq '3'}">
+											<option value="${com.code}"
+												<c:if test="${com.code eq PARAM.pos_gbn_code}">selected="selected"</c:if>>${com.name}</option>
 										</c:if>
 									</c:forEach>
-								</datalist>
+								</select>
 							</div>
 						</div>
 					</div>
@@ -80,7 +81,8 @@ img.ui-datepicker-trigger {
 								<h6>성명</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="name" id="name" class="w-100" value="${PARAM.name}" />
+								<input type="text" name="name" id="name" class="w-100"
+									value="${PARAM.name}" />
 							</div>
 						</div>
 						<div class="col p-0">
@@ -88,7 +90,8 @@ img.ui-datepicker-trigger {
 								<h6>입사일자</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="join_day" id="join_day" class="w-75" value="${PARAM.join_day}" />
+								<input type="text" name="join_day" id="join_day" class="w-75" autocomplete="off"
+									value="${PARAM.join_day}" />
 							</div>
 						</div>
 					</div>
@@ -98,15 +101,14 @@ img.ui-datepicker-trigger {
 								<h6>입사구분</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="join_yn" id="join_yn" list="yn"
-									class="w-100 " placeholder="선택" />
-								<datalist id="yn">
+								<select name="join_yn" id="join_yn" class="w-100 ">
 									<c:forEach var="com" items="${COMLIST}">
-										<c:if test="${com.gubun eq '입사구분'}">
-											<option value="${com.name}" <c:if test="${com.name eq PARAM.join_yn}">selected</c:if>>${com.name}</option>
+										<c:if test="${com.gubun eq '1'}">
+											<option value="${com.code}"
+												<c:if test="${com.code eq PARAM.join_yn}">selected="selected"</c:if>>${com.name}</option>
 										</c:if>
 									</c:forEach>
-								</datalist>
+								</select>
 							</div>
 						</div>
 						<div class="col p-0">
@@ -114,7 +116,7 @@ img.ui-datepicker-trigger {
 								<h6>퇴사일자</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="retire_day" id="retire_day"
+								<input type="text" name="retire_day" id="retire_day" autocomplete="off"
 									class="w-75" value="${PARAM.retire_day}" />
 							</div>
 						</div>
@@ -125,15 +127,14 @@ img.ui-datepicker-trigger {
 								<h6>투입여부</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="put_yn" id="put_yn" list="put_ynList"
-									class="w-100 " placeholder="선택" />
-								<datalist id="put_ynList">
+								<select name="put_yn" id="put_yn" class="w-100 ">
 									<c:forEach var="com" items="${COMLIST}">
-										<c:if test="${com.gubun eq '투입여부'}">
-											<option value="${com.name}" <c:if test="${com.name eq PARAM.put_yn}">selected</c:if>>${com.name}</option>
+										<c:if test="${com.gubun eq '13'}">
+											<option value="${com.code}"
+												<c:if test="${com.code eq PARAM.put_yn}">selected="selected"</c:if>>${com.name}</option>
 										</c:if>
 									</c:forEach>
-								</datalist>
+								</select>
 							</div>
 						</div>
 						<div class="col p-0">
@@ -141,15 +142,14 @@ img.ui-datepicker-trigger {
 								<h6>직종체크</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="join_gbn_code" id="join_gbn_code"
-									list="join_gbn_codeList" class="w-100 " placeholder="선택" />
-								<datalist id="join_gbn_codeList">
+								<select name="join_gbn_code" id="join_gbn_code" class="w-100 ">
 									<c:forEach var="com" items="${COMLIST}">
-										<c:if test="${com.gubun eq '직종'}">
-											<option value="${com.name}" <c:if test="${com.name eq join_gbn_code}">selected</c:if>>${com.name}</option>
+										<c:if test="${com.gubun eq '8'}">
+											<option value="${com.code}"
+												<c:if test="${com.code eq join_gbn_code}">selected="selected"</c:if>>${com.name}</option>
 										</c:if>
 									</c:forEach>
-								</datalist>
+								</select>
 							</div>
 						</div>
 					</div>
@@ -158,12 +158,13 @@ img.ui-datepicker-trigger {
 				<div class="float-right">
 					<button type="button" name="searchEmp" id="searchEmp"
 						class="btn btn-sm btn-primary m-0 px-4">검색</button>
-					<button type="reset" name="rstbtn" id="rstbtn"
+					<button type="button" name="rstbtn" id="rstbtn"
 						class="btn btn-sm btn-danger m-0 px-3">초기화</button>
 					<a href="javascript:window.history.back()"
 						class="btn btn-sm btn-warning m-0 px-2">이전</a>
 				</div>
-				<input type="hidden" name="nowPage" id="nowPage" value="${PAGE.nowPage}">
+				<input type="hidden" name="nowPage" id="nowPage"
+					value="${PAGE.nowPage}">
 			</form>
 			<form name="frminfo" id="frminfo" method="post">
 				<input type="hidden" name="eno" id="eno">
@@ -188,7 +189,8 @@ img.ui-datepicker-trigger {
 					<tbody id="list">
 						<c:if test="${PAGE.totalCount == 0}">
 							<tr>
-								<td class="noresult center" id="noresult" colspan="9">검색된 데이터가 없습니다.</td>
+								<td class="noresult center" id="noresult" colspan="9">검색된
+									데이터가 없습니다.</td>
 							<tr>
 						</c:if>
 						<c:if test="${PAGE.totalCount != 0}">
@@ -212,7 +214,8 @@ img.ui-datepicker-trigger {
 					<c:if test="${PAGE.startPage ge (PAGE.pageGroup + 1)}">
 						<span class="btn btn-outline-primary pbtn">PRE</span>
 					</c:if>
-					<c:forEach var="pageNo" begin="${PAGE.startPage}" end="${PAGE.endPage}">
+					<c:forEach var="pageNo" begin="${PAGE.startPage}"
+						end="${PAGE.endPage}">
 						<c:if test="${PAGE.nowPage eq pageNo}">
 							<span class="btn btn-primary pbtn">${pageNo}</span>
 						</c:if>
@@ -223,6 +226,8 @@ img.ui-datepicker-trigger {
 					<c:if test="${PAGE.endPage ne PAGE.totalPage}">
 						<span class="btn btn-outline-primary pbtn">NEXT</span>
 					</c:if>
+					<input type="hidden" name="startPage" id="startPage" value="${PAGE.startPage}">
+					<input type="hidden" name="endPage" id="endPage" value="${PAGE.endPage}">
 				</div>
 			</div>
 		</div>

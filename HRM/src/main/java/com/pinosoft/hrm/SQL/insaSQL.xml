@@ -50,7 +50,7 @@
 			<if test="retire_day != null and retire_day != ''">
 				retire_day = #{retire_day},
 			</if>
-			<if test="put_yn != null and put_yn != ''">
+			<if test="put_yn != null and put_yn != '0'">
 				put_yn = #{put_yn},
 			</if>
 			<if test="name != null and name != ''">
@@ -71,7 +71,7 @@
 			<if test="carrier != null and carrier != ''">
 				carrier = #{carrier},
 			</if>
-			<if test="pos_gbn_code != null and pos_gbn_code != ''">
+			<if test="pos_gbn_code != null and pos_gbn_code != '0'">
 				pos_gbn_code = #{pos_gbn_code},
 			</if>
 			<if test="cmp_reg_no != null and cmp_reg_no != ''">
@@ -80,7 +80,7 @@
 			<if test="cmp_reg_image != null and cmp_reg_image != ''">
 				cmp_reg_image = #{cmp_reg_image},
 			</if>
-			<if test="sex != null and sex != ''">
+			<if test="sex != null and sex != '0'">
 				sex = #{sex},
 			</if>
 			<if test="years != 0">
@@ -98,10 +98,10 @@
 			<if test="addr2 != null and addr2 != ''">
 				addr2 = #{addr2},
 			</if>
-			<if test="dept_code != null and dept_code != ''">
+			<if test="dept_code != null and dept_code != '0'">
 				dept_code = #{dept_code},
 			</if>
-			<if test="join_gbn_code != null and join_gbn_code != ''">
+			<if test="join_gbn_code != null and join_gbn_code != '0'">
 				join_gbn_code = #{join_gbn_code},
 			</if>
 			<if test="id != null and id != ''">
@@ -113,19 +113,19 @@
 			<if test="salary != 0">
 				salary = #{salary},
 			</if>
-			<if test="kosa_reg_yn != null and kosa_reg_yn != ''">
+			<if test="kosa_reg_yn != null and kosa_reg_yn != '0'">
 				kosa_reg_yn = #{kosa_reg_yn},
 			</if>
-			<if test="kosa_class_code != null and kosa_class_code != ''">
+			<if test="kosa_class_code != null and kosa_class_code != '0'">
 				kosa_class_code = #{kosa_class_code},
 			</if>
-			<if test="mil_yn != null and mil_yn != ''">
+			<if test="mil_yn != null and mil_yn != '0'">
 				mil_yn = #{mil_yn},
 			</if>
-			<if test="mil_type != null and mil_type != ''">
+			<if test="mil_type != null and mil_type != '0'">
 				mil_type = #{mil_type},
 			</if>
-			<if test="mil_level != null and mil_level != ''">
+			<if test="mil_level != null and mil_level != '0'">
 				mil_level = #{mil_level},
 			</if>
 			<if test="mil_startdate != null and mil_startdate != ''">
@@ -134,10 +134,10 @@
 			<if test="mil_enddate != null and mil_enddate != ''">
 				mil_enddate = #{mil_enddate},
 			</if>
-			<if test="job_type != null and job_type != ''">
+			<if test="job_type != null and job_type != '0'">
 				job_type = #{job_type},
 			</if>
-			<if test="gart_level != null and gart_level != ''">
+			<if test="gart_level != null and gart_level != '0'">
 				gart_level = #{gart_level},
 			</if>
 			<if test="self_intro != null and self_intro != ''">
@@ -146,7 +146,7 @@
 			<if test="crm_name != null and crm_name != ''">
 				crm_name = #{crm_name},
 			</if>
-			<if test="join_yn != null and join_yn != ''">
+			<if test="join_yn != null and join_yn != '0'">
 				join_yn = #{join_yn},
 			</if>
 			<if test="ori_profile != null and ori_profile != ''">
@@ -163,14 +163,14 @@
 			</if>
 		</trim>
 		WHERE
-			sabun = ${sabun}
+			sabun = #{sabun}
 	</update>
 	
 	<delete id="delEmp" parameterType="insaVO">
 		DELETE FROM
 			insa
 		WHERE
-			sabun = ${sabun}
+			sabun = #{sabun}
 	</delete>
 	
 	<select id="cntEmps" parameterType="insaVO" resultType="int">
@@ -185,22 +185,22 @@
 			<if test="sabun != 0">
 				AND sabun = #{sabun}
 			</if>
-			<if test="pos_gbn_code != null and pos_gbn_code != ''">
+			<if test="pos_gbn_code != null and pos_gbn_code != 0 and pos_gbn_code != ''">
 				AND pos_gbn_code = #{pos_gbn_code}
 			</if>
 			<if test="join_day != null and join_day != ''">
 				AND join_day = #{join_day}
 			</if>
-			<if test="join_yn != null and join_yn != ''">
+			<if test="join_yn != null and join_yn != 0 and join_yn != ''">
 				AND join_yn = #{join_yn}
 			</if>
 			<if test="retire_day != null and retire_day != ''">
 				AND retire_day = #{retire_day}
 			</if>
-			<if test="put_yn != null and put_yn != ''">
+			<if test="put_yn != null and put_yn != 0 and put_yn != ''">
 				AND put_yn = #{put_yn}
 			</if>
-			<if test="join_gbn_code != null and join_gbn_code != ''">
+			<if test="join_gbn_code != null and join_gbn_code != 0 and join_gbn_code != ''">
 				AND join_gbn_code = #{join_gbn_code}
 			</if>
 		</trim>
@@ -224,22 +224,22 @@
 					<if test="sabun != 0">
 						AND sabun = #{sabun}
 					</if>
-					<if test="pos_gbn_code != null and pos_gbn_code != ''">
+					<if test="pos_gbn_code != null and pos_gbn_code != 0 and pos_gbn_code != ''">
 						AND pos_gbn_code = #{pos_gbn_code}
 					</if>
 					<if test="join_day != null and join_day != ''">
 						AND join_day = #{join_day}
 					</if>
-					<if test="join_yn != null and join_yn != ''">
+					<if test="join_yn != null and join_yn != 0 and join_yn != ''">
 						AND join_yn = #{join_yn}
 					</if>
 					<if test="retire_day != null and retire_day != ''">
 						AND retire_day = #{retire_day}
 					</if>
-					<if test="put_yn != null and put_yn != ''">
+					<if test="put_yn != null and put_yn != 0 and put_yn != ''">
 						AND put_yn = #{put_yn}
 					</if>
-					<if test="join_gbn_code != null and join_gbn_code != ''">
+					<if test="join_gbn_code != null and join_gbn_code != 0 and join_gbn_code != ''">
 						AND join_gbn_code = #{join_gbn_code}
 					</if>
 				</trim>
@@ -255,21 +255,23 @@
 			*
 		FROM
 			insa_com
+		ORDER BY
+			gubun, code
 	</select>
 	
 	<select id="getInsaInfo" parameterType="int" resultType="insaVO">
 		SELECT
-			SABUN, JOIN_DAY join_day_sql, RETIRE_DAY retire_day_sql, PUT_YN, NAME,
-			REG_NO, ENG_NAME, PHONE, HP, CARRIER, POS_GBN_CODE, CMP_REG_NO, CMP_REG_IMAGE,
-			SEX, YEARS, EMAIL, ZIP, ADDR1, ADDR2, DEPT_CODE, JOIN_GBN_CODE, JOB_TYPE,
-			ID, PWD, SALARY, KOSA_REG_YN, KOSA_CLASS_CODE, MIL_YN, MIL_TYPE, CRM_NAME,
-			MIL_LEVEL, MIL_STARTDATE mil_startdate_sql, MIL_ENDDATE mil_enddate_sql,
-			GART_LEVEL, SELF_INTRO, JOIN_YN, ORI_PROFILE, ORI_CMP_REG_IMG, ORI_CARRIER, PROFILE,
-			RPAD(SUBSTR(reg_no, 1, 8), 14, '*') reg_no_input
+			sabun, join_day join_day_sql, retire_day retire_day_sql, put_yn, name,
+			reg_no, eng_name, phone, hp, carrier, pos_gbn_code, cmp_reg_no, cmp_reg_image,
+			sex, years, email, zip, addr1, addr2, dept_code, join_gbn_code, job_type,
+			id, pwd, salary, kosa_reg_yn, kosa_class_code, mil_yn, mil_type, crm_name,
+			mil_level, mil_startdate mil_startdate_sql, mil_enddate mil_enddate_sql,
+			gart_level, self_intro, join_yn, ori_profile, ori_cmp_reg_img, ori_carrier, profile,
+			rpad(substr(reg_no, 1, 8), 14, '*') reg_no_input
 		FROM
 			insa
 		WHERE
-			sabun = ${sabun}
+			sabun = #{sabun}
 	</select>
 	
 	<select id="checkID" parameterType="string" resultType="int">
@@ -299,7 +301,7 @@
 			FROM
 				insa_input_info
 			WHERE
-				sabun = ${sabun}
+				sabun = #{sabun}
 			ORDER BY
 				iseq) R
 	</select>
@@ -318,11 +320,11 @@
 			ROWNUM rno, R.*
 		FROM
 			(SELECT
-				seq cseq, cmp_name_carrier, pos_gbn_code, respon_dept, work_cotents, work_start_day work_start_day_sql, work_end_day work_end_day_sql
+				seq cseq, cmp_name_carrier, pos_gbn_code, respon_dept, work_contents, work_start_day work_start_day_sql, work_end_day work_end_day_sql
 			FROM
 				insa_carrier
 			WHERE
-				sabun = ${sabun}
+				sabun = #{sabun}
 			ORDER BY
 				cseq) R
 	</select>
@@ -345,7 +347,7 @@
 			FROM
 				insa_acad_ability
 			WHERE
-				sabun = ${sabun}
+				sabun = #{sabun}
 			ORDER BY
 				aseq) R
 	</select>

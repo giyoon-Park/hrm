@@ -1,7 +1,5 @@
 package com.pinosoft.hrm.controller;
 
-import org.slf4j.LoggerFactory;
-
 /**
  * 
  * @author	박기윤
@@ -12,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.*;
 import org.springframework.web.servlet.view.*;
@@ -84,10 +81,12 @@ public class InsaController {
 	
 	// 직원 수정페이지
 	@RequestMapping("/insaUpdateForm.do")
-	public ModelAndView showUpdateForm(ModelAndView mv, int eno) {
+	public ModelAndView showUpdateForm(ModelAndView mv, @RequestParam int eno) {
 		String view = "jsp/insaUpdateForm";
 		List<InsaComVO> comlist = comSrvc.getComList();
 		InsaVO insaVO = comSrvc.empInfo(eno);
+		insaVO = comSrvc.splitAt(insaVO);
+		insaVO = comSrvc.placeComma(insaVO);
 		
 		int inputs = comSrvc.cntInputs(insaVO);
 		int acads = comSrvc.cntAcads(insaVO);
@@ -120,8 +119,15 @@ public class InsaController {
 		insaVO = comSrvc.uploadImg(insaVO, imgVO, session);
 		comSrvc.editEmpInfo(insaVO);
 		
-		req.setAttribute("sabun", sabun);
-		mv.setView(new RedirectView("/hrm/insaUpdateForm.do"));
+		mv.setView(new RedirectView("/hrm/insaUpdateForm.do?eno=" + sabun));
+		return mv;
+	}
+	
+	// 직원 정보 삭제 처리
+	@RequestMapping("/insaDeleteProc.do")
+	public ModelAndView insaDeleteProc(ModelAndView mv, InsaVO insaVO) {
+		comSrvc.delEmp(insaVO);
+		mv.setView(new RedirectView("/hrm/index.do"));
 		return mv;
 	}
 }

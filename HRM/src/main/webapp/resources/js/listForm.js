@@ -5,16 +5,12 @@ $(document).ready(function() {
 
 	$('#searchEmp').click(function(){
 		var sabun = $('#ssabun').val();
-		var nowPage = $('#nowPage').val();
+		$('#nowPage').val(1);
 
 		if(sabun == '') {
 			$('#sabun').val(0);
 		} else {
 			$('#sabun').val(sabun);
-		}
-
-		if(nowPage == '') {
-			$('#nowPage').val(0);
 		}
 
 		$('#frmsch').attr('action', '/hrm/insaListForm.do');
@@ -23,11 +19,13 @@ $(document).ready(function() {
 	
 	$('.pbtn').click(function(){
 		var pagebtn = $(this).text();
+		var startPage = parseInt($('#startPage').val());
+		var endPage = parseInt($('#endPage').val());
 		
 		if(pagebtn == 'PRE') {
-			$('#nowPage').val('${PAGE.startPage - 1}');
+			$('#nowPage').val(startPage - 1);
 		} else if(pagebtn == 'NEXT') {
-			$('#nowPage').val('${PAGE.endPage + 1}');
+			$('#nowPage').val(endPage + 1);
 		} else {
 			$('#nowPage').val(pagebtn);
 		}
@@ -42,5 +40,17 @@ $(document).ready(function() {
 
 		$('#frminfo').attr('action', '/hrm/insaUpdateForm.do');
 		$('#frminfo').submit();
-	})
+	});
+
+	$('#rstbtn').click(function(){
+		$('#ssabun').val('');
+		$('#sabun').val('');
+		$('#pos_gbn_code').val('');
+		$('#name').val('');
+		$('#join_day').val('');
+		$('#join_yn').val('');
+		$('#retire_day').val('');
+		$('#put_yn').val('');
+		$('#join_gbn_code').val('');
+	});
 });

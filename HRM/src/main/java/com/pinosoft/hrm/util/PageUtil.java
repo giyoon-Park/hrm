@@ -136,4 +136,10 @@ public class PageUtil {
 		startCont = (nowPage - 1) * pageRow + 1;
 		endCont = nowPage * pageRow;
 	}
+	@Override
+	public String toString() {
+		return "PageUtil [nowPage=" + nowPage + ", totalPage=" + totalPage + ", totalCount=" + totalCount + ", pageRow="
+				+ pageRow + ", pageGroup=" + pageGroup + ", startPage=" + startPage + ", endPage=" + endPage
+				+ ", startCont=" + startCont + ", endCont=" + endCont + "]";
+	}
 }

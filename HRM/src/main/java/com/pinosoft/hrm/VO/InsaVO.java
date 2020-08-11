@@ -11,7 +11,6 @@ package com.pinosoft.hrm.VO;
 import org.apache.ibatis.type.*;
 import lombok.*;
 
-import java.io.Serializable;
 import java.sql.*;
 
 @Alias("insaVO")
