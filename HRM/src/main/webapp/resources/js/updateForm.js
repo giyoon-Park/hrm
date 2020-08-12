@@ -178,6 +178,7 @@ $(document).ready(function() {
 	});
 	
 	$('#editEmp').click(function(){
+		alert('수정 완료');
 		$('#frm').attr('action', '/hrm/insaUpdateProc.do');
 		$('#frm').submit();
 	});

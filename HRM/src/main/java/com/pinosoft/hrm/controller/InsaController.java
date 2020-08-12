@@ -45,6 +45,7 @@ public class InsaController {
 		List<InsaVO> result = comSrvc.empList(insaVO, page);
 		
 		mv.addObject("COMLIST", list);
+		System.out.println(insaVO.toString());
 		mv.addObject("PARAM", insaVO);
 		mv.addObject("PAGE", page);
 		mv.addObject("LIST", result);

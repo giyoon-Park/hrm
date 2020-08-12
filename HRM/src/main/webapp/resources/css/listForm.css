@@ -5,6 +5,10 @@
 .center {
 	text-align: center;
 }
+.select-center {
+	vertical-align: middle;
+	text-align-last: center;
+}
 .in-blk {
 	display: inline-block;
 }

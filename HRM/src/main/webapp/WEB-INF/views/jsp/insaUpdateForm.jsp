@@ -30,64 +30,70 @@ img.ui-datepicker-trigger {
 <script type="text/javascript">
 	$(document).ready(
 			function() {
-				$('#mil_yn').change(
-						function() {
-							var mil = $(this).val();
-							if (mil == '2') {
-								$('#mil_type').attr('disabled', false);
-								$('#mil_level').attr('disabled', false);
-								$('#mil_startdate').attr('disabled', false);
-								$('#mil_enddate').attr('disabled', false);
+				$('#mil_yn').change(function() {
+					var mil = $(this).val();
+					if (mil == '2') {
+						$('#mil_type').attr('disabled', false);
+						$('#mil_level').attr('disabled', false);
+						$('#mil_startdate').attr('disabled', false);
+						// $('#mil_enddate').attr('disabled', false);
 
-								$("#mil_startdate").datepicker(
-										{
-											onClose : function(selectedDate) {
-												$("#mil_enddate").datepicker(
-														"option", "minDate",
-														selectedDate);
-											}
-										});
-
-								$("#mil_enddate").datepicker(
-										{
-											onClose : function(selectedDate) {
-												$("#mil_startdate").datepicker(
-														"option", "maxDate",
-														selectedDate);
-											}
-										});
-							} else {
-								$('#mil_type').attr('disabled', true);
-								$('#mil_level').attr('disabled', true);
-								$('#mil_startdate').attr('disabled', true);
-								$('#mil_enddate').attr('disabled', true);
-
-								$('#mil_type').val('');
-								$('#mil_level').val('');
-								$('#mil_startdate').val('');
-								$('#mil_enddate').val('');
-
-								$("#mil_startdate").datepicker('destroy');
-
-								$("#mil_enddate").datepicker('destroy');
+						$("#mil_startdate").datepicker({
+							onClose : function(selectedDate) {
+								$("#mil_enddate").datepicker("option", "minDate", selectedDate);
 							}
 						});
 
-				$("#join_day").datepicker(
-						{
-							onClose : function(selectedDate) {
-								$("#retire_day").datepicker("option",
-										"minDate", selectedDate);
-							},
-						});
+						// $("#mil_enddate").datepicker({
+						// 	onClose : function(selectedDate) {
+						// 		$("#mil_startdate").datepicker("option", "maxDate", selectedDate);
+						// 	}
+						// });
+					} else {
+						$('#mil_type').attr('disabled', true);
+						$('#mil_level').attr('disabled', true);
+						$('#mil_startdate').attr('disabled', true);
+						$('#mil_enddate').attr('disabled', true);
 
-				$("#retire_day").datepicker(
-						{
+						$('#mil_type').val('');
+						$('#mil_level').val('');
+						$('#mil_startdate').val('');
+						$('#mil_enddate').val('');
+
+						$("#mil_startdate").datepicker('destroy');
+
+						$("#mil_enddate").datepicker('destroy');
+					}
+				});
+				
+				$('#mil_startdate').change(function(){
+					var ms = $(this).val();
+					if(ms == null || ms == '') {
+						$('#mil_enddate').attr('disabled', true);
+						$('#mil_enddate').val('');
+						$('#mil_enddate').datepicker('destroy');
+					} else {
+						$('#mil_enddate').attr('disabled', false);
+
+						$("#mil_enddate").datepicker({
 							onClose : function(selectedDate) {
-								$("#join_day").datepicker("option", "maxDate",
-										selectedDate);
-							},
+								$("#mil_startdate").datepicker("option", "maxDate", selectedDate);
+							}
 						});
+					}
+				});
+
+				$("#join_day").datepicker({
+					onClose : function(selectedDate) {
+						$("#retire_day").datepicker("option", "minDate", selectedDate);
+					}
+				});
+
+				$("#retire_day").datepicker({
+					onClose : function(selectedDate) {
+						$("#join_day").datepicker("option", "maxDate", selectedDate);
+					}
+				});
 			});
 </script>
 </head>
@@ -95,7 +101,7 @@ img.ui-datepicker-trigger {
 	<jsp:include page="header.jsp" />
 	<div class="pd-4">
 		<div class="container pt-5">
-			<h3>직원 등록</h3>
+			<h3>직원 수정</h3>
 			<form name="frm" id="frm" enctype="multipart/form-data" method="POST"
 				action="/hrm/regProc.do">
 				<div class="float-right">
@@ -128,7 +134,7 @@ img.ui-datepicker-trigger {
 								<h6>입사구분</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<select name="join_yn" id="join_yn" class="w-100 small">
+								<select name="join_yn" id="join_yn" class="w-100 small select-center">
 									<c:forEach var="com" items="${COMLIST}">
 										<c:if test="${com.gubun eq '1'}">
 											<option value="${com.code}"
@@ -143,7 +149,7 @@ img.ui-datepicker-trigger {
 								<h6>군별</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<select name="mil_type" id="mil_type" class="w-100 small"
+								<select name="mil_type" id="mil_type" class="w-100 small select-center"
 									disabled="disabled">
 									<c:forEach var="com" items="${COMLIST}">
 										<c:if test="${com.gubun eq '5'}">
@@ -159,7 +165,7 @@ img.ui-datepicker-trigger {
 								<h6>KOSA등록</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<select name="kosa_reg_yn" id="kosa_reg_yn" class="w-100 small">
+								<select name="kosa_reg_yn" id="kosa_reg_yn" class="w-100 small select-center">
 									<c:forEach var="com" items="${COMLIST}">
 										<c:if test="${com.gubun eq '9'}">
 											<option value="${com.code}"
@@ -175,7 +181,7 @@ img.ui-datepicker-trigger {
 							</div>
 							<div class="col-6 in-blk p-0">
 								<input type="text" name="cmp_reg_no" id="cmp_reg_no"
-									class="w-100 small" maxlength="12" value="${PARAM.cmp_reg_no}" />
+									class="w-100 small center" maxlength="12" value="${PARAM.cmp_reg_no}" />
 							</div>
 						</div>
 					</div>
@@ -185,7 +191,7 @@ img.ui-datepicker-trigger {
 								<h6>*사번</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="number" name="sabun" id="sabun" class="w-100 small"
+								<input type="number" name="sabun" id="sabun" class="w-100 small center"
 									readonly value="${PARAM.sabun}" />
 							</div>
 						</div>
@@ -194,7 +200,7 @@ img.ui-datepicker-trigger {
 								<h6>*아이디</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="id" id="id" class="w-100 small"
+								<input type="text" name="id" id="id" class="w-100 small center"
 									minlength="4" maxlength="20" value="${PARAM.id}"
 									disabled="disabled" />
 							</div>
@@ -204,7 +210,7 @@ img.ui-datepicker-trigger {
 								<h6>전화번호</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="tel" name="phone" id="phone" class="w-100 small"
+								<input type="tel" name="phone" id="phone" class="w-100 small center"
 									maxlength="13" value="${PARAM.phone}" />
 							</div>
 						</div>
@@ -222,7 +228,7 @@ img.ui-datepicker-trigger {
 								<h6>주소</h6>
 							</div>
 							<div class="col-3 in-blk p-0">
-								<input type="number" name="zip" id="zip" class="w-100 small"
+								<input type="number" name="zip" id="zip" class="w-100 small center"
 									readonly placeholder="우편번호" onclick="goPopup()"
 									value="${PARAM.zip}" />
 
@@ -240,7 +246,7 @@ img.ui-datepicker-trigger {
 							</div>
 							<div class="col-6 in-blk p-0">
 								<select name="pos_gbn_code" id="pos_gbn_code"
-									class="w-100 small">
+									class="w-100 small select-center">
 									<c:forEach var="com" items="${COMLIST}">
 										<c:if test="${com.gubun eq '3'}">
 											<option value="${com.code}"
@@ -255,7 +261,7 @@ img.ui-datepicker-trigger {
 								<h6>등급</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<select name="gart_level" id="gart_level" class="w-100 small">
+								<select name="gart_level" id="gart_level" class="w-100 small select-center">
 									<c:forEach var="com" items="${COMLIST}">
 										<c:if test="${com.gubun eq '2'}">
 											<option value="${com.code}"
@@ -270,7 +276,7 @@ img.ui-datepicker-trigger {
 								<h6>계급</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<select name="mil_level" id="mil_level" class="w-100 small"
+								<select name="mil_level" id="mil_level" class="w-100 small select-center"
 									disabled="disabled">
 									<c:forEach var="com" items="${COMLIST}">
 										<c:if test="${com.gubun eq '7'}">
@@ -287,7 +293,7 @@ img.ui-datepicker-trigger {
 							</div>
 							<div class="col-6 in-blk p-0">
 								<select name="kosa_class_code" id="kosa_class_code"
-									class="w-100 small" disabled="disabled">
+									class="w-100 small select-center" disabled="disabled">
 									<c:forEach var="com" items="${COMLIST}">
 										<c:if test="${com.gubun eq '10'}">
 											<option value="${com.code}"
@@ -303,7 +309,7 @@ img.ui-datepicker-trigger {
 							</div>
 							<div class="col-6 in-blk p-0">
 								<input type="text" name="crm_name" id="crm_name"
-									class="w-100 small" value="${PARAM.crm_name}" />
+									class="w-100 small center" value="${PARAM.crm_name}" />
 							</div>
 						</div>
 					</div>
@@ -313,7 +319,7 @@ img.ui-datepicker-trigger {
 								<h6>*한글성명</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="name" id="name" class="w-100 small"
+								<input type="text" name="name" id="name" class="w-100 small center"
 									maxlength="7" minlength="2" value="${PARAM.name}"
 									disabled="disabled" />
 							</div>
@@ -323,7 +329,7 @@ img.ui-datepicker-trigger {
 								<h6>*패스워드</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="password" name="pwd" id="pwd" class="w-100 small"
+								<input type="password" name="pwd" id="pwd" class="w-100 small center"
 									maxlength="20" minlength="6" value="${PARAM.pwd}" />
 							</div>
 						</div>
@@ -332,7 +338,7 @@ img.ui-datepicker-trigger {
 								<h6>*핸드폰번호</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="hp" id="hp" class="w-100 small"
+								<input type="text" name="hp" id="hp" class="w-100 small center"
 									required maxlength="13" value="${PARAM.hp}" />
 							</div>
 						</div>
@@ -341,12 +347,12 @@ img.ui-datepicker-trigger {
 								<h6>*이메일</h6>
 							</div>
 							<div class="col-4 in-blk p-0">
-								<input type="text" name="mail" id="mail" class="w-100 small"
+								<input type="text" name="mail" id="mail" class="w-100 small center"
 									value="${PARAM.mail}" />
 							</div>
 							<div class="col-4 in-blk p-0">
 								<h6 class="in-blk">@</h6>
-								<select name="domain" id="domain" class="w-75 small">
+								<select name="domain" id="domain" class="w-75 small select-center">
 									<c:forEach var="com" items="${COMLIST}">
 										<c:if test="${com.gubun eq '12'}">
 											<option value="${com.name}"
@@ -363,7 +369,7 @@ img.ui-datepicker-trigger {
 							</div>
 						</div>
 						<div class="col center addr-h">
-							<input type="text" name="addr1" id="addr1" class="w-100" readonly
+							<input type="text" name="addr1" id="addr1" class="w-100 center" readonly
 								placeholder="주소" value="${PARAM.addr1}" />
 						</div>
 						<div class="col p-0">
@@ -371,7 +377,7 @@ img.ui-datepicker-trigger {
 								<h6>부서</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<select name="dept_code" id="dept_code" class="w-100 small">
+								<select name="dept_code" id="dept_code" class="w-100 small select-center">
 									<c:forEach var="com" items="${COMLIST}">
 										<c:if test="${com.gubun eq '4'}">
 											<option value="${com.code}"
@@ -386,7 +392,7 @@ img.ui-datepicker-trigger {
 								<h6>투입여부</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<select name="put_yn" id="put_yn" class="w-100 small">
+								<select name="put_yn" id="put_yn" class="w-100 small select-center">
 									<c:forEach var="com" items="${COMLIST}">
 										<c:if test="${com.gubun eq '13'}">
 											<option value="${com.code}"
@@ -402,7 +408,7 @@ img.ui-datepicker-trigger {
 							</div>
 							<div class="col-6 in-blk p-0">
 								<input type="text" name="join_day" id="join_day"
-									autocomplete="off" class="w-75 small" value="${PARAM.join_day}" />
+									autocomplete="off" class="w-75 small center" value="${PARAM.join_day}" />
 							</div>
 						</div>
 						<div class="col p-0">
@@ -411,7 +417,7 @@ img.ui-datepicker-trigger {
 							</div>
 							<div class="col-6 in-blk p-0">
 								<input type="text" name="retire_day" id="retire_day"
-									autocomplete="off" class="w-75 small"
+									autocomplete="off" class="w-75 small center"
 									value="${PARAM.retire_day}" />
 							</div>
 						</div>
@@ -421,7 +427,7 @@ img.ui-datepicker-trigger {
 							</div>
 							<div class="col-6 in-blk p-0">
 								<input type="text" name="ori_cmp_reg_img" id="ori_cmp_reg_img"
-									class="w-100 small" disabled value="${PARAM.ori_cmp_reg_img}" />
+									class="w-100 small center" disabled value="${PARAM.ori_cmp_reg_img}" />
 							</div>
 						</div>
 					</div>
@@ -432,7 +438,7 @@ img.ui-datepicker-trigger {
 							</div>
 							<div class="col-6 in-blk p-0">
 								<input type="text" name="eng_name" id="eng_name"
-									class="w-100 small" value="${PARAM.eng_name}" />
+									class="w-100 small center" value="${PARAM.eng_name}" />
 							</div>
 						</div>
 						<div class="col p-0">
@@ -441,7 +447,7 @@ img.ui-datepicker-trigger {
 							</div>
 							<div class="col-6 in-blk p-0">
 								<input type="password" name="pwd_ck" id="pwd_ck"
-									class="w-100 small" maxlength="20" minlength="6"
+									class="w-100 small center" maxlength="20" minlength="6"
 									value="${PARAM.pwd}" />
 							</div>
 						</div>
@@ -451,7 +457,7 @@ img.ui-datepicker-trigger {
 							</div>
 							<div class="col-6 in-blk p-0">
 								<input type="text" name="reg_no_input" id="reg_no_input"
-									class="w-100 small" maxlength="14"
+									class="w-100 small center" maxlength="14"
 									value="${PARAM.reg_no_input}" /> <input type="hidden"
 									name="reg_no" id="reg_no" value="${PARAM.reg_no}" />
 							</div>
@@ -462,7 +468,7 @@ img.ui-datepicker-trigger {
 							</div>
 							<div class="col-3 in-blk p-0">
 								<select name="join_gbn_code" id="join_gbn_code"
-									class="w-100 small">
+									class="w-100 small select-center">
 									<c:forEach var="com" items="${COMLIST}">
 										<c:if test="${com.gubun eq '8'}">
 											<option value="${com.code}"
@@ -475,7 +481,7 @@ img.ui-datepicker-trigger {
 								<h6>성별</h6>
 							</div>
 							<div class="col-3 in-blk p-0">
-								<select name="sex" id="sex" class="w-100 small">
+								<select name="sex" id="sex" class="w-100 small select-center">
 									<c:forEach var="com" items="${COMLIST}">
 										<c:if test="${com.gubun eq '11'}">
 											<option value="${com.code}"
@@ -508,7 +514,7 @@ img.ui-datepicker-trigger {
 								<h6>군필여부</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<select name="mil_yn" id="mil_yn" class="w-100 small">
+								<select name="mil_yn" id="mil_yn" class="w-100 small select-center">
 									<c:forEach var="com" items="${COMLIST}">
 										<c:if test="${com.gubun eq '5'}">
 											<option value="${com.code}"
@@ -524,7 +530,7 @@ img.ui-datepicker-trigger {
 							</div>
 							<div class="col-6 in-blk p-0">
 								<input type="text" name="mil_startdate" id="mil_startdate"
-									autocomplete="off" class="w-75 small" disabled="disabled"
+									autocomplete="off" class="w-75 small center" disabled="disabled"
 									value="${PARAM.mil_startdate}" />
 							</div>
 						</div>
@@ -534,7 +540,7 @@ img.ui-datepicker-trigger {
 							</div>
 							<div class="col-6 in-blk p-0">
 								<input type="text" name="mil_enddate" id="mil_enddate"
-									autocomplete="off" class="w-75 small" disabled="disabled"
+									autocomplete="off" class="w-75 small center" disabled="disabled"
 									value="${PARAM.mil_enddate}" />
 							</div>
 						</div>
@@ -564,7 +570,7 @@ img.ui-datepicker-trigger {
 								<h6>이력서</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<input type="text" name="resume" id="resume" class="w-100 small"
+								<input type="text" name="resume" id="resume" class="w-100 small center"
 									disabled value="${PARAM.ori_carrier}" />
 							</div>
 						</div>

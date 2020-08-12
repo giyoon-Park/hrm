@@ -216,33 +216,59 @@
 				ROWNUM rno, R.*
 			FROM
 				(SELECT
-					sabun, name, RPAD(SUBSTR(reg_no, 1, 8), 14, '*') reg_no, hp, pos_gbn_code, join_day join_day_sql, retire_day retire_day_sql, put_yn, salary
+					sabun, insa.name, RPAD(SUBSTR(reg_no, 1, 8), 14, '*') reg_no, hp, join_day join_day_sql, retire_day retire_day_sql, salary,
+					CASE
+						WHEN pos.name = '-직위-' THEN '-'
+						ELSE pos.name
+					END AS pos_gbn_code,
+					CASE
+						WHEN put.name = '-투입여부-' THEN '-'
+						ELSE put.name
+					END AS put_yn
 				FROM
-					insa
+					insa,
+					(SELECT
+						gubun, code, name
+					FROM
+						insa_com
+					WHERE
+						gubun = 3
+					) pos,
+					(SELECT
+						gubun, code, name
+					FROM
+						insa_com
+					WHERE
+						gubun = 13
+					) put
 				<trim prefix="WHERE" prefixOverrides="AND | OR">
+					<if test="true">
+						AND insa.pos_gbn_code = pos.code
+						AND insa.put_yn = put.code
+					</if>
 					<if test="name != null and name != ''">
-						AND name LIKE '%' || #{name} || '%'
+						AND insa.name LIKE '%' || #{name} || '%'
 					</if>
 					<if test="sabun != 0">
 						AND sabun = #{sabun}
 					</if>
 					<if test="pos_gbn_code != null and pos_gbn_code != 0 and pos_gbn_code != ''">
-						AND pos_gbn_code = #{pos_gbn_code}
+						AND insa.pos_gbn_code = #{pos_gbn_code}
 					</if>
 					<if test="join_day != null and join_day != ''">
 						AND join_day = #{join_day}
 					</if>
 					<if test="join_yn != null and join_yn != 0 and join_yn != ''">
-						AND join_yn = #{join_yn}
+						AND insa.join_yn = #{join_yn}
 					</if>
 					<if test="retire_day != null and retire_day != ''">
 						AND retire_day = #{retire_day}
 					</if>
 					<if test="put_yn != null and put_yn != 0 and put_yn != ''">
-						AND put_yn = #{put_yn}
+						AND insa.put_yn = #{put_yn}
 					</if>
 					<if test="join_gbn_code != null and join_gbn_code != 0 and join_gbn_code != ''">
-						AND join_gbn_code = #{join_gbn_code}
+						AND insa.join_gbn_code = #{join_gbn_code}
 					</if>
 				</trim>
 				ORDER BY

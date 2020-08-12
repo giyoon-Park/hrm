@@ -64,7 +64,7 @@ img.ui-datepicker-trigger {
 								<h6>직위</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<select name="pos_gbn_code" id="pos_gbn_code" class="w-100 ">
+								<select name="pos_gbn_code" id="pos_gbn_code" class="w-100 select-center">
 									<c:forEach var="com" items="${COMLIST}">
 										<c:if test="${com.gubun eq '3'}">
 											<option value="${com.code}"
@@ -101,7 +101,7 @@ img.ui-datepicker-trigger {
 								<h6>입사구분</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<select name="join_yn" id="join_yn" class="w-100 ">
+								<select name="join_yn" id="join_yn" class="w-100 select-center">
 									<c:forEach var="com" items="${COMLIST}">
 										<c:if test="${com.gubun eq '1'}">
 											<option value="${com.code}"
@@ -127,7 +127,7 @@ img.ui-datepicker-trigger {
 								<h6>투입여부</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<select name="put_yn" id="put_yn" class="w-100 ">
+								<select name="put_yn" id="put_yn" class="w-100 select-center">
 									<c:forEach var="com" items="${COMLIST}">
 										<c:if test="${com.gubun eq '13'}">
 											<option value="${com.code}"
@@ -142,11 +142,11 @@ img.ui-datepicker-trigger {
 								<h6>직종체크</h6>
 							</div>
 							<div class="col-6 in-blk p-0">
-								<select name="join_gbn_code" id="join_gbn_code" class="w-100 ">
+								<select name="join_gbn_code" id="join_gbn_code" class="w-100 select-center">
 									<c:forEach var="com" items="${COMLIST}">
 										<c:if test="${com.gubun eq '8'}">
 											<option value="${com.code}"
-												<c:if test="${com.code eq join_gbn_code}">selected="selected"</c:if>>${com.name}</option>
+												<c:if test="${com.code eq PARAM.join_gbn_code}">selected="selected"</c:if>>${com.name}</option>
 										</c:if>
 									</c:forEach>
 								</select>
@@ -172,7 +172,7 @@ img.ui-datepicker-trigger {
 			<br />
 			<div id="ajaxlist">
 				<hr />
-				<table class="table table-hover table-bordered" id="emptable">
+				<table class="table table-hover table-bordered center" id="emptable">
 					<thead>
 						<tr>
 							<th>사번</th>
