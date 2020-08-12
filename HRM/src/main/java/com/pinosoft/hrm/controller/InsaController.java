@@ -17,12 +17,15 @@ import com.pinosoft.hrm.VO.*;
 import com.pinosoft.hrm.service.*;
 import com.pinosoft.hrm.util.*;
 import java.util.*;
+//import java.util.logging.*;
 import javax.servlet.http.*;
 
 @Controller
 public class InsaController {
 	@Autowired
 	ComService comSrvc;
+	
+//	static Logger logger = Logger.getLogger("InsaController.class");
 	
 	// 메인페이지
 	@RequestMapping("/index.do")
@@ -70,11 +73,20 @@ public class InsaController {
 		return mv;
 	}
 	
-	// 아이디 체크
+	// 아이디 중복 체크
 	@RequestMapping("/id.ck")
 	@ResponseBody
 	public int checkID(String id) {
 		int cnt = comSrvc.checkID(id);
+		
+		return cnt;
+	}
+	
+	// 핸드폰 번호 중복 체크
+	@RequestMapping("/hp.ck")
+	@ResponseBody
+	public int checkHP(String hp) {
+		int cnt = comSrvc.checkHP(hp);
 		
 		return cnt;
 	}

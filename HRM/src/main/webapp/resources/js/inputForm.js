@@ -214,6 +214,7 @@ $(document).ready(function() {
 		var domain = $('#domain').val();
 		var email = $('#email').val();
 		var hp = $('#hp').val();
+		var hpck = $('#hpck').val();
 		var join_day = $('#join_day').val();
 		
 		if(idck == 'N') {

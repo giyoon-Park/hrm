@@ -24,6 +24,10 @@ public class InsaDAO {
 		return sqlSession.selectOne("insaSQL.checkID", id);
 	}
 	
+	public int checkHP(String hp) {
+		return sqlSession.selectOne("insaSQL.checkHP", hp);
+	}
+	
 	public void regEmp(InsaVO insaVO) {
 		sqlSession.insert("insaSQL.addEmp", insaVO);
 	}

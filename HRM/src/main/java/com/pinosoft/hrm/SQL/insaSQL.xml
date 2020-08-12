@@ -34,7 +34,9 @@
 	
 	<insert id="copyEmpToDel" parameterType="insaVO">
 		INSERT INTO insa_del
-		SELECT * FROM insa WHERE sabun = #{sabun}
+		SELECT
+			*
+		FROM insa WHERE sabun = #{sabun}
 	</insert>
 	
 	<update id="editEmpInfo" parameterType="insaVO">
@@ -283,6 +285,15 @@
 			id = #{id}
 	</select>
 	
+	<select id="checkHP" parameterType="string" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			insa
+		WHERE
+			hp = #{hp}
+	</select>
+	
 	<select id="cntInputs" parameterType="insaVO" resultType="int">
 		SELECT
 			COUNT(*)
@@ -297,7 +308,7 @@
 			ROWNUM rno, R.*
 		FROM
 			(SELECT
-				seq iseq, sugst_money, current_salary, pjt_gbn_code, eqm_yn, work_area, wrk_posb_day wrk_posb_day_sql
+				iseq, sugst_money, current_salary, pjt_gbn_code, eqm_yn, work_area, wrk_posb_day wrk_posb_day_sql
 			FROM
 				insa_input_info
 			WHERE
@@ -320,7 +331,7 @@
 			ROWNUM rno, R.*
 		FROM
 			(SELECT
-				seq cseq, cmp_name_carrier, pos_gbn_code, respon_dept, work_contents, work_start_day work_start_day_sql, work_end_day work_end_day_sql
+				cseq, cmp_name_carrier, pos_gbn_code, respon_dept, work_contents, work_start_day work_start_day_sql, work_end_day work_end_day_sql
 			FROM
 				insa_carrier
 			WHERE
@@ -343,7 +354,7 @@
 			ROWNUM rno, R.*
 		FROM
 			(SELECT
-				seq aseq, gart_year, gart_month, major_stud_gbn, gart_level, school_name
+				aseq, gart_year, gart_month, major_stud_gbn, gart_level, school_name
 			FROM
 				insa_acad_ability
 			WHERE
@@ -355,12 +366,12 @@
 	<insert id="addInput" parameterType="inputVO">
 		<selectKey keyProperty="iseq" resultType="int" order="BEFORE">
 			SELECT
-				NVL(MAX(seq) + 1, 1)
+				NVL(MAX(iseq) + 1, 1)
 			FROM
 				insa_input_info
 		</selectKey>
 		INSERT INTO
-			insa_input_info(seq, sabun, wrk_posb_day, sugst_money, pjt_gbn_code, eqm_yn, current_salary, work_area)
+			insa_input_info(iseq, sabun, wrk_posb_day, sugst_money, pjt_gbn_code, eqm_yn, current_salary, work_area)
 		VALUES(
 			#{iseq}, #{sabun}, #{wrk_posb_day, jdbcType=DATE}, #{sugst_money, jdbcType=INTEGER},
 			#{pjt_gbn_code, jdbcType=VARCHAR}, #{eqm_yn, jdbcType=VARCHAR}, #{current_salary, jdbcType=INTEGER}, #{work_area, jdbcType=VARCHAR}
@@ -370,12 +381,12 @@
 	<insert id="addCarrier" parameterType="carrierVO">
 		<selectKey keyProperty="cseq" resultType="int" order="BEFORE">
 			SELECT
-				NVL(MAX(seq) + 1, 1)
+				NVL(MAX(cseq) + 1, 1)
 			FROM
 				insa_carrier
 		</selectKey>
 		INSERT INTO
-			insa_carrier(seq, sabun, cmp_name_carrier, work_start_day, work_end_day, pos_gbn_code, respon_dept, work_contents)
+			insa_carrier(cseq, sabun, cmp_name_carrier, work_start_day, work_end_day, pos_gbn_code, respon_dept, work_contents)
 		VALUES(
 			#{cseq}, #{sabun}, #{cmp_name_carrier, jdbcType=VARCHAR}, #{work_start_day, jdbcType=DATE},
 			#{work_end_day, jdbcType=DATE}, #{pos_gbn_code, jdbcType=VARCHAR}, #{respon_dept, jdbcType=VARCHAR},
@@ -386,12 +397,12 @@
 	<insert id="addAcad" parameterType="acadVO">
 		<selectKey keyProperty="aseq" resultType="int" order="BEFORE">
 			SELECT
-				NVL(MAX(seq) + 1, 1)
+				NVL(MAX(aseq) + 1, 1)
 			FROM
 				insa_acad_ability
 		</selectKey>
 		INSERT INTO
-			insa_acad_ability(seq, sabun, gart_year, gart_month, major_stud_gbn, gart_level, school_name)
+			insa_acad_ability(aseq, sabun, gart_year, gart_month, major_stud_gbn, gart_level, school_name)
 		VALUES(
 			#{aseq}, #{sabun}, #{gart_year, jdbcType=INTEGER}, #{gart_month, jdbcType=INTEGER}, #{major_stud_gbn, jdbcType=VARCHAR},
 			#{gart_level, jdbcType=VARCHAR}, #{school_name, jdbcType=VARCHAR}
@@ -478,39 +489,44 @@
 	
 	<insert id="copyInputToDel" parameterType="inputVO">
 		INSERT INTO input_info_del
-		SELECT * FROM insa_input_info
+		SELECT *
+		FROM insa_input_info
 		<trim prefix="WHERE" prefixOverrides="AND | OR">
 			<if test="sabun != 0">
 				AND sabun = #{sabun}
 			</if>
 			<if test="iseq != 0">
-				AND seq = #{iseq}
+				AND iseq = #{iseq}
 			</if>
 		</trim>
 	</insert>
 	
 	<insert id="copyAcadToDel" parameterType="acadVO">
 		INSERT INTO acad_del
-		SELECT * FROM insa_acad_ability
+		SELECT
+			*
+		FROM insa_acad_ability
 		<trim prefix="WHERE" prefixOverrides="AND | OR">
 			<if test="sabun != 0">
 				AND sabun = #{sabun}
 			</if>
 			<if test="aseq != 0">
-				AND seq = #{aseq}
+				AND aseq = #{aseq}
 			</if>
 		</trim>
 	</insert>
 	
 	<insert id="copyCarrierToDel" parameterType="carrierVO">
 		INSERT INTO carrier_del
-		SELECT * FROM insa_carrier
+		SELECT
+			*
+		FROM insa_carrier
 		<trim prefix="WHERE" prefixOverrides="AND | OR">
 			<if test="sabun != 0">
 				AND sabun = #{sabun}
 			</if>
 			<if test="cseq != 0">
-				AND seq = #{cseq}
+				AND cseq = #{cseq}
 			</if>
 		</trim>
 	</insert>
@@ -523,7 +539,7 @@
 				AND sabun = #{sabun}
 			</if>
 			<if test="iseq != 0">
-				AND seq = #{iseq}
+				AND iseq = #{iseq}
 			</if>
 		</trim>
 	</delete>
@@ -536,7 +552,7 @@
 				AND sabun = #{sabun}
 			</if>
 			<if test="cseq != 0">
-				AND seq = #{cseq}
+				AND cseq = #{cseq}
 			</if>
 		</trim>
 	</delete>
@@ -549,7 +565,7 @@
 				AND sabun = #{sabun}
 			</if>
 			<if test="aseq != 0">
-				AND seq = #{aseq}
+				AND aseq = #{aseq}
 			</if>
 		</trim>
 	</delete>

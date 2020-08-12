@@ -29,10 +29,17 @@ public class ComService {
 		return list;
 	}
 	
-	// 아이디 체크 함수
+	// 아이디 중복 체크 함수
 	public int checkID(String id) {
 		int cnt = 0;
 		cnt = dao.checkID(id);
+		return cnt;
+	}
+	
+	// 핸드폰번호 중복 체크 함수
+	public int checkHP(String hp) {
+		int cnt = 0;
+		cnt = dao.checkHP(hp);
 		return cnt;
 	}
 	
@@ -224,10 +231,10 @@ public class ComService {
 		carrier.setSabun(insaVO.getSabun());
 		acad.setSabun(insaVO.getSabun());
 		
-		dao.copyInputToDel(input);
-		dao.copyCarrierToDel(carrier);
-		dao.copyAcadToDel(acad);
-		dao.copyEmpToDel(insaVO);
+//		dao.copyInputToDel(input);
+//		dao.copyCarrierToDel(carrier);
+//		dao.copyAcadToDel(acad);
+//		dao.copyEmpToDel(insaVO);
 		
 		dao.delInput(input);
 		dao.delCarrier(carrier);
