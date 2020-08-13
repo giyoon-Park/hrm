@@ -15,7 +15,7 @@ import java.sql.*;
 @Alias("inputVO")
 @Data
 public class InsaInputVO implements DateParser {
-	private int iseq, sabun, sugst_money, current_salary, rno;
+	private int iseq, sabun, sugst_money, current_salary, rno, startCont, endCont;
 	private String pjt_gbn_code, eqm_yn, work_area, wrk_posb_day;
 	private Date wrk_posb_day_sql;
 	

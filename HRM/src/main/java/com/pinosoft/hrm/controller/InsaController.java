@@ -101,27 +101,31 @@ public class InsaController {
 		insaVO = comSrvc.splitAt(insaVO);
 		insaVO = comSrvc.placeComma(insaVO);
 		
-		int inputs = comSrvc.cntInputs(insaVO);
-		int acads = comSrvc.cntAcads(insaVO);
-		int carriers = comSrvc.cntCarriers(insaVO);
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		map.put("inputs", inputs);
-		map.put("acads", acads);
-		map.put("carriers", carriers);
-		
-		List<InsaInputVO> inputlist = comSrvc.empInputList(eno);
-		List<InsaAcadVO> acadlist = comSrvc.empAcadList(eno);
-		List<InsaCarrierVO> carrierlist = comSrvc.empCarrierList(eno);
+//		int inputs = comSrvc.cntInputs(insaVO);
+//		int acads = comSrvc.cntAcads(insaVO);
+//		int carriers = comSrvc.cntCarriers(insaVO);
+//		HashMap<String, Integer> map = new HashMap<String, Integer>();
+//		map.put("inputs", inputs);
+//		map.put("acads", acads);
+//		map.put("carriers", carriers);
+//		
+//		List<InsaInputVO> inputlist = comSrvc.empInputList(eno);
+//		List<InsaAcadVO> acadlist = comSrvc.empAcadList(eno);
+//		List<InsaCarrierVO> carrierlist = comSrvc.empCarrierList(eno);
 		
 		mv.addObject("COMLIST", comlist);
 		mv.addObject("PARAM", insaVO);
-		mv.addObject("INPUT", inputlist);
-		mv.addObject("ACAD", acadlist);
-		mv.addObject("CARRIER", carrierlist);
-		mv.addObject("COUNTS", map);
+//		mv.addObject("INPUT", inputlist);
+//		mv.addObject("ACAD", acadlist);
+//		mv.addObject("CARRIER", carrierlist);
+//		mv.addObject("COUNTS", map);
 		mv.setViewName(view);
 		return mv;
 	}
+	
+//	@RequestMapping("getInputList.do")
+//	@ResponseBody
+//	public InsaInputVO getInputList() {}
 	
 	// 직원 기본 정보 수정 처리
 	@RequestMapping("/insaUpdateProc.do")

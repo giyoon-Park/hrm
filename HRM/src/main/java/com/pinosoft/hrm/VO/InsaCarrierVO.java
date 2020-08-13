@@ -15,7 +15,7 @@ import java.sql.*;
 @Alias("carrierVO")
 @Data
 public class InsaCarrierVO implements DateParser {
-	private int cseq, sabun, rno;
+	private int cseq, sabun, rno, startCont, endCont;
 	private String cmp_name_carrier, pos_gbn_code, respon_dept, work_contents, work_start_day, work_end_day;
 	private Date work_start_day_sql, work_end_day_sql;
 	

@@ -331,16 +331,22 @@
 	
 	<select id="input_YN_List" parameterType="int" resultType="inputVO">
 		SELECT
-			ROWNUM rno, R.*
+			*
 		FROM
 			(SELECT
-				iseq, sugst_money, current_salary, pjt_gbn_code, eqm_yn, work_area, wrk_posb_day wrk_posb_day_sql
+				ROWNUM rno, R.*
 			FROM
-				insa_input_info
-			WHERE
-				sabun = #{sabun}
-			ORDER BY
-				iseq) R
+				(SELECT
+					iseq, sugst_money, current_salary, pjt_gbn_code, eqm_yn, work_area, wrk_posb_day wrk_posb_day_sql
+				FROM
+					insa_input_info
+				WHERE
+					sabun = #{sabun}
+				ORDER BY
+					iseq) R
+			)
+		WHERE
+			rno BETWEEN #{startCont} AND #{endCont}
 	</select>
 	
 	<select id="cntCarriers" parameterType="insaVO" resultType="int">
@@ -354,16 +360,22 @@
 	
 	<select id="carrierList" parameterType="int" resultType="carrierVO">
 		SELECT
-			ROWNUM rno, R.*
+			*
 		FROM
 			(SELECT
-				cseq, cmp_name_carrier, pos_gbn_code, respon_dept, work_contents, work_start_day work_start_day_sql, work_end_day work_end_day_sql
+				ROWNUM rno, R.*
 			FROM
-				insa_carrier
-			WHERE
-				sabun = #{sabun}
-			ORDER BY
-				cseq) R
+				(SELECT
+					cseq, cmp_name_carrier, pos_gbn_code, respon_dept, work_contents, work_start_day work_start_day_sql, work_end_day work_end_day_sql
+				FROM
+					insa_carrier
+				WHERE
+					sabun = #{sabun}
+				ORDER BY
+					cseq) R
+			)
+		WHERE
+			rno BETWEEN #{startCont} AND #{endCont}
 	</select>
 	
 	<select id="cntAcads" parameterType="insaVO" resultType="int">
@@ -377,16 +389,22 @@
 	
 	<select id="acadList" parameterType="int" resultType="acadVO">
 		SELECT
-			ROWNUM rno, R.*
+			*
 		FROM
 			(SELECT
-				aseq, gart_year, gart_month, major_stud_gbn, gart_level, school_name
+				ROWNUM rno, R.*
 			FROM
-				insa_acad_ability
-			WHERE
-				sabun = #{sabun}
-			ORDER BY
-				aseq) R
+				(SELECT
+					aseq, gart_year, gart_month, major_stud_gbn, gart_level, school_name
+				FROM
+					insa_acad_ability
+				WHERE
+					sabun = #{sabun}
+				ORDER BY
+					aseq) R
+			)
+		WHERE
+			rno BETWEEN #{startCont} AND #{endCont}
 	</select>
 	
 	<insert id="addInput" parameterType="inputVO">

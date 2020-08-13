@@ -7,17 +7,21 @@
 <meta charset="UTF-8" />
 <title>직원 수정</title>
 <link rel="stylesheet" href="/hrm/css/jquery-ui.min.css" />
-<link rel="stylesheet" href="/hrm/css/bootstrap.min.css" />
-<link rel="stylesheet" href="/hrm/css/inputForm.css" />
 <link rel="stylesheet" href="/hrm/css/ui.jqgrid.css" />
 <link rel="stylesheet" href="/hrm/css/ui.multiselect.css" />
+<link rel="stylesheet" href="/hrm/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/hrm/css/inputForm.css" />
 <script type="text/javascript" src="/hrm/js/jquery-3.5.1.min.js"></script>
 <script type="text/javascript" src="/hrm/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/hrm/js/datepicker-ko.js"></script>
 <script type="text/javascript" src="/hrm/js/popper.min.js"></script>
-<script type="text/javascript" src="/hrm/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/hrm/js/grid.locale-kr.js"></script>
 <script type="text/javascript" src="/hrm/js/jquery.jqGrid.min.js"></script>
+<script type="text/javascript" src="/hrm/js/grid.common.js"></script>
+<script type="text/javascript" src="/hrm/js/grid.formedit.js"></script>
+<script type="text/javascript" src="/hrm/js/jqModal.js"></script>
+<script type="text/javascript" src="/hrm/js/jqDnR.js"></script>
+<script type="text/javascript" src="/hrm/js/grid.locale-kr.js"></script>
+<script type="text/javascript" src="/hrm/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/hrm/js/updateForm.js"></script>
 <style>
 /*datepicker에서 사용한 이미지 버튼 style적용*/
@@ -592,6 +596,37 @@ img.ui-datepicker-trigger {
 					</div>
 				</div>
 			</form>
+		</div>
+	</div>
+	<br />
+	<hr />
+	<!-- tab & jqGrid -->
+	<div class="container mt-5">
+		<ul class="nav nav-tabs" role="tablist">
+			<li class="nav-item">
+				<a class="nav-link active" data-toggle="tab" href="#input">투입가능정보</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" data-toggle="tab" href="#acad">학력정보</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" data-toggle="tab" href="#carrier">경력정보</a>
+			</li>
+		</ul>
+
+		<div class="tab-content">
+			<div id="input" class="container tab-pane active">
+				<table id="inputtb"></table>
+				<div id="inputPager"></div>
+			</div>
+			<div id="acad" class="container tab-pane">
+				<table id="acadtb"></table>
+				<div id="acadPager"></div>
+			</div>
+			<div id="carrier" class="container tab-pane">
+				<table id="carriertb"></table>
+				<div id="carrierPager"></div>
+			</div>
 		</div>
 	</div>
 

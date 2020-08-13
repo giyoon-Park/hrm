@@ -226,6 +226,7 @@ $(document).ready(function() {
 				}
 			});
 		} else {
+			$('#idck').val('N');
 			return;
 		}
 	});

@@ -14,6 +14,6 @@ import lombok.*;
 @Alias("acadVO")
 @Data
 public class InsaAcadVO {
-	private int aseq, sabun, gart_year, gart_month, rno;
+	private int aseq, sabun, gart_year, gart_month, rno, startCont, endCont;
 	private String major_stud_gbn, gart_level, school_name;
 }
